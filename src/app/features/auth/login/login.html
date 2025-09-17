@@ -1,0 +1,55 @@
+<div class="full-page flex-column flex-center">
+  <h1>Edoha</h1>
+
+  <!-- Alerta global do back-end -->
+  <div
+    *ngIf="errorMessage"
+    class="alert alert-error"
+    role="alert"
+    aria-live="assertive"
+  >
+    {{ errorMessage }}
+  </div>
+
+  <form class="flex-column" (ngSubmit)="login()">
+    <label class="flex-column" for="nickname">
+      <p>Apelido:</p>
+      <input
+        id="nickname"
+        class="input-text-1"
+        type="text"
+        [(ngModel)]="nickname"
+        name="nickname"
+        placeholder="Digite o apelido"
+        required
+        autocomplete="username"
+      />
+    </label>
+
+    <label class="flex-column" for="password">
+      <p>Senha:</p>
+      <input
+        id="password"
+        class="input-text-1"
+        type="password"
+        [(ngModel)]="password"
+        name="password"
+        placeholder="Digite sua senha"
+        required
+        autocomplete="current-password"
+      />
+    </label>
+
+    <div class="btn-box flex-center">
+      <button
+        class="button button-1 flex-center"
+        type="submit"
+        [disabled]="isSubmitting"
+        aria-busy="{{ isSubmitting }}"
+      >
+        <span class="material-icons">login</span>
+        &nbsp; {{ isSubmitting ? 'Entrando...' : 'Entrar' }}
+      </button>
+    </div>
+  </form>
+</div>

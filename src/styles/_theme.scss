@@ -1,0 +1,29 @@
+$light: #ffffff;
+$dark: #090909;
+$dark-gray: #444;
+$light-gray: #AAA;
+
+:root[data-theme='light']{
+    --bg-color: #{$light};
+    --text-color: #{$dark};
+    --neutral-primary: #{$light-gray};
+    --neutral-second: #{$dark-gray};
+}
+
+:root[data-theme='dark']{
+    --bg-color: #{$dark};
+    --text-color: #{$light};
+    --neutral-primary: #{$dark-gray};
+    --neutral-second: #{$light-gray};
+}
+
+$color-1: #007BFF;
+$color-2: #415A77;
+$color-3: #473859;
+$color-4: #6A0DAD;
+$color-5: #8B0000;
+$color-6: #D35400;
+$color-7: #9B1D45;
+$color-8: #2E8B57;
+$color-9: #013220;
+$color-10: #0B3D2E;

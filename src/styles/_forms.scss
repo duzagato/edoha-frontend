@@ -1,0 +1,15 @@
+.input-text-1{
+    height:35px;
+    width: 200px;
+    padding:10px;
+    font-size:14px;
+    font-weight:normal;
+    background:transparent;
+    border:1px solid var(--neutral-primary);
+    color: var(--neutral-second);
+    outline: none;
+}
+
+.input-text-1:focus{
+    border-color: var(--neutral-second);
+}
