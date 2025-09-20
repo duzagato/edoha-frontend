@@ -1,29 +1,35 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes, CanActivateFn } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth-guard';
 import { Default } from './layout/default/default';
+import { Blank } from './layout/blank/blank';
 
 const routes: Routes = [
+  {
+    path: 'login',
+    loadChildren: () => import('./features/auth/auth-module').then(m => m.AuthModule),
+  },
+
+  // Grupo com layout Default
   {
     path: '',
     component: Default,
     children: [
       {
-        path: 'login',
-        loadChildren: () => import('./features/auth/auth-module').then(m => m.AuthModule)
-      },
-      {
         path: '',
         canActivate: [authGuard],
-        loadChildren: () => import('./features/home/home-module').then(m => m.HomeModule)
+        loadChildren: () => import('./features/home/home-module').then(m => m.HomeModule),
       },
-      { path: '**', redirectTo: '' }
-    ]
-  }
+      // outras rotas com o Default layout aqui
+    ],
+  },
+
+  // 404 global
+  { path: '**', redirectTo: '' },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

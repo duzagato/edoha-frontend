@@ -1,0 +1,58 @@
+@use '../../../../styles.scss' as *;
+@use '../../../../styles/fonts' as *;
+@use '../../../../styles/theme' as *;
+
+ul{
+    list-style-type: none;
+    width:80%;
+}
+.menu-item{
+    position:relative;
+    color: var(--text-color);
+    font-family: $font-2;
+    text-decoration:none;
+    display:block;
+    padding:10px 20px;
+    font-size:1.2em;
+    font-weight: 1000;
+    width:100%;
+    text-align:left;
+    transition: 0.2s;
+    display:flex;
+    align-items:center;
+    gap: 10px;
+}
+
+.menu-item::before, .submenu-item::before  {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height:100%;
+  background: $color-4;
+  z-index: -1; /* Manda o background para trás do texto */
+  transition: width 0.5s ease-in-out; /* Define a duração e o tipo de animação */
+}
+
+.menu-item:hover::before, .submenu-item:hover::before {
+  width: 100%; /* No hover, a largura se expande para 100% */
+}
+
+span.menu-item{
+    cursor: pointer;
+}
+
+.submenu-item{
+    position:relative;
+    font-family: $font-2;
+    font-weight: 100;
+    display:block;
+    width:100%;
+    font-size:1em;
+    text-decoration:none;
+    color: var(--text-color);
+    padding: 5px 10px;
+}
+
+.active{background: $color-4 !important;}
