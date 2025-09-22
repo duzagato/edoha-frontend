@@ -24,7 +24,6 @@ export class Login {
   ) {}
 
   private extractBackendMessage(err: any): string {
-    // Tente extrair mensagens comuns do seu backend sem quebrar a UI
     const e = err?.error;
     return (
       e?.errors?.Autentication ??
@@ -36,11 +35,9 @@ export class Login {
   }
 
   login() {
-    // limpar estado e sinalizar envio, já dentro da Zone
     this.zone.run(() => {
       this.errorMessage = null;
       this.isSubmitting = true;
-      // Em ambiente zoneless/OnPush isso ajuda:
       this.cdr.detectChanges();
     });
 

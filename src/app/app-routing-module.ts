@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth-guard';
 import { Default } from './layout/default/default';
-import { Blank } from './layout/blank/blank';
+import { UserModule } from './features/user/user-module';
 
 const routes: Routes = [
   {
@@ -10,7 +10,6 @@ const routes: Routes = [
     loadChildren: () => import('./features/auth/auth-module').then(m => m.AuthModule),
   },
 
-  // Grupo com layout Default
   {
     path: '',
     component: Default,
@@ -20,7 +19,11 @@ const routes: Routes = [
         canActivate: [authGuard],
         loadChildren: () => import('./features/home/home-module').then(m => m.HomeModule),
       },
-      // outras rotas com o Default layout aqui
+      {
+        path: 'usuarios',
+        canActivate: [authGuard],
+        loadChildren: () => import('./features/user/user-module').then(m => m.UserModule),
+      },
     ],
   },
 

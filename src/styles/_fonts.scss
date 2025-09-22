@@ -10,6 +10,39 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'Open Sans';
+  src: url('../assets/font/Open_Sans/OpenSans-VariableFont_wdth\,wght.ttf');
+  font-display: swap;
+}
 
-$font-1: "Epunda", sans-serif;
+@font-face{
+  font-family: 'Lato';
+  src: url('../assets/font/Lato/Lato-Regular.ttf');
+  font-display: swap;
+}
+
+@font-face{
+  font-family: 'Alan Sans';
+  src: url('../assets/font/Alan_Sans/AlanSans-VariableFont_wght.ttf');
+  font-display: swap;
+}
+
+@font-face{
+  font-family: 'Outfit';
+  src: url('../assets/font/Outfit/Outfit-VariableFont_wght.ttf');
+  font-display: swap;
+}
+
+// Fonts
+$font-1: "Open Sans", sans-serif;
 $font-2: "PT", sans-serif;
+
+// Font Weight
+$minimum-weight: 100;
+$very-small-weight: 200;
+$small-weight: 300;
+$medium-weight: 400;
+$big-weight: 600;
+$very-big-weight: 800;
+$maximum-weight: 1000;

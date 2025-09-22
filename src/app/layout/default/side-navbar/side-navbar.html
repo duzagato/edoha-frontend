@@ -13,7 +13,7 @@
             </span>
 
             @if(openSubmenu === 'lottery'){
-                <ul id="lottery">
+                <ul id="lottery" class="full-width">
                     <li><a href="" class="submenu-item">principal</a></li>
                     <li><a href="" class="submenu-item">gerenciar talões</a></li>
                     <li><a href="" class="submenu-item">registrar venda</a></li>
@@ -30,9 +30,9 @@
             </span>
 
             @if (openSubmenu === 'users') {
-                <ul id="users">
-                    <li><a href="" class="submenu-item">novo</a></li>
-                    <li><a href="" class="submenu-item">gerenciar</a></li>
+                <ul id="users" class="full-width">
+                    <li><a href="usuarios/novo" class="submenu-item">novo</a></li>
+                    <li><a href="usuarios/gerenciar" class="submenu-item">gerenciar</a></li>
                 </ul>
             }
         </li>

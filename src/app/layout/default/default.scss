@@ -1,17 +1,40 @@
 @use '../../../styles.scss' as *;
+@use '../../../styles/fonts' as *;
+@use '../../../styles/sizes' as *;
 @use '../../../styles/theme' as *;
 
 header{
-    padding:10px 50px;
+    height: 76px;
+    padding:0 $maximum;
     background-color: $color-4;
+    display:flex;
+    align-items:center;
+}
+
+.left{
+    align-items:center;
+    gap:$medium;
 }
 
 h1{
-    font-size:3em;
+    padding:0;
+    margin:0;
+    font-size:$big-font;
+    font-family: $font-1;
+    font-weight: $big-weight;
+}
+
+.logo{
+    font-size:$standard-font;
+    font-family: $font-1;
+    font-weight:$small-weight;
+    border-radius:$maximum-radius;
+    padding:$minimum $very-small;
+    border: 2px solid white;
 }
 
 .content{
-    padding: 40px 0;
+    padding: $very-big 0;
 }
 
 aside{
@@ -21,4 +44,23 @@ aside{
 
 main{
     flex:9;
+}
+
+.user-button{
+    background-color: transparent;
+    outline:0;
+    border:1px solid white;
+    font-size:$very-small;
+    padding:$minimum $small;
+    font-family: $font-1;
+    font-weight: $small-weight;
+    color: white;
+    text-align:center;
+    border-radius:$medium-radius;
+    transition:0.4s;
+}
+
+.user-button:hover{
+    background-color: $color-10;
+    border-color: $color-10;
 }

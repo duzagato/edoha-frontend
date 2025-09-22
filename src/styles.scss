@@ -4,14 +4,16 @@
 @use 'styles/flexbox' as *;
 @use 'styles/forms' as *;
 @use 'styles/boxes' as *;
+@use 'styles/sizes' as *;
 
 *{margin:0; padding:0; box-sizing:border-box;}
 p, span{margin:0; padding:0;}
 body{
     background-color: var(--bg-color);
     color: var(--text-color);
-    font-family: $font-1 !important;
+    font-family: $font-1 ;
 }
 
-h1{font-weight:700; font-size:3em;}
-p{font-size:1em; font-weight:normal; font-family: $font-2; color: var(--neutral-second);}
+.full-width{width:100%;}
+h1{font-weight:$very-big-weight; font-size:$maximum-font;}
+p{font-size:$small-font; font-weight:$medium-weight; font-family: $font-1; color: var(--neutral-second);}
