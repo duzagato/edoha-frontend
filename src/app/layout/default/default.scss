@@ -6,7 +6,7 @@
 header{
     height: 76px;
     padding:0 $maximum;
-    background-color: $color-4;
+    background-color: $color-1;
     display:flex;
     align-items:center;
 }
@@ -61,6 +61,16 @@ main{
 }
 
 .user-button:hover{
-    background-color: $color-10;
-    border-color: $color-10;
+    background-color: $color-2;
+    border-color: $color-2;
+}
+
+.header-menu-item{
+    gap: $minimum;
+    padding: $very-small $big;
+    transition: 0.3s;
+}
+
+.header-menu-item:hover{
+    background: $color-2;
 }

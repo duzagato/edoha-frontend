@@ -1,10 +1,4 @@
 @font-face {
-  font-family: 'Epunda';
-  src: url('../assets/font/Epunda_Sans/EpundaSans-VariableFont_wght.ttf');
-  font-display: swap;
-}
-
-@font-face {
   font-family: 'PT';
   src: url('../assets/font/PT_Sans/PTSans-Regular.ttf');
   font-display: swap;
@@ -16,27 +10,16 @@
   font-display: swap;
 }
 
-@font-face{
-  font-family: 'Lato';
-  src: url('../assets/font/Lato/Lato-Regular.ttf');
+@font-face {
+  font-family: 'Titillium';
+  src: url('../assets/font/Titillium/TitilliumWeb-Regular.ttf');
   font-display: swap;
 }
 
-@font-face{
-  font-family: 'Alan Sans';
-  src: url('../assets/font/Alan_Sans/AlanSans-VariableFont_wght.ttf');
-  font-display: swap;
-}
-
-@font-face{
-  font-family: 'Outfit';
-  src: url('../assets/font/Outfit/Outfit-VariableFont_wght.ttf');
-  font-display: swap;
-}
 
 // Fonts
-$font-1: "Open Sans", sans-serif;
-$font-2: "PT", sans-serif;
+$font-1: "Titillium", sans-serif;
+$font-2: "Titillium", sans-serif;
 
 // Font Weight
 $minimum-weight: 100;

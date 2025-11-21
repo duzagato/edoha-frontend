@@ -30,7 +30,7 @@ ul{
   left: 0;
   width: 0;
   height:100%;
-  background: $color-4;
+  background: $color-1;
   z-index: -1; /* Manda o background para trás do texto */
   transition: width 0.5s ease-in-out; /* Define a duração e o tipo de animação */
 }
@@ -55,4 +55,4 @@ span.menu-item{
     padding: 5px 10px;
 }
 
-.active{background: $color-4 !important;}
+.active{background: $color-1 !important;}

@@ -1,0 +1,106 @@
+<h2 class="page-title">Adicionar Usuário</h2>
+
+<div class="container">
+    <div class="row">
+        <form class="default-form flex-column" [formGroup]="userForm" (ngSubmit)="onSubmit()">
+            
+            @if(success){
+                <div class="success">
+                    <span>Usuário cadastrado com sucesso!</span>
+                </div>
+            }
+
+            @if(failed ){
+                <div class="failed">
+                    <span>Ocorreu um erro! Revise os campos marcados.</span>
+                </div>
+            }
+
+            <label class="flex-column" for="name">
+                <p>Nome:</p>
+                <input
+                    id="name"
+                    class="input-text-1"
+                    type="text"
+                    name="name"
+                    placeholder="Nome Completo"
+                    autocomplete="name"
+                    formControlName="name"
+                />
+                @if (userForm.get('name')?.invalid && userForm.get('name')?.touched) {
+                    <div class="error-message">
+                        Nome é obrigatório e precisa ter mais de 3 caracteres.
+                    </div>
+                }
+            </label>
+
+            <label class="flex-column" for="phone">
+                <p>Telefone:</p>
+                <input
+                    id="phone"
+                    class="input-text-1"
+                    type="text"
+                    name="phone"
+                    placeholder="Ex: (16) 99999-9999"
+                    autocomplete="nickname"
+                    formControlName="phone"
+                />
+            </label>
+
+            <label class="flex-column" for="nickname">
+                <p>Apelido:</p>
+                <input
+                    id="nickname"
+                    class="input-text-1"
+                    type="text"
+                    name="nickname"
+                    placeholder="Apelido para Login"
+                    autocomplete="nickname"
+                    formControlName="nickname"
+                />
+            </label>
+            
+            <div class="fields-group">
+                <label class="flex-column" for="password">
+                    <p>Senha:</p>
+                    <input
+                        id="password"
+                        class="input-text-1"
+                        type="password"
+                        name="password"
+                        placeholder="Entre 8 e 30 caracteres"
+                        autocomplete="password"
+                        formControlName="password"
+                    />
+                </label>
+
+                <label class="flex-column" for="confirm-password">
+                    <p>Confirme sua senha:</p>
+                    <input
+                        id="confirm-password"
+                        class="input-text-1"
+                        type="password"
+                        name="confirm-password"
+                        placeholder="Digite a mesma senha"
+                        autocomplete="confirm-password"
+                        formControlName="confirmPassword"
+                    />
+
+                    @if (userForm.get('confirmPassword')?.errors?.['mismatch'] && userForm.get('confirmPassword')?.touched) {
+                    <div class="error-message">
+                        As senhas não coincidem.
+                    </div>
+                }
+                </label>
+
+            </div>
+
+            <div class="col-sm-2">
+                <button class="button-big button-1" type="submit" [disabled]="userForm.invalid">
+                    <div class="material-icons corrige">add</div>
+                    Adicionar
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

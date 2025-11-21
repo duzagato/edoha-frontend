@@ -1,3 +1,4 @@
+@use "../node_modules/bootstrap-icons/font/bootstrap-icons.min.css" as *;
 @use 'styles/fonts' as *;
 @use 'styles/theme' as theme;
 @use 'styles/buttons' as buttons;
@@ -14,6 +15,16 @@ body{
     font-family: $font-1 ;
 }
 
+.reset-link{text-decoration: none; color: var(--text-color);}
 .full-width{width:100%;}
-h1{font-weight:$very-big-weight; font-size:$maximum-font;}
-p{font-size:$small-font; font-weight:$medium-weight; font-family: $font-1; color: var(--neutral-second);}
+h1{font-weight:$maximum-weight; font-size:$maximum-font; font-family: $font-2;}
+.page-title{font-size: $very-big-font; font-weight: $big-weight; $font-family: $font-2; margin-bottom: $very-big;}
+p{font-size:$small-font; font-weight:$big-weight; font-family: $font-1; color: var(--text-color);}
+
+.container{margin-top: $small; margin-bottom: $small;}
+.material-icons{padding:0 !important;}
+
+table{border:none; border-spacing: $small; width:100%; margin-top: $very-big !important;}
+th{background-color: theme.$color-1; padding: $minimum $medium; font-weight: $big-weight;}
+td{background-color: var(--bg-color); padding: $minimum $medium; border:1px solid theme.$color-1; font-weight: $minimum-weight;}
+.no-border{border:none !important;}

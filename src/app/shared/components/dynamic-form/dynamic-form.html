@@ -1,0 +1,47 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="default-form flex-column">
+
+  @for (group of (groupedFields | keyvalue); track group.key) {
+
+    <div [class.fields-group]="group.key !== '_ungrouped_'"> 
+
+      @for (field of group.value; track field.name) {
+        <div class="form-field">
+          
+          <label class="flex-column" [for]="field.name">{{ field.label }}:</label>
+          
+          <input 
+            [type]="field.type" 
+            [id]="field.name" 
+            [formControlName]="field.name"
+            [placeholder]="field.placeholder"  class="input-{{ field.type }}-1"
+          >
+
+          @if (form.get(field.name)?.invalid && form.get(field.name)?.touched) {
+            <div class="error-message">
+              @for (validator of field.validators; track validator.name) {
+                @if (form.get(field.name)?.hasError(validator.name)) {
+                  <p>
+                    {{ getErrorMessage(field.name, validator.name) }}
+                  </p>
+                }
+              }
+            </div>
+          }
+        </div>
+      }
+    </div>
+  }
+
+  <div class="co-md-3">
+    <button 
+      type="submit" 
+      class="button-big button-1" 
+      [disabled]="form.invalid"
+    >
+      @if (config.globalConfig.submitButtonIcon) {
+        <span class="material-icons">{{ config.globalConfig.submitButtonIcon }}</span> 
+      }
+      {{ config.globalConfig.submitButtonText }}
+    </button>
+  </div>
+</form>

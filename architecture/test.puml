@@ -1,0 +1,16 @@
+@startuml
+!theme hacker
+actor Usuario
+participant Frontend
+participant Backend
+
+Usuario -> Frontend: Clicar em Login
+Frontend -> Backend: POST /login (email, senha)
+Backend -> Backend: Validar credenciais
+alt sucesso
+    Backend -> Frontend: Resposta 200 (Token)
+else falha
+    Backend -> Frontend: Resposta 401 (Erro)
+end
+Frontend -> Usuario: Exibir resultado
+@enduml

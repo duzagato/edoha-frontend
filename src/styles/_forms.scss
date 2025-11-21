@@ -1,6 +1,20 @@
-.input-text-1{
+@use 'sizes' as *;
+
+.default-form{
+    display:flex;
+    flex-direction:column;
+    gap: $big;
+}
+
+.fields-group{
+    display:flex;
+    justify-content: flex-start;
+    gap: $medium;
+}
+
+.input-text-1, .input-password-1{
     height:35px;
-    width: 200px;
+    width: 250px;
     padding:10px;
     font-size:14px;
     font-weight:normal;
@@ -10,6 +24,6 @@
     outline: none;
 }
 
-.input-text-1:focus{
+.input-text-1:focus, .input-password-1{
     border-color: var(--neutral-second);
 }

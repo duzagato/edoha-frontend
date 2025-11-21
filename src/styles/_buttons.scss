@@ -1,60 +1,115 @@
 @use 'theme' as *;
 @use 'fonts' as *;
+@use 'sizes' as *;
+
+.button-small{
+    font-family: $font-2;
+    font-size:$small-font;
+    color: white;
+    font-weight: $small-weight;
+    transition: 0.4s;
+    text-align:center;
+    padding: $very-small $medium;
+    height:40px;
+    margin:$very-small;
+    border:none;
+    border-radius: 20px;
+}
+
+.button-big{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:50px;
+    font-family: $font-2;
+    font-size: $standard-font;
+    color: white;
+    font-weight:bold;
+    transition: 0.3s;
+    border-radius: $very-small;
+    padding: $very-small $medium;
+    margin-top: $big;
+    cursor: pointer;
+}
 
 .button{
     font-family: $font-2;
-    font-size:18px;
+    font-size:$standard-font;
     color: var(--neutral-second);
-    font-weight:1000;
+    font-weight: $small-weight;
     transition: 0.4s;
     text-align:center;
-    border-radius:20px;
     width:160px;
     height:40px;
     margin-top:20px;
     border:none;
 }
 
-.button:hover{
-    background-color: $color-3;
+.btn-icon{
+    margin: $minimum;
+    padding: $minimum;
+    border-radius: $very-small;
+    font-size: $very-small-font;
+    text-align:center;
+    background: transparent;
+    color: var(--text-color);
+    transition: 0.3s;
+}
+
+.btn-icon:hover{
+    color: white;
+}
+
+.btn-border-1{
+    border: 1px solid $color-1;
+}
+
+.btn-border-1:hover{
+    background: $color-1;
+}
+
+.btn-border-2{
+    border: 1px solid $color-2;
+    color: $color-2;
+}
+
+.btn-border-2:hover{
+    background: $color-2;
+}
+
+.btn-border-dangerous{
+    border:1px solid $color-dangerous-1;
+    color: $color-dangerous-1;
+}
+
+.btn-border-dangerous:hover{
+    background: $color-dangerous-1;
 }
 
 .button-1{
     background-color:$color-1;
 }
 
+.button-1:hover{
+    background-color: $color-2;
+}
+
 .button-2{
     background-color:$color-2;
+}
+
+.button-2:hover{
+    background-color:$color-1;
 }
 
 .button-3{
     background-color:$color-3;
 }
 
+.button-3:hover{
+    background-color:$color-1;
+}
+
 .button-4{
     background-color:$color-4;
-}
-
-.button-5{
-    background-color:$color-5;
-}
-
-.button-6{
-    background-color:$color-6;
-}
-
-.button-7{
-    background-color:$color-7;
-}
-
-.button-8{
-    background-color:$color-8;
-}
-
-.button-9{
-    background-color:$color-9;
-}
-
-.button-10{
-    background-color:$color-10;
 }

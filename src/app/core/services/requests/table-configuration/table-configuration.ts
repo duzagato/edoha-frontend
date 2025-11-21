@@ -12,6 +12,7 @@ export class TableConfiguration {
   
   getAllTableConfigurationsByTableName(schemaName: string, tableName: string){
     const url = `${environment.apiUrl}${ApiRoutes.TABLE_CONFIGURATION_GET}/${schemaName}/${tableName}`;
+    
     return this.http.get<TableConfigurationByTableNameResponse>(url);
   }
 }
