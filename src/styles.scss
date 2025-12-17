@@ -1,19 +1,13 @@
-@use 'styles/fonts' as *;
-@use 'styles/theme' as theme;
-@use 'styles/buttons' as buttons;
-@use 'styles/flexbox' as *;
-@use 'styles/forms' as *;
-@use 'styles/boxes' as *;
-@use 'styles/sizes' as *;
+@use 'scss/colors' as *;
+@use 'scss/spaces' as *;
+@use 'scss/flexbox' as *;
 
-*{margin:0; padding:0; box-sizing:border-box;}
-p, span{margin:0; padding:0;}
-body{
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    font-family: $font-1 ;
+
+.full-wrapper{
+  width:100%;
+  height:100%;
 }
 
-.full-width{width:100%;}
-h1{font-weight:$very-big-weight; font-size:$maximum-font;}
-p{font-size:$small-font; font-weight:$medium-weight; font-family: $font-1; color: var(--neutral-second);}
+.font-bold{
+  font-weight:bold;
+}

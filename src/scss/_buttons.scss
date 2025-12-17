@@ -1,0 +1,26 @@
+@use 'spaces' as *;
+@use 'colors' as *;
+
+.btn{
+    cursor: pointer;
+    border: none;
+}
+
+.btn-small{
+    padding: $space-1 $space-2;
+    font-size: 0.875em;
+}
+
+.btn-standard{
+    padding: $space-2 $space-3;
+    font-size: 1em;
+}
+
+.btn-large{
+    padding: $space-3 $space-4 !important;
+    font-size: 1.125em !important;
+}
+
+.btn-1{
+    width: 120px !important;
+}
