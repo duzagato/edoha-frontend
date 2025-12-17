@@ -64,6 +64,9 @@ jobs:
           echo "$CHANGELOG" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
+          # Capturar data para uso no release
+          echo "release_date=$(date +'%Y-%m-%d %H:%M:%S')" >> $GITHUB_OUTPUT
+
       - name: Criar GitHub Release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -78,7 +81,7 @@ jobs:
 
           ---
 
-          **Data:** $(date +'%Y-%m-%d %H:%M:%S')
+          **Data:** ${{ steps.changelog.outputs.release_date }}
           **Commit:** ${{ github.sha }}
           " \
             --latest

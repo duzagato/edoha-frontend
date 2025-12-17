@@ -49,6 +49,11 @@ jobs:
             echo "type=fix" >> $GITHUB_OUTPUT
           fi
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
       - name: Obter versão atual e calcular nova versão
         id: version
         run: |
