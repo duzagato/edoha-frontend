@@ -1,0 +1,47 @@
+.default-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.toolbar {
+  z-index: 2;
+}
+
+.app-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.sidenav-container {
+  flex: 1;
+  overflow: hidden;
+}
+
+.sidenav {
+  width: 250px;
+  padding: 1rem;
+}
+
+.nav-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.nav-menu a {
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.nav-menu a.active {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.main-content {
+  overflow: auto;
+}
