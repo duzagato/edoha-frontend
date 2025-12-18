@@ -1,34 +1,18 @@
 <div class="full-wrapper flex-center">
-  
   <mat-card class="login-card flex-column bg-1">
     <mat-card-header class="flex-center mat-card-header">
       <mat-card-title class="form-title">Edoha</mat-card-title>
     </mat-card-header>
 
     <mat-card-content>
-      <form class="login-form flex-column">
-        
-        <mat-form-field appearance="outline" class="full-width flex-column">
-          <mat-label>E-mail</mat-label>
-            <input matInput name="email" required placeholder="exemplo@dominio.com" autocomplete="off" />
-          <mat-icon matSuffix>email_outline</mat-icon>
-          <mat-error>E-mail é obrigatório</mat-error>
-        </mat-form-field>
+      <form [formGroup]="form" (ngSubmit)="onSubmit(model)" class="login-form flex-column">
+        <formly-form [form]="form" [fields]="fields" [model]="model"></formly-form>
 
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Senha</mat-label>
-          <input matInput name="password" type="password" required placeholder="********">
-          <mat-icon matSuffix>vpn_key_outline</mat-icon>
-          <mat-error>Senha é obrigatória</mat-error>
-        </mat-form-field>
-
-        <button matButton="filled" type="submit" class="font-bold btn-1">
+        <button mat-flat-button color="primary" type="submit" class="font-bold btn-1" [disabled]="!form.valid">
           <mat-icon>login</mat-icon>
           Entrar
         </button>
-
       </form>
     </mat-card-content>
   </mat-card>
-
 </div>
