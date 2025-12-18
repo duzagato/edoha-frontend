@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
 import { FormlyMaterialModule } from '@ngx-formly/material';
 import { MatCardModule } from '@angular/material/card';
@@ -67,6 +67,7 @@ export class LoginComponent {
   constructor(
     private readonly authService: AuthService,
     private readonly router: Router,
+    private readonly route: ActivatedRoute,
     private readonly snackBar: MatSnackBar
   ) {}
 
@@ -80,7 +81,9 @@ export class LoginComponent {
               horizontalPosition: 'center',
               verticalPosition: 'top',
             });
-            this.router.navigate(['/']);
+            // Navigate to returnUrl if it exists, otherwise go to home
+            const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+            this.router.navigate([returnUrl]);
           }
         },
         error: (error) => {
