@@ -1,21 +1,2 @@
-@use '../styles.scss';
-@use '../scss/spaces' as spaces;
+// Global styles for app component
 
-.login-card{
-  min-width: 420px;
-  gap: spaces.$space-4;
-  padding: spaces.$space-4;
-}
-
-.form-title{
-  font-size: 3em;
-  font-weight:bold;
-}
-
-.text-center{
-  text-align: center;
-}
-
-.mat-card-header{
-  padding: spaces.$space-3 spaces.$space-2;
-}

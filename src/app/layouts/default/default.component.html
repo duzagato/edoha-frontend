@@ -1,0 +1,25 @@
+<div class="default-layout">
+  <mat-toolbar color="primary" class="toolbar">
+    <span class="app-title">Edoha</span>
+    <span class="spacer"></span>
+    <button mat-button (click)="logout()">
+      <mat-icon>logout</mat-icon>
+      Sair
+    </button>
+  </mat-toolbar>
+
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav mode="side" opened class="sidenav">
+      <nav class="nav-menu">
+        <a mat-button routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+          <mat-icon>home</mat-icon>
+          Home
+        </a>
+      </nav>
+    </mat-sidenav>
+
+    <mat-sidenav-content class="main-content">
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
