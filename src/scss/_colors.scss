@@ -1,38 +1,177 @@
 @use '@angular/material' as mat;
 
+// Define custom green palette for secondary/success color
+$custom-green-palette: (
+  0: #000000,
+  10: #002106,
+  20: #003910,
+  25: #00461a,
+  30: #005323,
+  35: #00612d,
+  40: #006e37,
+  50: #008a49,
+  60: #00a85c,
+  70: #1ec56e,
+  80: #4ee285,
+  90: #70df9c,
+  95: #c1f2ce,
+  98: #e6f9eb,
+  99: #f3fcf4,
+  100: #ffffff,
+);
+
+// Light theme configuration
+$light-theme: mat.define-theme((
+  color: (
+    theme-type: light,
+    primary: mat.$azure-palette,
+    tertiary: mat.$cyan-palette,
+  ),
+  typography: (
+    brand-family: 'Titillium Web, sans-serif',
+  ),
+  density: (
+    scale: 0,
+  ),
+));
+
+// Dark theme configuration
+$dark-theme: mat.define-theme((
+  color: (
+    theme-type: dark,
+    primary: mat.$azure-palette,
+    tertiary: mat.$cyan-palette,
+  ),
+  typography: (
+    brand-family: 'Titillium Web, sans-serif',
+  ),
+  density: (
+    scale: 0,
+  ),
+));
+
+// Apply light theme by default
 html {
-  @include mat.theme((
-    color: (
-      primary: mat.$azure-palette,
-      secundary: mat.$cyan-palette,
-    ),
-    typography: "Titillium Web, sans-serif",
-    density: 0,
-  ));
+  @include mat.all-component-themes($light-theme);
+  
+  // Define CSS custom properties for light theme
+  --color-primary-light: #90caf9;
+  --color-primary: #2196f3;
+  --color-primary-dark: #1976d2;
+  
+  --color-secondary-light: #4ee285;
+  --color-secondary: #00a85c;
+  --color-secondary-dark: #005323;
+  
+  --color-tertiary-light: #4dd0e1;
+  --color-tertiary: #00bcd4;
+  --color-tertiary-dark: #0097a7;
+  
+  --color-danger: #d32f2f;
+  --color-success: #00a85c;
+  --color-disabled: #9e9e9e;
+  
+  --color-neutral-light: #f5f5f5;
+  --color-neutral: #9e9e9e;
+  --color-neutral-dark: #424242;
+}
+
+// Apply dark theme when data-theme="dark"
+html[data-theme="dark"] {
+  @include mat.all-component-colors($dark-theme);
+  
+  // Override CSS custom properties for dark theme
+  --color-primary-light: #90caf9;
+  --color-primary: #64b5f6;
+  --color-primary-dark: #42a5f5;
+  
+  --color-secondary-light: #70df9c;
+  --color-secondary: #4ee285;
+  --color-secondary-dark: #1ec56e;
+  
+  --color-tertiary-light: #80deea;
+  --color-tertiary: #4dd0e1;
+  --color-tertiary-dark: #26c6da;
+  
+  --color-danger: #ef5350;
+  --color-success: #4ee285;
+  --color-disabled: #757575;
+  
+  --color-neutral-light: #616161;
+  --color-neutral: #424242;
+  --color-neutral-dark: #212121;
 }
 
 body {
-  color-scheme: dark;
   background-color: var(--mat-sys-background);
   color: var(--mat-sys-on-surface);
   margin: 0;
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: "Titillium Web", sans-serif;}
+html, body { 
+  height: 100%; 
+}
 
-.bg-1{
+body { 
+  margin: 0; 
+  font-family: "Titillium Web", sans-serif;
+}
+
+// Legacy classes (kept for backward compatibility)
+.bg-1 {
   background: var(--mat-sys-on-tertiary);
 }
 
-.color-1{
+.color-1 {
   color: var(--mat-sys-on-tertiary);
 }
 
-.bg-2{
+.bg-2 {
   background: var(--mat-sys-on-primary);
 }
 
-.color-2{
+.color-2 {
   color: var(--mat-sys-on-primary);
 }
+
+// Background utility classes
+.bg-primary { background-color: var(--color-primary) !important; }
+.bg-primary-light { background-color: var(--color-primary-light) !important; }
+.bg-primary-dark { background-color: var(--color-primary-dark) !important; }
+
+.bg-secondary { background-color: var(--color-secondary) !important; }
+.bg-secondary-light { background-color: var(--color-secondary-light) !important; }
+.bg-secondary-dark { background-color: var(--color-secondary-dark) !important; }
+
+.bg-tertiary { background-color: var(--color-tertiary) !important; }
+.bg-tertiary-light { background-color: var(--color-tertiary-light) !important; }
+.bg-tertiary-dark { background-color: var(--color-tertiary-dark) !important; }
+
+.bg-danger { background-color: var(--color-danger) !important; }
+.bg-success { background-color: var(--color-success) !important; }
+.bg-disabled { background-color: var(--color-disabled) !important; }
+
+.bg-neutral-light { background-color: var(--color-neutral-light) !important; }
+.bg-neutral { background-color: var(--color-neutral) !important; }
+.bg-neutral-dark { background-color: var(--color-neutral-dark) !important; }
+
+// Text color utility classes
+.text-primary { color: var(--color-primary) !important; }
+.text-primary-light { color: var(--color-primary-light) !important; }
+.text-primary-dark { color: var(--color-primary-dark) !important; }
+
+.text-secondary { color: var(--color-secondary) !important; }
+.text-secondary-light { color: var(--color-secondary-light) !important; }
+.text-secondary-dark { color: var(--color-secondary-dark) !important; }
+
+.text-tertiary { color: var(--color-tertiary) !important; }
+.text-tertiary-light { color: var(--color-tertiary-light) !important; }
+.text-tertiary-dark { color: var(--color-tertiary-dark) !important; }
+
+.text-danger { color: var(--color-danger) !important; }
+.text-success { color: var(--color-success) !important; }
+.text-disabled { color: var(--color-disabled) !important; }
+
+.text-neutral-light { color: var(--color-neutral-light) !important; }
+.text-neutral { color: var(--color-neutral) !important; }
+.text-neutral-dark { color: var(--color-neutral-dark) !important; }

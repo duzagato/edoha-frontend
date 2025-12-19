@@ -2,6 +2,13 @@
   <mat-toolbar color="primary" class="toolbar">
     <span class="app-title">Edoha</span>
     <span class="spacer"></span>
+    <button mat-icon-button (click)="toggleTheme()" class="theme-toggle" title="Toggle theme">
+      @if (themeService.currentTheme() === 'light') {
+        <mat-icon>dark_mode</mat-icon>
+      } @else {
+        <mat-icon>light_mode</mat-icon>
+      }
+    </button>
     <button mat-button (click)="logout()">
       <mat-icon>logout</mat-icon>
       Sair
