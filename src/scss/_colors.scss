@@ -1,0 +1,38 @@
+@use '@angular/material' as mat;
+
+html {
+  @include mat.theme((
+    color: (
+      primary: mat.$azure-palette,
+      secundary: mat.$cyan-palette,
+    ),
+    typography: "Titillium Web, sans-serif",
+    density: 0,
+  ));
+}
+
+body {
+  color-scheme: dark;
+  background-color: var(--mat-sys-background);
+  color: var(--mat-sys-on-surface);
+  margin: 0;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: "Titillium Web", sans-serif;}
+
+.bg-1{
+  background: var(--mat-sys-on-tertiary) !important;
+}
+
+.color-1{
+  color: var(--mat-sys-on-tertiary);
+}
+
+.bg-2{
+  background: var(--mat-sys-on-primary);
+}
+
+.color-2{
+  color: var(--mat-sys-on-primary);
+}
