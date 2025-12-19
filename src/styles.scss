@@ -1,10 +1,10 @@
-@use 'styles/fonts' as *;
-@use 'styles/theme' as theme;
-@use 'styles/buttons' as buttons;
-@use 'styles/flexbox' as *;
-@use 'styles/forms' as *;
-@use 'styles/boxes' as *;
-@use 'styles/sizes' as *;
+@use 'scss/fonts' as *;
+@use 'scss/theme' as theme;
+@use 'scss/buttons' as buttons;
+@use 'scss/flexbox' as *;
+@use 'scss/forms' as *;
+@use 'scss/boxes' as *;
+@use 'scss/sizes' as *;
 
 *{margin:0; padding:0; box-sizing:border-box;}
 p, span{margin:0; padding:0;}
