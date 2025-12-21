@@ -29,6 +29,7 @@ export interface CreateUserDTO {
  * Maps to UpdateUserDTO in backend
  */
 export interface UpdateUserDTO {
+  id?: string;
   name?: string;
   phone?: string;
   nickname?: string | null;

@@ -162,6 +162,7 @@ export class UserFormComponent implements OnInit {
 
       if (this.isEditMode() && this.userId) {
         const updateData: UpdateUserDTO = {
+          id: this.userId,
           name: this.model.name,
           nickname: this.model.nickname,
           phone: this.model.phone,

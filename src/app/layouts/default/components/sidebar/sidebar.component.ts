@@ -28,6 +28,11 @@ interface MenuItem {
 export class SidebarComponent {
   menuItems: MenuItem[] = [
     {
+      title: 'Home',
+      icon: 'home',
+      route: '/',
+    },
+    {
       title: 'Usuário',
       icon: 'person',
       children: [

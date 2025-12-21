@@ -25,6 +25,28 @@
     font-weight: 500;
   }
 
+  .menu-item {
+    height: 56px;
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+
+    &.active {
+      background-color: rgba(0, 0, 0, 0.08);
+      color: var(--mat-app-primary);
+
+      mat-icon {
+        color: var(--mat-app-primary);
+      }
+    }
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.04);
+    }
+  }
+
   .submenu-item {
     padding-left: 32px;
 
