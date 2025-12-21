@@ -6,9 +6,25 @@
   padding: spaces.$space-4;
 }
 
+.logo{
+  max-width: 100px;
+}
+
+.login-card-logo{
+  max-height: 75px;
+  width: auto;
+}
+
 .form-title {
   font-size: 3em;
   font-weight: bold;
+  color: #1e8bc3;
+}
+
+.x-center-wrapper{
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .text-center {
