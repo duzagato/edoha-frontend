@@ -18,6 +18,10 @@ export const routes: Routes = [
         path: '',
         component: HomeComponent,
       },
+      {
+        path: 'rifas',
+        loadChildren: () => import('./features/lottery/lottery.routes').then(m => m.lotteryRoutes),
+      },
     ],
   },
   {
