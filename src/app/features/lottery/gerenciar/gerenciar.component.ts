@@ -7,7 +7,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { LotteryService } from '../../../core/services/requests/lottery.service';
 import { LotteryDTO } from '../../../core/models/lottery';
 
@@ -22,7 +21,6 @@ import { LotteryDTO } from '../../../core/models/lottery';
     MatIconModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
-    MatDialogModule,
   ],
   templateUrl: './gerenciar.component.html',
   styleUrl: './gerenciar.component.scss',
