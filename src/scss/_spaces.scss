@@ -1,0 +1,85 @@
+$space-1: 4px;
+$space-2: 8px;
+$space-3: 16px;
+$space-4: 24px;
+$space-5: 32px;
+$space-6: 40px;
+$space-7: 48px;
+$space-8: 64px;
+$space-9: 80px;
+$space-10: 96px;
+
+$space-scale: (
+  1: $space-1,
+  2: $space-2,
+  3: $space-3,
+  4: $space-4,
+  5: $space-5,
+  6: $space-6,
+  7: $space-7,
+  8: $space-8,
+  9: $space-9,
+  10: $space-10,
+);
+
+.padding-1 {
+  padding: $space-1 !important;
+}
+.padding-2 {
+  padding: $space-2 !important;
+}
+.padding-3 {
+  padding: $space-3 !important;
+}
+.padding-4 {
+  padding: $space-4 !important;
+}
+.padding-5 {
+  padding: $space-5 !important;
+}
+.padding-6 {
+  padding: $space-6 !important;
+}
+.padding-7 {
+  padding: $space-7 !important;
+}
+.padding-8 {
+  padding: $space-8 !important;
+}
+.padding-9 {
+  padding: $space-9 !important;
+}
+.padding-10 {
+  padding: $space-10 !important;
+}
+
+.margin-1 {
+  margin: $space-1 !important;
+}
+.margin-2 {
+  margin: $space-2 !important;
+}
+.margin-3 {
+  margin: $space-3 !important;
+}
+.margin-4 {
+  margin: $space-4 !important;
+}
+.margin-5 {
+  margin: $space-5 !important;
+}
+.margin-6 {
+  margin: $space-6 !important;
+}
+.margin-7 {
+  margin: $space-7 !important;
+}
+.margin-8 {
+  margin: $space-8 !important;
+}
+.margin-9 {
+  margin: $space-9 !important;
+}
+.margin-10 {
+  margin: $space-10 !important;
+}
