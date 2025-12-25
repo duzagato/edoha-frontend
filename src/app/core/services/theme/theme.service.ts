@@ -1,30 +1,57 @@
-import { Injectable } from '@angular/core';
-import { CacheKeys } from '../../../shared/constants/cache-keys';
-import { DataKeys } from './../../../shared/constants/data-keys';
+import { Injectable, signal, effect } from '@angular/core';
+
+export type Theme = 'light' | 'dark';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ThemeService {
-  constructor(){
-    const savedTheme = localStorage.getItem(CacheKeys.THEME) || 'dark';
-    this.setTheme(savedTheme);
+  private readonly THEME_STORAGE_KEY = 'theme-mode';
+  private readonly DEFAULT_THEME: Theme = 'dark';
+
+  private _currentTheme = signal<Theme>(this.getInitialTheme());
+
+  public readonly currentTheme = this._currentTheme.asReadonly();
+
+  constructor() {
+    // Apply theme whenever it changes
+    effect(() => {
+      const theme = this._currentTheme();
+      this.applyTheme(theme);
+    });
   }
 
-  setTheme(theme: string){
-    document.documentElement.setAttribute(DataKeys.THEME, theme);
-    localStorage.setItem(CacheKeys.THEME, theme);
+  private getInitialTheme(): Theme {
+    const storedTheme = localStorage.getItem(this.THEME_STORAGE_KEY);
+    
+    if (!storedTheme) {
+      // First time user - set default theme
+      localStorage.setItem(this.THEME_STORAGE_KEY, this.DEFAULT_THEME);
+      return this.DEFAULT_THEME;
+    }
+    
+    // Validate that stored theme is a valid Theme type
+    if (storedTheme === 'light' || storedTheme === 'dark') {
+      return storedTheme;
+    }
+    
+    // Invalid value found, use default
+    localStorage.setItem(this.THEME_STORAGE_KEY, this.DEFAULT_THEME);
+    return this.DEFAULT_THEME;
   }
 
-  toggleTheme(){
-    const currentTheme = document.documentElement.getAttribute(DataKeys.THEME);
-    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  private applyTheme(theme: Theme): void {
+    const htmlElement = document.documentElement;
+    htmlElement.setAttribute('data-theme', theme);
+    localStorage.setItem(this.THEME_STORAGE_KEY, theme);
+  }
+
+  public toggleTheme(): void {
+    const newTheme = this._currentTheme() === 'light' ? 'dark' : 'light';
     this.setTheme(newTheme);
   }
 
-  getTheme(): string{
-    const theme = document.documentElement.getAttribute(DataKeys.THEME) === null ? 'dark' : document.documentElement.getAttribute(DataKeys.THEME);
-
-    return theme!;
+  public setTheme(theme: Theme): void {
+    this._currentTheme.set(theme);
   }
 }
