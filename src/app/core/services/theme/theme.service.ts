@@ -22,7 +22,7 @@ export class ThemeService {
   }
 
   private getInitialTheme(): Theme {
-    const storedTheme = localStorage.getItem(this.THEME_STORAGE_KEY) as Theme | null;
+    const storedTheme = localStorage.getItem(this.THEME_STORAGE_KEY);
     
     if (!storedTheme) {
       // First time user - set default theme
@@ -30,7 +30,14 @@ export class ThemeService {
       return this.DEFAULT_THEME;
     }
     
-    return storedTheme;
+    // Validate that stored theme is a valid Theme type
+    if (storedTheme === 'light' || storedTheme === 'dark') {
+      return storedTheme;
+    }
+    
+    // Invalid value found, use default
+    localStorage.setItem(this.THEME_STORAGE_KEY, this.DEFAULT_THEME);
+    return this.DEFAULT_THEME;
   }
 
   private applyTheme(theme: Theme): void {

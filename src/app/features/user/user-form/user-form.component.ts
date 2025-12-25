@@ -102,7 +102,6 @@ export class UserFormComponent implements OnInit {
         props: {
           label: 'Senha',
           placeholder: '********',
-          required: !this.isEditMode(),
           type: 'password',
           appearance: 'outline',
         },
