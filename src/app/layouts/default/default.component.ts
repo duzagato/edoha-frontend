@@ -1,38 +1,29 @@
-import { Component, inject } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { AuthService } from '../../core/services/requests/auth.service';
-import { ThemeService } from '../../core/services/theme/theme.service';
+import { Component, signal, ViewChild } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { MatSidenavModule, MatDrawer } from '@angular/material/sidenav';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { HeaderComponent } from './components/header/header.component';
 
 @Component({
   selector: 'app-default-layout',
   standalone: true,
-  imports: [
-    RouterModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatIconModule,
-    MatSidenavModule,
-    MatButtonToggleModule,
-  ],
+  imports: [RouterModule, MatSidenavModule, SidebarComponent, HeaderComponent],
   templateUrl: './default.component.html',
   styleUrl: './default.component.scss',
 })
 export class DefaultLayoutComponent {
-  private readonly authService = inject(AuthService);
-  private readonly router = inject(Router);
-  protected readonly themeService = inject(ThemeService);
+  @ViewChild('drawer') drawer!: MatDrawer;
 
-  logout(): void {
-    this.authService.logout();
-    this.router.navigate(['/login']);
+  isHandset = signal(false);
+
+  constructor(private breakpointObserver: BreakpointObserver) {
+    this.breakpointObserver.observe([Breakpoints.Handset, Breakpoints.Tablet]).subscribe((result) => {
+      this.isHandset.set(result.matches);
+    });
   }
 
-  toggleTheme(): void {
-    this.themeService.toggleTheme();
+  toggleDrawer(): void {
+    this.drawer.toggle();
   }
 }

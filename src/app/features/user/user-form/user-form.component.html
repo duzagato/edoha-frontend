@@ -1,0 +1,28 @@
+<div class="user-form-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        {{ isEditMode() ? 'Editar Usuário' : 'Adicionar Usuário' }}
+      </mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      @if (loading()) {
+        <div class="loading-container">
+          <mat-spinner></mat-spinner>
+        </div>
+      } @else {
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+          <formly-form [form]="form" [fields]="fields" [model]="model"></formly-form>
+
+          <div class="form-actions">
+            <button type="button" mat-button (click)="onCancel()">Cancelar</button>
+            <button type="submit" mat-raised-button color="primary" [disabled]="!form.valid">
+              {{ isEditMode() ? 'Atualizar' : 'Criar' }}
+            </button>
+          </div>
+        </form>
+      }
+    </mat-card-content>
+  </mat-card>
+</div>

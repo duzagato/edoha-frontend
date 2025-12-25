@@ -1,0 +1,49 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  .menu-toggle {
+    @media (min-width: 960px) {
+      display: none;
+    }
+  }
+
+  .logo-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    .logo {
+      height: 40px;
+      width: auto;
+    }
+
+    .app-title {
+      font-size: 24px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+    }
+  }
+
+  .spacer {
+    flex: 1 1 auto;
+  }
+
+  .theme-toggle {
+    margin-right: 8px;
+  }
+
+  .user-menu-trigger {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-transform: none;
+
+    .user-name {
+      @media (max-width: 600px) {
+        display: none;
+      }
+    }
+  }
+}

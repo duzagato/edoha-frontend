@@ -1,20 +1,15 @@
 <div class="default-layout">
-  <mat-toolbar color="primary" class="toolbar">
-    <span class="app-title">Edoha</span>
-    <span class="spacer"></span>
-    <button mat-icon-button (click)="toggleTheme()" class="theme-toggle" title="Toggle theme">
-      @if (themeService.currentTheme() === 'light') {
-        <mat-icon>dark_mode</mat-icon>
-      } @else {
-        <mat-icon>light_mode</mat-icon>
-      }
-    </button>
-    <button mat-button (click)="logout()">
-      <mat-icon>logout</mat-icon>
-      Sair
-    </button>
-  </mat-toolbar>
+  <app-header (menuToggle)="toggleDrawer()"></app-header>
 
+  <mat-drawer-container class="drawer-container">
+    <mat-drawer
+      #drawer
+      [mode]="isHandset() ? 'over' : 'side'"
+      [opened]="!isHandset()"
+      class="drawer"
+    >
+      <app-sidebar></app-sidebar>
+    </mat-drawer>
   <mat-sidenav-container class="sidenav-container">
     <mat-sidenav mode="side" opened class="sidenav">
       <nav class="nav-menu">
@@ -33,8 +28,8 @@
       </nav>
     </mat-sidenav>
 
-    <mat-sidenav-content class="main-content">
+    <mat-drawer-content class="main-content">
       <router-outlet></router-outlet>
-    </mat-sidenav-content>
-  </mat-sidenav-container>
+    </mat-drawer-content>
+  </mat-drawer-container>
 </div>
