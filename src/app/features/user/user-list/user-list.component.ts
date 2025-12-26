@@ -81,15 +81,15 @@ export class UserListComponent implements OnInit {
       users: this.userService.getAll(),
     }).subscribe({
       next: ({ userInstitutions, users }) => {
-        // Filter user institutions by current institution
-        const institutionUserIds = userInstitutions
-          .filter((ui) => ui.idInstitution === institutionId)
-          .map((ui) => ui.idUser);
+        // Filter user institutions by current institution and create a Set for O(1) lookup
+        const institutionUserIds = new Set(
+          userInstitutions
+            .filter((ui) => ui.idInstitution === institutionId)
+            .map((ui) => ui.idUser)
+        );
 
         // Filter users to show only those in the current institution
-        const filteredUsers = users.filter((user) =>
-          institutionUserIds.includes(user.id)
-        );
+        const filteredUsers = users.filter((user) => institutionUserIds.has(user.id));
 
         this.users.set(filteredUsers);
         this.filteredUsers.set(filteredUsers);
