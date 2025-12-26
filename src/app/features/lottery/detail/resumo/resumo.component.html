@@ -1,0 +1,74 @@
+<div class="resumo-container">
+  @if (loading()) {
+    <div class="loading-container">
+      <mat-spinner></mat-spinner>
+    </div>
+  } @else if (lottery()) {
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Resumo da Rifa: {{ lottery()?.name }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="info-section">
+          <h3>Informações Gerais</h3>
+          <div class="info-grid">
+            <div class="info-item">
+              <strong>Nome:</strong>
+              <span>{{ lottery()?.name }}</span>
+            </div>
+            <div class="info-item">
+              <strong>Números por Talão:</strong>
+              <span>{{ lottery()?.numTicketsTicketbook }}</span>
+            </div>
+            <div class="info-item">
+              <strong>Quantidade de Talões:</strong>
+              <span>{{ lottery()?.numTicketbooks }}</span>
+            </div>
+            <div class="info-item">
+              <strong>Preço por Número:</strong>
+              <span>R$ {{ lottery()?.priceTicket | number: '1.2-2' }}</span>
+            </div>
+            <div class="info-item">
+              <strong>Dupla Chance:</strong>
+              <span>{{ lottery()?.doubleChance ? 'Sim' : 'Não' }}</span>
+            </div>
+            <div class="info-item">
+              <strong>Data de Criação:</strong>
+              <span>{{ lottery()?.createdAt | date: 'dd/MM/yyyy' }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="stats-section">
+          <h3>Estatísticas</h3>
+          <div class="stats-grid">
+            <mat-card class="stat-card">
+              <mat-card-content>
+                <div class="stat-value">{{ lottery()?.numTicketbooks }}</div>
+                <div class="stat-label">Total de Talões</div>
+              </mat-card-content>
+            </mat-card>
+            <mat-card class="stat-card">
+              <mat-card-content>
+                <div class="stat-value">{{ totalTickets() }}</div>
+                <div class="stat-label">Total de Números</div>
+              </mat-card-content>
+            </mat-card>
+            <mat-card class="stat-card">
+              <mat-card-content>
+                <div class="stat-value">R$ {{ totalValue() | number: '1.2-2' }}</div>
+                <div class="stat-label">Valor Total</div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  } @else {
+    <mat-card>
+      <mat-card-content>
+        <p>Rifa não encontrada.</p>
+      </mat-card-content>
+    </mat-card>
+  }
+</div>

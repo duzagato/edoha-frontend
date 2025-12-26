@@ -1,0 +1,120 @@
+<div class="retirada-container">
+  @if (loading()) {
+    <div class="loading-container">
+      <mat-spinner></mat-spinner>
+    </div>
+  } @else if (lottery()) {
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Retirada de Talão - {{ lottery()?.name }}</mat-card-title>
+        <mat-card-subtitle>Registre a retirada de um novo talão</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <form [formGroup]="retiradaForm" (ngSubmit)="onSubmit()" class="form-container">
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Número do Talão</mat-label>
+              <input
+                matInput
+                type="number"
+                formControlName="ticketbookNumber"
+                placeholder="Digite o número do talão"
+              />
+              @if (retiradaForm.get('ticketbookNumber')?.hasError('required')) {
+                <mat-error>Número do talão é obrigatório</mat-error>
+              }
+              @if (retiradaForm.get('ticketbookNumber')?.hasError('min')) {
+                <mat-error>Número deve ser maior que zero</mat-error>
+              }
+            </mat-form-field>
+          </div>
+
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Nome do Responsável</mat-label>
+              <input
+                matInput
+                formControlName="holderName"
+                placeholder="Digite o nome do responsável"
+              />
+              @if (retiradaForm.get('holderName')?.hasError('required')) {
+                <mat-error>Nome do responsável é obrigatório</mat-error>
+              }
+            </mat-form-field>
+          </div>
+
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Nome do Titular</mat-label>
+              <input
+                matInput
+                formControlName="ownerName"
+                placeholder="Digite o nome do titular"
+              />
+              @if (retiradaForm.get('ownerName')?.hasError('required')) {
+                <mat-error>Nome do titular é obrigatório</mat-error>
+              }
+            </mat-form-field>
+          </div>
+
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Data de Retirada</mat-label>
+              <input
+                matInput
+                [matDatepicker]="picker"
+                formControlName="withdrawnDate"
+              />
+              <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+              @if (retiradaForm.get('withdrawnDate')?.hasError('required')) {
+                <mat-error>Data de retirada é obrigatória</mat-error>
+              }
+            </mat-form-field>
+          </div>
+
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Observações</mat-label>
+              <textarea
+                matInput
+                formControlName="observations"
+                rows="3"
+                placeholder="Observações adicionais (opcional)"
+              ></textarea>
+            </mat-form-field>
+          </div>
+
+          <div class="form-actions">
+            <button
+              mat-raised-button
+              type="button"
+              (click)="onCancel()"
+              [disabled]="submitting()"
+            >
+              Cancelar
+            </button>
+            <button
+              mat-raised-button
+              color="primary"
+              type="submit"
+              [disabled]="!retiradaForm.valid || submitting()"
+            >
+              @if (submitting()) {
+                <mat-spinner diameter="20"></mat-spinner>
+              } @else {
+                Registrar Retirada
+              }
+            </button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  } @else {
+    <mat-card>
+      <mat-card-content>
+        <p>Rifa não encontrada.</p>
+      </mat-card-content>
+    </mat-card>
+  }
+</div>
