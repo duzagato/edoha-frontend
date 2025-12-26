@@ -10,23 +10,6 @@
     >
       <app-sidebar></app-sidebar>
     </mat-drawer>
-  <mat-sidenav-container class="sidenav-container">
-    <mat-sidenav mode="side" opened class="sidenav">
-      <nav class="nav-menu">
-        <a mat-button routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-          <mat-icon>home</mat-icon>
-          Home
-        </a>
-        <a mat-button routerLink="/rifas/gerenciar" routerLinkActive="active">
-          <mat-icon>confirmation_number</mat-icon>
-          Gerenciar Rifas
-        </a>
-        <a mat-button routerLink="/rifas/adicionar" routerLinkActive="active">
-          <mat-icon>add_circle</mat-icon>
-          Adicionar Rifa
-        </a>
-      </nav>
-    </mat-sidenav>
 
     <mat-drawer-content class="main-content">
       <router-outlet></router-outlet>

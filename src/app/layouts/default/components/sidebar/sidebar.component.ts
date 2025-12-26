@@ -38,26 +38,14 @@ export class SidebarComponent {
       children: [
         { title: 'Gerenciar Usuários', icon: 'manage_accounts', route: '/users' },
         { title: 'Adicionar Usuário', icon: 'person_add', route: '/users/new' },
-        { title: 'Perfis e Permissões', icon: 'security', route: '/users/permissions' },
       ],
     },
     {
       title: 'Rifa',
       icon: 'confirmation_number',
       children: [
-        { title: 'Gerenciar Rifas', icon: 'list', route: '/lotteries' },
-        { title: 'Nova Rifa', icon: 'add_circle', route: '/lotteries/new' },
-        { title: 'Sorteios', icon: 'emoji_events', route: '/lotteries/draws' },
-        { title: 'Relatórios', icon: 'assessment', route: '/lotteries/reports' },
-      ],
-    },
-    {
-      title: 'Instituições',
-      icon: 'business',
-      children: [
-        { title: 'Gerenciar Instituições', icon: 'business_center', route: '/institutions' },
-        { title: 'Nova Instituição', icon: 'add_business', route: '/institutions/new' },
-        { title: 'Configurações', icon: 'settings', route: '/institutions/settings' },
+        { title: 'Gerenciar Rifas', icon: 'list', route: '/rifas/gerenciar' },
+        { title: 'Adicionar Rifa', icon: 'add_circle', route: '/rifas/adicionar' },
       ],
     },
   ];

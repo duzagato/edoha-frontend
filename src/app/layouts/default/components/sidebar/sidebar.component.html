@@ -16,6 +16,7 @@
                 mat-list-item
                 [routerLink]="child.route"
                 routerLinkActive="active"
+                [routerLinkActiveOptions]="{exact: false}"
                 class="submenu-item"
               >
                 <mat-icon matListItemIcon>{{ child.icon }}</mat-icon>
@@ -29,6 +30,7 @@
           mat-list-item
           [routerLink]="item.route"
           routerLinkActive="active"
+          [routerLinkActiveOptions]="{exact: true}"
           class="menu-item"
         >
           <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
