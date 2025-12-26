@@ -50,13 +50,13 @@
             </mat-card>
             <mat-card class="stat-card">
               <mat-card-content>
-                <div class="stat-value">{{ lottery()!.numTicketsTicketbook * lottery()!.numTicketbooks }}</div>
+                <div class="stat-value">{{ totalTickets() }}</div>
                 <div class="stat-label">Total de Números</div>
               </mat-card-content>
             </mat-card>
             <mat-card class="stat-card">
               <mat-card-content>
-                <div class="stat-value">R$ {{ lottery()!.priceTicket * lottery()!.numTicketsTicketbook * lottery()!.numTicketbooks | number: '1.2-2' }}</div>
+                <div class="stat-value">R$ {{ totalValue() | number: '1.2-2' }}</div>
                 <div class="stat-label">Valor Total</div>
               </mat-card-content>
             </mat-card>

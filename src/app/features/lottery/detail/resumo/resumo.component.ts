@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal, computed } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
@@ -19,6 +19,17 @@ export class ResumoComponent implements OnInit {
 
   lottery = signal<LotteryDTO | undefined>(undefined);
   loading = signal<boolean>(false);
+
+  // Computed properties for stats
+  totalTickets = computed(() => {
+    const lot = this.lottery();
+    return lot ? lot.numTicketsTicketbook * lot.numTicketbooks : 0;
+  });
+
+  totalValue = computed(() => {
+    const lot = this.lottery();
+    return lot ? lot.priceTicket * lot.numTicketsTicketbook * lot.numTicketbooks : 0;
+  });
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
