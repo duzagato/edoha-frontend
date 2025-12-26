@@ -10,7 +10,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { UserService } from '../../../core/services/requests/user.service';
-import { UpdateUserDTO } from '../../../core/models/user';
+import { UpdateUserDTO, UserDTO } from '../../../core/models/user';
+
+interface EditUserFormModel {
+  name: string;
+  nickname: string | null;
+  phone: string | null;
+  idUserType: string;
+}
 
 @Component({
   selector: 'app-editar-user',
@@ -36,7 +43,12 @@ export class EditarComponent implements OnInit {
   private readonly snackBar = inject(MatSnackBar);
 
   form = new FormGroup({});
-  model: any = {};
+  model: EditUserFormModel = {
+    name: '',
+    nickname: null,
+    phone: null,
+    idUserType: '',
+  };
   loading = signal<boolean>(false);
   userId: string = '';
 
@@ -148,8 +160,8 @@ export class EditarComponent implements OnInit {
       const updateData: UpdateUserDTO = {
         id: this.userId,
         name: this.model.name,
-        nickname: this.model.nickname,
-        phone: this.model.phone,
+        nickname: this.model.nickname ?? undefined,
+        phone: this.model.phone ?? undefined,
         idUserType: this.model.idUserType,
       };
 

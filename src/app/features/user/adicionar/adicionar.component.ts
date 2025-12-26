@@ -36,8 +36,6 @@ export class AdicionarComponent {
   model: CreateUserDTO = {
     name: '',
     phone: '',
-    nickname: '',
-    unhashedPassword: '',
     idUserType: '',
   };
 

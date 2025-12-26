@@ -7,8 +7,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { UserService } from '../../../core/services/requests/user.service';
 import { UserDTO } from '../../../core/models/user';
+import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-gerenciar-user',
@@ -21,6 +23,7 @@ import { UserDTO } from '../../../core/models/user';
     MatIconModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
+    MatDialogModule,
   ],
   templateUrl: './gerenciar.component.html',
   styleUrl: './gerenciar.component.scss',
@@ -29,6 +32,7 @@ export class GerenciarComponent implements OnInit {
   private readonly userService = inject(UserService);
   private readonly router = inject(Router);
   private readonly snackBar = inject(MatSnackBar);
+  private readonly dialog = inject(MatDialog);
 
   users = signal<UserDTO[]>([]);
   loading = signal<boolean>(false);
@@ -59,28 +63,39 @@ export class GerenciarComponent implements OnInit {
   }
 
   deleteUser(user: UserDTO): void {
-    const confirmed = confirm(`Tem certeza que deseja excluir o usuário "${user.name}"?`);
-    if (confirmed) {
-      this.userService.delete(user.id).subscribe({
-        next: () => {
-          this.snackBar.open('Usuário excluído com sucesso!', 'Fechar', {
-            duration: 3000,
-            horizontalPosition: 'center',
-            verticalPosition: 'top',
-          });
-          this.loadUsers();
-        },
-        error: (error) => {
-          const errorMessage = error?.error?.message || 'Erro ao excluir usuário';
-          this.snackBar.open(errorMessage, 'Fechar', {
-            duration: 5000,
-            horizontalPosition: 'center',
-            verticalPosition: 'top',
-            panelClass: ['error-snackbar'],
-          });
-        },
-      });
-    }
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '400px',
+      data: {
+        title: 'Confirmar Exclusão',
+        message: `Tem certeza que deseja excluir o usuário "${user.name}"?`,
+        confirmText: 'Excluir',
+        cancelText: 'Cancelar',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.userService.delete(user.id).subscribe({
+          next: () => {
+            this.snackBar.open('Usuário excluído com sucesso!', 'Fechar', {
+              duration: 3000,
+              horizontalPosition: 'center',
+              verticalPosition: 'top',
+            });
+            this.loadUsers();
+          },
+          error: (error) => {
+            const errorMessage = error?.error?.message || 'Erro ao excluir usuário';
+            this.snackBar.open(errorMessage, 'Fechar', {
+              duration: 5000,
+              horizontalPosition: 'center',
+              verticalPosition: 'top',
+              panelClass: ['error-snackbar'],
+            });
+          },
+        });
+      }
+    });
   }
 
   editUser(user: UserDTO): void {
