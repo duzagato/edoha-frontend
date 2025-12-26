@@ -12,7 +12,10 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
 import { FormsModule } from '@angular/forms';
+import { forkJoin } from 'rxjs';
 import { UserService } from '../../../core/services/requests/user.service';
+import { UserInstitutionService } from '../../../core/services/requests/user-institution.service';
+import { AuthService } from '../../../core/services/requests/auth.service';
 import { UserDTO } from '../../../core/models/user';
 import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialog/confirm-dialog.component';
 
@@ -38,6 +41,8 @@ import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialo
 })
 export class UserListComponent implements OnInit {
   private readonly userService = inject(UserService);
+  private readonly userInstitutionService = inject(UserInstitutionService);
+  private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
   private readonly snackBar = inject(MatSnackBar);
   private readonly dialog = inject(MatDialog);
@@ -59,11 +64,36 @@ export class UserListComponent implements OnInit {
 
   loadUsers(): void {
     this.loading.set(true);
-    this.userService.getAll().subscribe({
-      next: (users) => {
-        this.users.set(users);
-        this.filteredUsers.set(users);
-        this.totalItems = users.length;
+    const institutionId = this.authService.getInstitutionId();
+
+    if (!institutionId) {
+      this.snackBar.open('Instituição não encontrada', 'Fechar', {
+        duration: 5000,
+        panelClass: ['error-snackbar'],
+      });
+      this.loading.set(false);
+      return;
+    }
+
+    // Load both user institutions and users
+    forkJoin({
+      userInstitutions: this.userInstitutionService.getAll(),
+      users: this.userService.getAll(),
+    }).subscribe({
+      next: ({ userInstitutions, users }) => {
+        // Filter user institutions by current institution
+        const institutionUserIds = userInstitutions
+          .filter((ui) => ui.idInstitution === institutionId)
+          .map((ui) => ui.idUser);
+
+        // Filter users to show only those in the current institution
+        const filteredUsers = users.filter((user) =>
+          institutionUserIds.includes(user.id)
+        );
+
+        this.users.set(filteredUsers);
+        this.filteredUsers.set(filteredUsers);
+        this.totalItems = filteredUsers.length;
         this.updatePaginatedUsers();
         this.loading.set(false);
       },

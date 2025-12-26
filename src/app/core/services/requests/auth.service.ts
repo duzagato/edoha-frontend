@@ -144,6 +144,15 @@ export class AuthService {
   }
 
   /**
+   * Gets the institution ID from the decoded token
+   * @returns The institution ID or null if not available
+   */
+  getInstitutionId(): string | null {
+    const decodedToken = this.getDecodedToken();
+    return decodedToken?.institutionId ?? null;
+  }
+
+  /**
    * Decodes a base64url encoded string
    * @param input - The base64url encoded string
    * @returns The decoded string
