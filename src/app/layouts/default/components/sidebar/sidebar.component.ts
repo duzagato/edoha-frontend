@@ -36,8 +36,8 @@ export class SidebarComponent {
       title: 'Usuário',
       icon: 'person',
       children: [
-        { title: 'Gerenciar Usuários', icon: 'manage_accounts', route: '/users' },
-        { title: 'Adicionar Usuário', icon: 'person_add', route: '/users/new' },
+        { title: 'Gerenciar Usuários', icon: 'manage_accounts', route: '/usuarios/gerenciar' },
+        { title: 'Adicionar Usuário', icon: 'person_add', route: '/usuarios/adicionar' },
       ],
     },
     {

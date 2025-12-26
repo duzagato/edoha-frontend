@@ -1,8 +1,11 @@
-<div class="user-form-container">
-  <mat-card>
+<div class="editar-container">
+  <mat-card class="editar-card">
     <mat-card-header>
       <mat-card-title>
-        {{ isEditMode() ? 'Editar Usuário' : 'Adicionar Usuário' }}
+        <div class="header-title">
+          <mat-icon>edit</mat-icon>
+          <span>Editar Usuário</span>
+        </div>
       </mat-card-title>
     </mat-card-header>
 
@@ -10,15 +13,20 @@
       @if (loading()) {
         <div class="loading-container">
           <mat-spinner></mat-spinner>
+          <p>Carregando dados do usuário...</p>
         </div>
       } @else {
-        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="user-form">
           <formly-form [form]="form" [fields]="fields" [model]="model"></formly-form>
 
           <div class="form-actions">
-            <button type="button" mat-button (click)="onCancel()">Cancelar</button>
+            <button type="button" mat-stroked-button (click)="onCancel()">
+              <mat-icon>cancel</mat-icon>
+              Cancelar
+            </button>
             <button type="submit" mat-raised-button color="primary" [disabled]="!form.valid">
-              {{ isEditMode() ? 'Atualizar' : 'Criar' }}
+              <mat-icon>save</mat-icon>
+              Salvar Alterações
             </button>
           </div>
         </form>
