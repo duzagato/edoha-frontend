@@ -74,13 +74,8 @@ export class EditarComponent implements OnInit {
       props: {
         label: 'Apelido',
         placeholder: 'Digite o apelido',
-        required: true,
+        required: false,
         appearance: 'outline',
-      },
-      validation: {
-        messages: {
-          required: 'Apelido é obrigatório',
-        },
       },
     },
     {
@@ -89,13 +84,8 @@ export class EditarComponent implements OnInit {
       props: {
         label: 'Telefone',
         placeholder: '(00) 00000-0000',
-        required: true,
+        required: false,
         appearance: 'outline',
-      },
-      validation: {
-        messages: {
-          required: 'Telefone é obrigatório',
-        },
       },
     },
     {
@@ -160,7 +150,7 @@ export class EditarComponent implements OnInit {
       const updateData: UpdateUserDTO = {
         id: this.userId,
         name: this.model.name,
-        nickname: this.model.nickname ?? undefined,
+        nickname: this.model.nickname,
         phone: this.model.phone ?? undefined,
         idUserType: this.model.idUserType,
       };
