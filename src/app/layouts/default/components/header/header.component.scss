@@ -2,6 +2,9 @@
   position: sticky;
   top: 0;
   z-index: 1000;
+  background-color: var(--bg-header);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: #ffffff;
 
   .menu-toggle {
     @media (min-width: 960px) {
@@ -23,6 +26,7 @@
       font-size: 24px;
       font-weight: 500;
       letter-spacing: 0.5px;
+      color: #ffffff;
     }
   }
 
@@ -32,6 +36,10 @@
 
   .theme-toggle {
     margin-right: 8px;
+    
+    mat-icon {
+      color: #ffffff;
+    }
   }
 
   .user-menu-trigger {
@@ -39,11 +47,22 @@
     align-items: center;
     gap: 8px;
     text-transform: none;
+    color: #ffffff;
 
     .user-name {
       @media (max-width: 600px) {
         display: none;
       }
     }
+    
+    mat-icon {
+      color: #ffffff;
+    }
+  }
+  
+  // Ensure Material toolbar inside header also uses the right color
+  mat-toolbar {
+    background-color: var(--bg-header);
+    color: #ffffff;
   }
 }

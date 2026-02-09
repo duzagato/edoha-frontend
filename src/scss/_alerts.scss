@@ -1,0 +1,116 @@
+@use 'colors' as *;
+@use 'sass:color';
+
+// Base alert class
+.alert {
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+  animation: fadeIn 0.3s ease-in-out;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  
+  // Icon spacing
+  mat-icon, .material-icons {
+    flex-shrink: 0;
+  }
+}
+
+// Alert variants
+.alert-success {
+  background-color: $color-7; // #45B39D - verde água
+  color: #ffffff;
+  border-left: 4px solid color.adjust($color-7, $lightness: -15%);
+  
+  mat-icon, .material-icons {
+    color: #ffffff;
+  }
+}
+
+.alert-error {
+  background-color: $color-5; // #8B0000 - vermelho escuro
+  color: #ffffff;
+  border-left: 4px solid color.adjust($color-5, $lightness: -10%);
+  
+  mat-icon, .material-icons {
+    color: #ffffff;
+  }
+}
+
+.alert-warning {
+  background-color: $color-6; // #D35400 - laranja
+  color: #ffffff;
+  border-left: 4px solid color.adjust($color-6, $lightness: -15%);
+  
+  mat-icon, .material-icons {
+    color: #ffffff;
+  }
+}
+
+.alert-info {
+  background-color: $color-2; // #3498DB - azul médio
+  color: #ffffff;
+  border-left: 4px solid color.adjust($color-2, $lightness: -15%);
+  
+  mat-icon, .material-icons {
+    color: #ffffff;
+  }
+}
+
+// Alert with close button
+.alert-dismissible {
+  padding-right: 40px;
+  position: relative;
+  
+  .alert-close {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+    
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+  }
+}
+
+// Fade in animation
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Alert content wrapper
+.alert-content {
+  flex: 1;
+  
+  .alert-title {
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  
+  .alert-message {
+    font-weight: 400;
+  }
+}

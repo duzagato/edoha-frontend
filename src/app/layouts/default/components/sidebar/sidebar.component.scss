@@ -1,10 +1,11 @@
 .sidebar {
   height: 100%;
-  background-color: var(--mat-sidenav-container-background-color);
+  background-color: var(--bg-sidebar);
 
   ::ng-deep .mat-expansion-panel {
     box-shadow: none;
     border-radius: 0;
+    background-color: transparent;
   }
 
   ::ng-deep .mat-expansion-panel-header {
@@ -13,6 +14,10 @@
 
     &:hover {
       background-color: rgba(0, 0, 0, 0.04);
+      
+      html[data-theme="dark"] & {
+        background-color: rgba(255, 255, 255, 0.05);
+      }
     }
   }
 
@@ -23,6 +28,7 @@
   .menu-title {
     margin-left: 16px;
     font-weight: 500;
+    color: var(--text-color);
   }
 
   .menu-item {
@@ -31,7 +37,7 @@
     display: flex;
     align-items: center;
     text-decoration: none;
-    color: inherit;
+    color: var(--text-color);
 
     &.active {
       background-color: rgba(0, 0, 0, 0.08);
@@ -40,10 +46,18 @@
       mat-icon {
         color: var(--mat-app-primary);
       }
+      
+      html[data-theme="dark"] & {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
     }
 
     &:hover {
       background-color: rgba(0, 0, 0, 0.04);
+      
+      html[data-theme="dark"] & {
+        background-color: rgba(255, 255, 255, 0.05);
+      }
     }
   }
 
@@ -57,14 +71,23 @@
       mat-icon {
         color: var(--mat-app-primary);
       }
+      
+      html[data-theme="dark"] & {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
     }
 
     &:hover {
       background-color: rgba(0, 0, 0, 0.04);
+      
+      html[data-theme="dark"] & {
+        background-color: rgba(255, 255, 255, 0.05);
+      }
     }
   }
 
   mat-icon {
     margin-right: 8px;
+    color: var(--text-secondary);
   }
 }
