@@ -3,7 +3,7 @@
     @for (item of menuItems(); track item.title) {
       @if (item.children) {
         <!-- Expandable Menu Item -->
-        <mat-expansion-panel class="!shadow-none !rounded-none bg-white dark:bg-gray-800">
+        <mat-expansion-panel class="bg-white dark:bg-gray-800">
           <mat-expansion-panel-header class="!h-14 !px-4 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
             <mat-panel-title class="flex items-center">
               <mat-icon class="mr-3 text-gray-700 dark:text-gray-300">{{ item.icon }}</mat-icon>

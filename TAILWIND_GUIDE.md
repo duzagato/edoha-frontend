@@ -9,7 +9,7 @@ This project has been refactored to use **Tailwind CSS v3** with **Flowbite** co
 The following packages are installed:
 
 ```bash
-npm install --legacy-peer-deps -D tailwindcss@^3 postcss autoprefixer
+npm install --legacy-peer-deps -D tailwindcss@^3.4.19 postcss autoprefixer
 npm install --legacy-peer-deps flowbite flowbite-angular
 ```
 

@@ -1,2 +1,12 @@
 // Component-specific styles that complement Tailwind classes
-// Using Angular Material components with Tailwind customization via important (!) modifier
+// Using Angular Material components with Tailwind customization
+// Note: Material expansion panels require explicit overrides for consistent styling
+
+::ng-deep .mat-expansion-panel {
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+
+::ng-deep .mat-expansion-panel-body {
+  padding: 0 !important;
+}
