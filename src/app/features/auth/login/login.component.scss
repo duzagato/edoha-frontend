@@ -1,9 +1,6 @@
 // Component-specific styles that complement Tailwind classes
-// Most styles are now handled by Tailwind utility classes in the template
+// Reusable button pattern to avoid excessive inline classes
 
-// Custom responsive adjustments if needed
-@media (max-width: 640px) {
-  .min-w-\[240px\] {
-    min-width: 180px;
-  }
+.btn-primary {
+  @apply inline-flex items-center justify-center gap-2 px-6 py-2.5 text-white bg-secondary-500 hover:bg-secondary-600 focus:ring-4 focus:ring-secondary-300 font-bold rounded-3xl disabled:opacity-75 disabled:cursor-not-allowed transition-colors duration-200;
 }
