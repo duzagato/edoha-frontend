@@ -14,7 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
         <mat-card-header>
           <mat-icon mat-card-avatar>summarize</mat-icon>
           <mat-card-title>Resumo da Rifa</mat-card-title>
-          <mat-card-subtitle>ID: {{ lotteryId }}</mat-card-subtitle>
+          <mat-card-subtitle>ID da Rifa: {{ lotteryId }}</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
           <p>Esta página mostrará o resumo da rifa.</p>

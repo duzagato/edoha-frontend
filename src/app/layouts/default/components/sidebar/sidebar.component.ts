@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { CommonModule } from '@angular/common';
+import { Subscription } from 'rxjs';
 import { LotteryService } from '../../../../core/services/requests/lottery.service';
 import { LotteryDTO } from '../../../../core/models/lottery';
 
@@ -27,14 +28,19 @@ interface MenuItem {
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
 })
-export class SidebarComponent implements OnInit {
+export class SidebarComponent implements OnInit, OnDestroy {
   menuItems: MenuItem[] = [];
+  private lotterySubscription?: Subscription;
 
   constructor(private readonly lotteryService: LotteryService) {}
 
   ngOnInit(): void {
     this.initializeMenu();
     this.loadLotteries();
+  }
+
+  ngOnDestroy(): void {
+    this.lotterySubscription?.unsubscribe();
   }
 
   private initializeMenu(): void {
@@ -64,7 +70,7 @@ export class SidebarComponent implements OnInit {
   }
 
   private loadLotteries(): void {
-    this.lotteryService.getAll().subscribe({
+    this.lotterySubscription = this.lotteryService.getAll().subscribe({
       next: (lotteries: LotteryDTO[]) => {
         const lotteryMenuItems = this.createLotteryMenuItems(lotteries);
         this.menuItems = [...this.menuItems, ...lotteryMenuItems];
