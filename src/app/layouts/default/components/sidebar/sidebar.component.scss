@@ -10,3 +10,14 @@
 ::ng-deep .mat-expansion-panel-body {
   padding: 0 !important;
 }
+
+// Active link styling for router navigation
+.active-link {
+  background-color: rgb(219 234 254) !important; // primary-100
+  color: rgb(29 78 216) !important; // primary-700
+
+  @media (prefers-color-scheme: dark) {
+    background-color: rgb(30 58 138) !important; // primary-900
+    color: rgb(147 197 253) !important; // primary-300
+  }
+}

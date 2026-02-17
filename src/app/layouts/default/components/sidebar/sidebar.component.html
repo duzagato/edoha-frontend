@@ -16,7 +16,7 @@
               <a
                 mat-list-item
                 [routerLink]="child.route"
-                routerLinkActive="!bg-primary-100 dark:!bg-primary-900 !text-primary-700 dark:!text-primary-300"
+                routerLinkActive="active-link"
                 [routerLinkActiveOptions]="{exact: false}"
                 class="!h-14 !pl-12 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
                 role="menuitem"
@@ -32,7 +32,7 @@
         <a
           mat-list-item
           [routerLink]="item.route"
-          routerLinkActive="!bg-primary-100 dark:!bg-primary-900 !text-primary-700 dark:!text-primary-300"
+          routerLinkActive="active-link"
           [routerLinkActiveOptions]="{exact: true}"
           class="!h-14 !px-4 flex items-center hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors no-underline"
           role="menuitem"

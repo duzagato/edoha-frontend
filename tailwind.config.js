@@ -60,10 +60,20 @@ module.exports = {
           900: '#6a0000',
           DEFAULT: '#d32f2f',
         },
-        // Success - references secondary green palette for consistency
-        // Using secondary as the base for success states
-        get success() {
-          return this.secondary;
+        // Success - Explicitly defined, matching secondary for semantic consistency
+        // Note: Success uses the same green palette as secondary to maintain consistency
+        success: {
+          50: '#e6f9eb',
+          100: '#c1f2ce',
+          200: '#70df9c',
+          300: '#4ee285',
+          400: '#1ec56e',
+          500: '#00a85c',
+          600: '#008a49',
+          700: '#006e37',
+          800: '#005323',
+          900: '#003910',
+          DEFAULT: '#00a85c',
         },
       },
       fontFamily: {
