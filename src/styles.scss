@@ -1,7 +1,12 @@
+/* Legacy SCSS imports - must come first */
 @use 'scss/colors' as *;
 @use 'scss/spaces' as *;
 @use 'scss/flexbox' as *;
 
+/* Tailwind CSS directives */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 .full-wrapper{
   width:100%;
