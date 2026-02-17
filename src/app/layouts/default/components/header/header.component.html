@@ -1,37 +1,71 @@
-<mat-toolbar color="primary" class="header">
-  <button mat-icon-button (click)="onMenuToggle()" class="menu-toggle">
-    <mat-icon>menu</mat-icon>
-  </button>
+<nav class="sticky top-0 z-50 bg-primary-600 dark:bg-primary-700 shadow-lg" aria-label="Main navigation">
+  <div class="flex items-center justify-between px-4 py-3">
+    <!-- Menu Toggle Button (Mobile) -->
+    <button
+      type="button"
+      class="inline-flex items-center p-2 text-white rounded-lg hover:bg-primary-700 dark:hover:bg-primary-800 focus:outline-none focus:ring-2 focus:ring-primary-300 lg:hidden"
+      (click)="onMenuToggle()"
+      aria-label="Abrir menu"
+    >
+      <mat-icon>menu</mat-icon>
+    </button>
 
-  <div class="logo-container">
-    <img src="assets/images/logo.png" alt="Edoha Logo" class="logo" />
-    <span class="app-title">edoha</span>
+    <!-- Logo and App Title -->
+    <div class="flex items-center gap-3">
+      <img
+        src="assets/images/logo.png"
+        alt="Edoha Logo"
+        class="h-10 w-auto"
+        role="img"
+      />
+      <span class="text-2xl font-medium text-white tracking-wide">
+        edoha
+      </span>
+    </div>
+
+    <!-- Spacer -->
+    <div class="flex-1"></div>
+
+    <!-- Right Side Actions -->
+    <div class="flex items-center gap-2">
+      <!-- Theme Toggle Button -->
+      <button
+        type="button"
+        class="inline-flex items-center p-2 text-white rounded-lg hover:bg-primary-700 dark:hover:bg-primary-800 focus:outline-none focus:ring-2 focus:ring-primary-300"
+        (click)="toggleTheme()"
+        title="Alternar tema"
+        aria-label="Alternar tema"
+      >
+        @if (themeService.currentTheme() === 'light') {
+          <mat-icon>dark_mode</mat-icon>
+        } @else {
+          <mat-icon>light_mode</mat-icon>
+        }
+      </button>
+
+      <!-- User Menu Button -->
+      <button
+        type="button"
+        class="inline-flex items-center gap-2 px-3 py-2 text-white rounded-lg hover:bg-primary-700 dark:hover:bg-primary-800 focus:outline-none focus:ring-2 focus:ring-primary-300"
+        [matMenuTriggerFor]="userMenu"
+        aria-label="Menu do usuário"
+      >
+        <mat-icon>account_circle</mat-icon>
+        <span class="hidden sm:inline-block">{{ userName }}</span>
+        <mat-icon>arrow_drop_down</mat-icon>
+      </button>
+
+      <!-- User Dropdown Menu -->
+      <mat-menu #userMenu="matMenu" xPosition="before">
+        <button mat-menu-item (click)="navigateToSettings()">
+          <mat-icon>settings</mat-icon>
+          <span>Configurações</span>
+        </button>
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          <span>Sair</span>
+        </button>
+      </mat-menu>
+    </div>
   </div>
-
-  <span class="spacer"></span>
-
-  <button mat-icon-button (click)="toggleTheme()" class="theme-toggle" title="Toggle theme">
-    @if (themeService.currentTheme() === 'light') {
-      <mat-icon>dark_mode</mat-icon>
-    } @else {
-      <mat-icon>light_mode</mat-icon>
-    }
-  </button>
-
-  <button mat-button [matMenuTriggerFor]="userMenu" class="user-menu-trigger">
-    <mat-icon>account_circle</mat-icon>
-    <span class="user-name">{{ userName }}</span>
-    <mat-icon>arrow_drop_down</mat-icon>
-  </button>
-
-  <mat-menu #userMenu="matMenu" xPosition="before">
-    <button mat-menu-item (click)="navigateToSettings()">
-      <mat-icon>settings</mat-icon>
-      <span>Configurações</span>
-    </button>
-    <button mat-menu-item (click)="logout()">
-      <mat-icon>logout</mat-icon>
-      <span>Sair</span>
-    </button>
-  </mat-menu>
-</mat-toolbar>
+</nav>
