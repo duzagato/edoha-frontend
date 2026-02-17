@@ -36,7 +36,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.initializeMenu();
-    this.loadLotteries();
   }
 
   ngOnDestroy(): void {
@@ -67,14 +66,15 @@ export class SidebarComponent implements OnInit, OnDestroy {
         ],
       },
     ];
+
+    this.loadLotteries();
   }
 
   private loadLotteries(): void {
     this.lotterySubscription = this.lotteryService.getAll().subscribe({
       next: (lotteries: LotteryDTO[]) => {
         const lotteryMenuItems = this.createLotteryMenuItems(lotteries);
-        this.menuItems = [...this.menuItems, ...lotteryMenuItems];
-      },
+        this.menuItems = [...this.menuItems, ...lotteryMenuItems];      },
       error: (error) => {
         console.error('Error loading lotteries:', error);
       }
