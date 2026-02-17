@@ -1,36 +1,9 @@
-@use '../../../../scss/spaces' as spaces;
+// Component-specific styles that complement Tailwind classes
+// Most styles are now handled by Tailwind utility classes in the template
 
-.login-card {
-  min-width: 420px;
-  gap: spaces.$space-4;
-  padding: spaces.$space-4;
-}
-
-.logo{
-  max-width: 100px;
-}
-
-.login-card-logo{
-  max-height: 75px;
-  width: auto;
-}
-
-.form-title {
-  font-size: 3em;
-  font-weight: bold;
-  color: #1e8bc3;
-}
-
-.x-center-wrapper{
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-
-.text-center {
-  text-align: center;
-}
-
-.mat-card-header {
-  padding: spaces.$space-3 spaces.$space-2;
+// Custom responsive adjustments if needed
+@media (max-width: 640px) {
+  .min-w-\[240px\] {
+    min-width: 180px;
+  }
 }
