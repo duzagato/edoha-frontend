@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
@@ -29,7 +29,7 @@ interface MenuItem {
   styleUrl: './sidebar.component.scss',
 })
 export class SidebarComponent implements OnInit, OnDestroy {
-  menuItems: MenuItem[] = [];
+  menuItems = signal<MenuItem[]>([]);
   private lotterySubscription?: Subscription;
 
   constructor(private readonly lotteryService: LotteryService) {}
@@ -43,7 +43,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   private initializeMenu(): void {
-    this.menuItems = [
+    this.menuItems.set([
       {
         title: 'Home',
         icon: 'home',
@@ -65,7 +65,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
           { title: 'Adicionar Rifa', icon: 'add_circle', route: '/rifas/adicionar' },
         ],
       },
-    ];
+    ]);
 
     this.loadLotteries();
   }
@@ -74,7 +74,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.lotterySubscription = this.lotteryService.getAll().subscribe({
       next: (lotteries: LotteryDTO[]) => {
         const lotteryMenuItems = this.createLotteryMenuItems(lotteries);
-        this.menuItems = [...this.menuItems, ...lotteryMenuItems];      },
+        this.menuItems.update(currentItems => [...currentItems, ...lotteryMenuItems]);
+      },
       error: (error) => {
         console.error('Error loading lotteries:', error);
       }

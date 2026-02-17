@@ -1,6 +1,6 @@
 <div class="sidebar">
   <mat-accordion multi>
-    @for (item of menuItems; track item.title) {
+    @for (item of menuItems(); track item.title) {
       @if (item.children) {
         <mat-expansion-panel>
           <mat-expansion-panel-header>
