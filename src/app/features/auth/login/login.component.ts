@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
@@ -9,6 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { AuthService } from '../../../core/services/requests/auth.service';
 import { CredentialsDTO } from '../../../core/models/auth';
+import { ThemeService } from '../../../core/services/theme/theme.service';
 
 @Component({
   selector: 'app-login',
@@ -25,9 +26,11 @@ import { CredentialsDTO } from '../../../core/models/auth';
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit, OnDestroy {
   form = new FormGroup({});
   model: CredentialsDTO = { nickname: '', password: '' };
+  
+  private readonly themeService = inject(ThemeService);
 
   fields: FormlyFieldConfig[] = [
     {
@@ -70,6 +73,16 @@ export class LoginComponent {
     private readonly route: ActivatedRoute,
     private readonly snackBar: MatSnackBar
   ) {}
+
+  ngOnInit(): void {
+    // Force dark mode on login page only
+    this.themeService.forceTheme('dark');
+  }
+
+  ngOnDestroy(): void {
+    // Restore the user's theme preference when leaving the login page
+    this.themeService.restoreTheme();
+  }
 
   onSubmit(): void {
     if (this.form.valid) {

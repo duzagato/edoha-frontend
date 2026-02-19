@@ -8,6 +8,8 @@ export type Theme = 'light' | 'dark';
 export class ThemeService {
   private readonly THEME_STORAGE_KEY = 'theme-mode';
   private readonly DEFAULT_THEME: Theme = 'dark';
+  private isThemeForced = false;
+  private forcedTheme: Theme | null = null;
 
   private _currentTheme = signal<Theme>(this.getInitialTheme());
 
@@ -17,7 +19,11 @@ export class ThemeService {
     // Apply theme whenever it changes
     effect(() => {
       const theme = this._currentTheme();
-      this.applyTheme(theme);
+      // Only apply theme from signal if not forced
+      if (!this.isThemeForced) {
+        this.applyThemeToDOM(theme);
+        localStorage.setItem(this.THEME_STORAGE_KEY, theme);
+      }
     });
   }
 
@@ -33,10 +39,14 @@ export class ThemeService {
     return storedTheme;
   }
 
-  private applyTheme(theme: Theme): void {
+  private applyThemeToDOM(theme: Theme): void {
     const htmlElement = document.documentElement;
-    htmlElement.setAttribute('data-theme', theme);
-    localStorage.setItem(this.THEME_STORAGE_KEY, theme);
+    
+    // Remove both classes first
+    htmlElement.classList.remove('light', 'dark');
+    
+    // Add the current theme class (Tailwind uses 'dark' class for dark mode)
+    htmlElement.classList.add(theme);
   }
 
   public toggleTheme(): void {
@@ -46,5 +56,37 @@ export class ThemeService {
 
   public setTheme(theme: Theme): void {
     this._currentTheme.set(theme);
+  }
+
+  /**
+   * Temporarily force a theme without affecting the saved preference.
+   * Used for pages like login that need to force a specific theme.
+   */
+  public forceTheme(theme: Theme): void {
+    if (!this.isThemeForced) {
+      this.isThemeForced = true;
+      this.forcedTheme = theme;
+    }
+    
+    // Apply the forced theme to DOM
+    this.applyThemeToDOM(theme);
+  }
+
+  /**
+   * Restore the theme from localStorage.
+   * Used to restore user's preference after forcing a theme.
+   */
+  public restoreTheme(): void {
+    if (this.isThemeForced) {
+      this.isThemeForced = false;
+      this.forcedTheme = null;
+      
+      // Read the current preference from localStorage
+      const storedTheme = localStorage.getItem(this.THEME_STORAGE_KEY) as Theme | null;
+      const themeToRestore = storedTheme || this.DEFAULT_THEME;
+      
+      // Update signal which will trigger effect to apply theme
+      this._currentTheme.set(themeToRestore);
+    }
   }
 }
