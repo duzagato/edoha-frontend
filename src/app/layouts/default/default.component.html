@@ -1,18 +1,33 @@
-<div class="default-layout">
+<div class="flex h-screen w-full flex-col bg-background">
+  <!-- Header -->
   <app-header (menuToggle)="toggleDrawer()"></app-header>
 
-  <mat-drawer-container class="drawer-container">
-    <mat-drawer
-      #drawer
-      [mode]="isHandset() ? 'over' : 'side'"
-      [opened]="!isHandset()"
-      class="drawer"
+  <!-- Main content area with sidebar -->
+  <div class="flex flex-1 overflow-hidden">
+    <!-- Overlay for mobile when drawer is open -->
+    @if (isHandset() && drawerOpen()) {
+      <div 
+        class="fixed inset-0 z-30 bg-black/50" 
+        (click)="toggleDrawer()"
+      ></div>
+    }
+
+    <!-- Sidebar/Drawer -->
+    <aside 
+      [class]="isHandset() 
+        ? (drawerOpen() ? 'translate-x-0' : '-translate-x-full') + ' fixed left-0 top-16 bottom-0 z-40 transition-transform duration-300' 
+        : 'relative'"
+      class="bg-card"
     >
       <app-sidebar></app-sidebar>
-    </mat-drawer>
+    </aside>
 
-    <mat-drawer-content class="main-content">
+    <!-- Main content -->
+    <main class="flex-1 overflow-y-auto p-6">
       <router-outlet></router-outlet>
-    </mat-drawer-content>
-  </mat-drawer-container>
+    </main>
+  </div>
+
+  <!-- Global toast notification -->
+  <app-toast></app-toast>
 </div>

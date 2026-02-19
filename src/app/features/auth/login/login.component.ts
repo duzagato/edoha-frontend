@@ -1,33 +1,37 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy, signal } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
 import { FormlyMaterialModule } from '@ngx-formly/material';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { AuthService } from '../../../core/services/requests/auth.service';
 import { CredentialsDTO } from '../../../core/models/auth';
+import { ThemeService } from '../../../core/services/theme/theme.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [
+    CommonModule,
     ReactiveFormsModule,
     FormlyModule,
     FormlyMaterialModule,
-    MatCardModule,
-    MatButtonModule,
-    MatIconModule,
-    MatSnackBarModule,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit, OnDestroy {
+  private readonly SUCCESS_TOAST_DURATION_MS = 3000;
+  private readonly ERROR_TOAST_DURATION_MS = 5000;
+  private readonly NAVIGATION_DELAY_MS = 500;
+  
   form = new FormGroup({});
   model: CredentialsDTO = { nickname: '', password: '' };
+  
+  // Toast notification state
+  showToast = signal(false);
+  toastMessage = signal('');
+  toastType = signal<'success' | 'error'>('success');
 
   fields: FormlyFieldConfig[] = [
     {
@@ -68,32 +72,46 @@ export class LoginComponent {
     private readonly authService: AuthService,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
-    private readonly snackBar: MatSnackBar
+    private readonly themeService: ThemeService
   ) {}
+
+  ngOnInit(): void {
+    // Force dark mode for login page
+    this.themeService.forceTheme('dark');
+  }
+
+  ngOnDestroy(): void {
+    // Restore user's theme preference when leaving login page
+    this.themeService.restoreTheme();
+  }
+
+  private displayToast(message: string, type: 'success' | 'error'): void {
+    this.toastMessage.set(message);
+    this.toastType.set(type);
+    this.showToast.set(true);
+
+    // Auto-hide after configured duration
+    setTimeout(() => {
+      this.showToast.set(false);
+    }, type === 'success' ? this.SUCCESS_TOAST_DURATION_MS : this.ERROR_TOAST_DURATION_MS);
+  }
 
   onSubmit(): void {
     if (this.form.valid) {
       this.authService.authenticate(this.model).subscribe({
         next: (response) => {
           if (response?.token) {
-            this.snackBar.open('Login realizado com sucesso!', 'Fechar', {
-              duration: 3000,
-              horizontalPosition: 'center',
-              verticalPosition: 'top',
-            });
+            this.displayToast('Login realizado com sucesso!', 'success');
             // Navigate to returnUrl if it exists, otherwise go to home
             const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-            this.router.navigate([returnUrl]);
+            setTimeout(() => {
+              this.router.navigate([returnUrl]);
+            }, this.NAVIGATION_DELAY_MS);
           }
         },
         error: (error) => {
           const errorMessage = error?.error?.message || 'Erro ao realizar login';
-          this.snackBar.open(errorMessage, 'Fechar', {
-            duration: 5000,
-            horizontalPosition: 'center',
-            verticalPosition: 'top',
-            panelClass: ['error-snackbar'],
-          });
+          this.displayToast(errorMessage, 'error');
         },
       });
     }

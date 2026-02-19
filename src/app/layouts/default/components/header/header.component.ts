@@ -1,16 +1,13 @@
-import { Component, inject, output } from '@angular/core';
+import { Component, inject, output, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
+import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../../core/services/requests/auth.service';
 import { ThemeService } from '../../../../core/services/theme/theme.service';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [MatToolbarModule, MatButtonModule, MatIconModule, MatMenuModule],
+  imports: [CommonModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
@@ -20,6 +17,9 @@ export class HeaderComponent {
   protected readonly themeService = inject(ThemeService);
 
   menuToggle = output<void>();
+  
+  // User menu dropdown state
+  userMenuOpen = signal(false);
 
   get userName(): string {
     return this.authService.getNickname() || 'Usuário';
@@ -33,12 +33,22 @@ export class HeaderComponent {
     this.menuToggle.emit();
   }
 
+  toggleUserMenu(): void {
+    this.userMenuOpen.set(!this.userMenuOpen());
+  }
+
+  closeUserMenu(): void {
+    this.userMenuOpen.set(false);
+  }
+
   logout(): void {
     this.authService.logout();
     this.router.navigate(['/login']);
+    this.closeUserMenu();
   }
 
   navigateToSettings(): void {
     this.router.navigate(['/settings']);
+    this.closeUserMenu();
   }
 }

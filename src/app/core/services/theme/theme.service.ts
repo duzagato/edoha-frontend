@@ -10,6 +10,7 @@ export class ThemeService {
   private readonly DEFAULT_THEME: Theme = 'dark';
 
   private _currentTheme = signal<Theme>(this.getInitialTheme());
+  private _forcedTheme: Theme | null = null;
 
   public readonly currentTheme = this._currentTheme.asReadonly();
 
@@ -35,6 +36,15 @@ export class ThemeService {
 
   private applyTheme(theme: Theme): void {
     const htmlElement = document.documentElement;
+    
+    if (theme === 'dark') {
+      htmlElement.classList.add('dark');
+      htmlElement.classList.remove('light');
+    } else {
+      htmlElement.classList.add('light');
+      htmlElement.classList.remove('dark');
+    }
+    
     htmlElement.setAttribute('data-theme', theme);
     localStorage.setItem(this.THEME_STORAGE_KEY, theme);
   }
@@ -46,5 +56,26 @@ export class ThemeService {
 
   public setTheme(theme: Theme): void {
     this._currentTheme.set(theme);
+  }
+
+  /**
+   * Force a specific theme temporarily (e.g., for login page)
+   * Stores current theme to restore later
+   */
+  public forceTheme(theme: Theme): void {
+    if (!this._forcedTheme) {
+      this._forcedTheme = this._currentTheme();
+    }
+    this._currentTheme.set(theme);
+  }
+
+  /**
+   * Restore the previously saved theme before forcing
+   */
+  public restoreTheme(): void {
+    if (this._forcedTheme) {
+      this._currentTheme.set(this._forcedTheme);
+      this._forcedTheme = null;
+    }
   }
 }
