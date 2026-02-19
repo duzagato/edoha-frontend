@@ -1,13 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
 import { FormlyMaterialModule } from '@ngx-formly/material';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { LotteryService } from '../../../core/services/requests/lottery.service';
 import { CreateLotteryDTO } from '../../../core/models/lottery';
 
@@ -19,10 +15,6 @@ import { CreateLotteryDTO } from '../../../core/models/lottery';
     ReactiveFormsModule,
     FormlyModule,
     FormlyMaterialModule,
-    MatCardModule,
-    MatButtonModule,
-    MatIconModule,
-    MatSnackBarModule,
   ],
   templateUrl: './adicionar.component.html',
   styleUrl: './adicionar.component.scss',
@@ -30,7 +22,6 @@ import { CreateLotteryDTO } from '../../../core/models/lottery';
 export class AdicionarComponent {
   private readonly lotteryService = inject(LotteryService);
   private readonly router = inject(Router);
-  private readonly snackBar = inject(MatSnackBar);
 
   form = new FormGroup({});
   model: CreateLotteryDTO = {
@@ -40,6 +31,8 @@ export class AdicionarComponent {
     priceTicket: 0,
     doubleChance: false,
   };
+  toastMessage = signal<string>('');
+  toastVisible = signal<boolean>(false);
 
   fields: FormlyFieldConfig[] = [
     {
@@ -126,21 +119,14 @@ export class AdicionarComponent {
     if (this.form.valid) {
       this.lotteryService.create(this.model).subscribe({
         next: () => {
-          this.snackBar.open('Rifa criada com sucesso!', 'Fechar', {
-            duration: 3000,
-            horizontalPosition: 'center',
-            verticalPosition: 'top',
-          });
-          this.router.navigate(['/rifas/gerenciar']);
+          this.showToast('Rifa criada com sucesso!');
+          setTimeout(() => {
+            this.router.navigate(['/rifas/gerenciar']);
+          }, 1000);
         },
         error: (error) => {
           const errorMessage = error?.error?.message || 'Erro ao criar rifa';
-          this.snackBar.open(errorMessage, 'Fechar', {
-            duration: 5000,
-            horizontalPosition: 'center',
-            verticalPosition: 'top',
-            panelClass: ['error-snackbar'],
-          });
+          this.showToast(errorMessage);
         },
       });
     }
@@ -148,5 +134,13 @@ export class AdicionarComponent {
 
   onCancel(): void {
     this.router.navigate(['/rifas/gerenciar']);
+  }
+
+  private showToast(message: string): void {
+    this.toastMessage.set(message);
+    this.toastVisible.set(true);
+    setTimeout(() => {
+      this.toastVisible.set(false);
+    }, 5000);
   }
 }

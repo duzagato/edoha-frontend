@@ -1,13 +1,6 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { MatCardModule } from '@angular/material/card';
-import { MatTableModule } from '@angular/material/table';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { UserService } from '../../../core/services/requests/user.service';
 import { UserDTO } from '../../../core/models/user';
 import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialog/confirm-dialog.component';
@@ -17,13 +10,6 @@ import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialo
   standalone: true,
   imports: [
     CommonModule,
-    MatCardModule,
-    MatTableModule,
-    MatButtonModule,
-    MatIconModule,
-    MatProgressSpinnerModule,
-    MatSnackBarModule,
-    MatDialogModule,
   ],
   templateUrl: './gerenciar.component.html',
   styleUrl: './gerenciar.component.scss',
@@ -31,12 +17,12 @@ import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialo
 export class GerenciarComponent implements OnInit {
   private readonly userService = inject(UserService);
   private readonly router = inject(Router);
-  private readonly snackBar = inject(MatSnackBar);
-  private readonly dialog = inject(MatDialog);
 
   users = signal<UserDTO[]>([]);
   loading = signal<boolean>(false);
-  displayedColumns: string[] = ['name', 'nickname', 'phone', 'idUserType', 'createdAt', 'actions'];
+  toastMessage = signal<string>('');
+  toastVisible = signal<boolean>(false);
+  confirmDialog = signal<{ visible: boolean; user?: UserDTO }>({ visible: false });
 
   ngOnInit(): void {
     this.loadUsers();
@@ -52,50 +38,35 @@ export class GerenciarComponent implements OnInit {
       error: (error) => {
         this.loading.set(false);
         const errorMessage = error?.error?.message || 'Erro ao carregar usuários';
-        this.snackBar.open(errorMessage, 'Fechar', {
-          duration: 5000,
-          horizontalPosition: 'center',
-          verticalPosition: 'top',
-          panelClass: ['error-snackbar'],
-        });
+        this.showToast(errorMessage);
       },
     });
   }
 
   deleteUser(user: UserDTO): void {
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '400px',
-      data: {
-        title: 'Confirmar Exclusão',
-        message: `Tem certeza que deseja excluir o usuário "${user.name}"?`,
-        confirmText: 'Excluir',
-        cancelText: 'Cancelar',
+    this.confirmDialog.set({ visible: true, user });
+  }
+
+  confirmDelete(): void {
+    const user = this.confirmDialog().user;
+    if (!user) return;
+
+    this.userService.delete(user.id).subscribe({
+      next: () => {
+        this.showToast('Usuário excluído com sucesso!');
+        this.loadUsers();
+        this.confirmDialog.set({ visible: false });
+      },
+      error: (error) => {
+        const errorMessage = error?.error?.message || 'Erro ao excluir usuário';
+        this.showToast(errorMessage);
+        this.confirmDialog.set({ visible: false });
       },
     });
+  }
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.userService.delete(user.id).subscribe({
-          next: () => {
-            this.snackBar.open('Usuário excluído com sucesso!', 'Fechar', {
-              duration: 3000,
-              horizontalPosition: 'center',
-              verticalPosition: 'top',
-            });
-            this.loadUsers();
-          },
-          error: (error) => {
-            const errorMessage = error?.error?.message || 'Erro ao excluir usuário';
-            this.snackBar.open(errorMessage, 'Fechar', {
-              duration: 5000,
-              horizontalPosition: 'center',
-              verticalPosition: 'top',
-              panelClass: ['error-snackbar'],
-            });
-          },
-        });
-      }
-    });
+  cancelDelete(): void {
+    this.confirmDialog.set({ visible: false });
   }
 
   editUser(user: UserDTO): void {
@@ -104,5 +75,13 @@ export class GerenciarComponent implements OnInit {
 
   navigateToAdd(): void {
     this.router.navigate(['/usuarios/adicionar']);
+  }
+
+  private showToast(message: string): void {
+    this.toastMessage.set(message);
+    this.toastVisible.set(true);
+    setTimeout(() => {
+      this.toastVisible.set(false);
+    }, 5000);
   }
 }
