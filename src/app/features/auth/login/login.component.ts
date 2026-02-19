@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
@@ -25,9 +25,10 @@ import { CredentialsDTO } from '../../../core/models/auth';
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit, OnDestroy {
   form = new FormGroup({});
   model: CredentialsDTO = { nickname: '', password: '' };
+  private previousTheme: string | null = null;
 
   fields: FormlyFieldConfig[] = [
     {
@@ -70,6 +71,32 @@ export class LoginComponent {
     private readonly route: ActivatedRoute,
     private readonly snackBar: MatSnackBar
   ) {}
+
+  ngOnInit(): void {
+    // Force dark mode on login page only
+    const htmlElement = document.documentElement;
+    
+    // Save the current theme classes
+    if (htmlElement.classList.contains('light')) {
+      this.previousTheme = 'light';
+    } else if (htmlElement.classList.contains('dark')) {
+      this.previousTheme = 'dark';
+    }
+    
+    // Remove both classes and force dark mode
+    htmlElement.classList.remove('light', 'dark');
+    htmlElement.classList.add('dark');
+  }
+
+  ngOnDestroy(): void {
+    // Restore the previous theme when leaving the login page
+    const htmlElement = document.documentElement;
+    htmlElement.classList.remove('dark');
+    
+    if (this.previousTheme) {
+      htmlElement.classList.add(this.previousTheme);
+    }
+  }
 
   onSubmit(): void {
     if (this.form.valid) {

@@ -35,7 +35,13 @@ export class ThemeService {
 
   private applyTheme(theme: Theme): void {
     const htmlElement = document.documentElement;
-    htmlElement.setAttribute('data-theme', theme);
+    
+    // Remove both classes first
+    htmlElement.classList.remove('light', 'dark');
+    
+    // Add the current theme class (Tailwind uses 'dark' class for dark mode)
+    htmlElement.classList.add(theme);
+    
     localStorage.setItem(this.THEME_STORAGE_KEY, theme);
   }
 
