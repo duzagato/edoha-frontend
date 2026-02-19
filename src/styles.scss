@@ -1,14 +1,111 @@
 @use 'tailwindcss';
-@use 'scss/colors' as *;
-@use 'scss/spaces' as *;
-@use 'scss/flexbox' as *;
 
-
-.full-wrapper{
-  width:100%;
-  height:100%;
+/* Base styles */
+* {
+  border-color: hsl(var(--border));
 }
 
-.font-bold{
-  font-weight:bold;
+html {
+  height: 100%;
+  font-family: 'Titillium Web', sans-serif;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+}
+
+/* CSS Variables for theming with HSL values */
+@layer base {
+  :root {
+    /* Radius */
+    --radius: 0.5rem;
+
+    /* Light mode colors */
+    --background: 0 0% 100%; /* white */
+    --foreground: 222.2 84% 4.9%; /* dark text */
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    --primary: 207 90% 54%; /* Blue #2196f3 */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 33 100% 50%; /* Orange #ff9800 */
+    --secondary-foreground: 0 0% 100%;
+
+    --accent: 122 39% 49%; /* Green #4caf50 */
+    --accent-foreground: 0 0% 100%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 207 90% 54%;
+
+    --success: 122 39% 49%;
+    --success-foreground: 0 0% 100%;
+
+    --warning: 33 100% 50%;
+    --warning-foreground: 0 0% 100%;
+  }
+
+  .dark {
+    /* Dark mode colors - Default theme */
+    --background: 0 0% 4%; /* Very dark #0a0a0a */
+    --foreground: 0 0% 98%; /* white text */
+
+    --card: 0 0% 10%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 0 0% 10%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 207 90% 61%; /* Lighter blue for dark mode #64b5f6 */
+    --primary-foreground: 0 0% 10%;
+
+    --secondary: 33 100% 55%; /* Lighter orange #ffa726 */
+    --secondary-foreground: 0 0% 10%;
+
+    --accent: 122 39% 60%; /* Lighter green #66bb6a */
+    --accent-foreground: 0 0% 10%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 207 90% 61%;
+
+    --success: 122 39% 60%;
+    --success-foreground: 0 0% 10%;
+
+    --warning: 33 100% 55%;
+    --warning-foreground: 0 0% 10%;
+  }
+}
+
+/* Utility classes */
+@layer utilities {
+  .full-wrapper {
+    width: 100%;
+    height: 100%;
+  }
+
+  .font-bold {
+    font-weight: bold;
+  }
 }
