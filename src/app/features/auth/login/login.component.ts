@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
@@ -9,6 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { AuthService } from '../../../core/services/requests/auth.service';
 import { CredentialsDTO } from '../../../core/models/auth';
+import { ThemeService } from '../../../core/services/theme/theme.service';
 
 @Component({
   selector: 'app-login',
@@ -28,7 +29,8 @@ import { CredentialsDTO } from '../../../core/models/auth';
 export class LoginComponent implements OnInit, OnDestroy {
   form = new FormGroup({});
   model: CredentialsDTO = { nickname: '', password: '' };
-  private previousTheme: string | null = null;
+  
+  private readonly themeService = inject(ThemeService);
 
   fields: FormlyFieldConfig[] = [
     {
@@ -74,28 +76,12 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     // Force dark mode on login page only
-    const htmlElement = document.documentElement;
-    
-    // Save the current theme classes
-    if (htmlElement.classList.contains('light')) {
-      this.previousTheme = 'light';
-    } else if (htmlElement.classList.contains('dark')) {
-      this.previousTheme = 'dark';
-    }
-    
-    // Remove both classes and force dark mode
-    htmlElement.classList.remove('light', 'dark');
-    htmlElement.classList.add('dark');
+    this.themeService.forceTheme('dark');
   }
 
   ngOnDestroy(): void {
-    // Restore the previous theme when leaving the login page
-    const htmlElement = document.documentElement;
-    htmlElement.classList.remove('dark');
-    
-    if (this.previousTheme) {
-      htmlElement.classList.add(this.previousTheme);
-    }
+    // Restore the user's theme preference when leaving the login page
+    this.themeService.restoreTheme();
   }
 
   onSubmit(): void {
