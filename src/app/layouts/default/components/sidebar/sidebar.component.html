@@ -1,42 +1,52 @@
-<div class="sidebar">
-  <mat-accordion multi>
+<nav class="h-full bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700">
+  <div class="sidebar-content">
     @for (item of menuItems(); track item.title) {
       @if (item.children) {
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              <mat-icon>{{ item.icon }}</mat-icon>
-              <span class="menu-title">{{ item.title }}</span>
-            </mat-panel-title>
-          </mat-expansion-panel-header>
+        <!-- Menu item with children (expandable) -->
+        <div class="border-b border-gray-200 dark:border-gray-700">
+          <button 
+            (click)="toggleMenuItem(item)"
+            class="w-full flex items-center justify-between px-4 py-4 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+          >
+            <div class="flex items-center gap-4">
+              <span class="material-icons text-gray-600 dark:text-gray-400">{{ item.icon }}</span>
+              <span class="font-medium text-gray-900 dark:text-white">{{ item.title }}</span>
+            </div>
+            <span class="material-icons text-gray-600 dark:text-gray-400 transform transition-transform" 
+              [class.rotate-180]="isMenuItemExpanded(item)">
+              expand_more
+            </span>
+          </button>
 
-          <mat-nav-list>
-            @for (child of item.children; track child.title) {
-              <a
-                mat-list-item
-                [routerLink]="child.route"
-                routerLinkActive="active"
-                [routerLinkActiveOptions]="{exact: false}"
-                class="submenu-item"
-              >
-                <mat-icon matListItemIcon>{{ child.icon }}</mat-icon>
-                <span matListItemTitle>{{ child.title }}</span>
-              </a>
-            }
-          </mat-nav-list>
-        </mat-expansion-panel>
+          <!-- Submenu -->
+          @if (isMenuItemExpanded(item)) {
+            <div class="bg-gray-50 dark:bg-gray-800">
+              @for (child of item.children; track child.title) {
+                <a
+                  [routerLink]="child.route"
+                  routerLinkActive="bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300"
+                  [routerLinkActiveOptions]="{exact: false}"
+                  class="flex items-center gap-4 px-4 py-3 pl-14 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 transition-colors"
+                >
+                  <span class="material-icons text-sm">{{ child.icon }}</span>
+                  <span>{{ child.title }}</span>
+                </a>
+              }
+            </div>
+          }
+        </div>
       } @else {
+        <!-- Menu item without children -->
         <a
-          mat-list-item
           [routerLink]="item.route"
-          routerLinkActive="active"
+          routerLinkActive="bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300"
           [routerLinkActiveOptions]="{exact: true}"
-          class="menu-item"
+          class="flex items-center gap-4 px-4 py-4 hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 transition-colors border-b border-gray-200 dark:border-gray-700"
         >
-          <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
-          <span matListItemTitle>{{ item.title }}</span>
+          <span class="material-icons text-gray-600 dark:text-gray-400">{{ item.icon }}</span>
+          <span class="font-medium">{{ item.title }}</span>
         </a>
       }
     }
-  </mat-accordion>
-</div>
+  </div>
+</nav>

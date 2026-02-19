@@ -1,8 +1,5 @@
 import { Component, OnInit, OnDestroy, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { MatListModule } from '@angular/material/list';
-import { MatIconModule } from '@angular/material/icon';
-import { MatExpansionModule } from '@angular/material/expansion';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { LotteryService } from '../../../../core/services/requests/lottery.service';
@@ -21,9 +18,6 @@ interface MenuItem {
   imports: [
     CommonModule,
     RouterModule,
-    MatListModule,
-    MatIconModule,
-    MatExpansionModule,
   ],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
@@ -31,6 +25,7 @@ interface MenuItem {
 export class SidebarComponent implements OnInit, OnDestroy {
   menuItems = signal<MenuItem[]>([]);
   private lotterySubscription?: Subscription;
+  private expandedItems = new Set<string>();
 
   constructor(private readonly lotteryService: LotteryService) {}
 
@@ -40,6 +35,18 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.lotterySubscription?.unsubscribe();
+  }
+
+  toggleMenuItem(item: MenuItem): void {
+    if (this.expandedItems.has(item.title)) {
+      this.expandedItems.delete(item.title);
+    } else {
+      this.expandedItems.add(item.title);
+    }
+  }
+
+  isMenuItemExpanded(item: MenuItem): boolean {
+    return this.expandedItems.has(item.title);
   }
 
   private initializeMenu(): void {
