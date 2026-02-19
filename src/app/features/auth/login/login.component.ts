@@ -21,6 +21,10 @@ import { CommonModule } from '@angular/common';
   styleUrl: './login.component.scss',
 })
 export class LoginComponent implements OnInit, OnDestroy {
+  private readonly SUCCESS_TOAST_DURATION_MS = 3000;
+  private readonly ERROR_TOAST_DURATION_MS = 5000;
+  private readonly NAVIGATION_DELAY_MS = 500;
+  
   form = new FormGroup({});
   model: CredentialsDTO = { nickname: '', password: '' };
   
@@ -86,10 +90,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.toastType.set(type);
     this.showToast.set(true);
 
-    // Auto-hide after 3 seconds
+    // Auto-hide after configured duration
     setTimeout(() => {
       this.showToast.set(false);
-    }, type === 'success' ? 3000 : 5000);
+    }, type === 'success' ? this.SUCCESS_TOAST_DURATION_MS : this.ERROR_TOAST_DURATION_MS);
   }
 
   onSubmit(): void {
@@ -102,7 +106,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
             setTimeout(() => {
               this.router.navigate([returnUrl]);
-            }, 500);
+            }, this.NAVIGATION_DELAY_MS);
           }
         },
         error: (error) => {

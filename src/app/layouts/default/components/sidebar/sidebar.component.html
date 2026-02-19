@@ -9,7 +9,7 @@
             class="flex w-full items-center justify-between px-4 py-3 text-card-foreground hover:bg-muted transition-colors"
           >
             <div class="flex items-center gap-3">
-              <svg class="h-5 w-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" [innerHTML]="getIconSvg(item.icon)"></svg>
+              <svg class="h-5 w-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" [innerHTML]="getSafeIconSvg(item.icon)"></svg>
               <span class="font-medium">{{ item.title }}</span>
             </div>
             <svg
@@ -33,7 +33,7 @@
                   [routerLinkActiveOptions]="{exact: false}"
                   class="flex items-center gap-3 px-4 py-2.5 pl-12 text-sm text-card-foreground hover:bg-muted transition-colors"
                 >
-                  <svg class="h-4 w-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" [innerHTML]="getIconSvg(child.icon)"></svg>
+                  <svg class="h-4 w-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" [innerHTML]="getSafeIconSvg(child.icon)"></svg>
                   <span>{{ child.title }}</span>
                 </a>
               }
@@ -48,7 +48,7 @@
           [routerLinkActiveOptions]="{exact: true}"
           class="flex items-center gap-3 px-4 py-3 text-card-foreground hover:bg-muted transition-colors border-b border-border"
         >
-          <svg class="h-5 w-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" [innerHTML]="getIconSvg(item.icon)"></svg>
+          <svg class="h-5 w-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" [innerHTML]="getSafeIconSvg(item.icon)"></svg>
           <span class="font-medium">{{ item.title }}</span>
         </a>
       }

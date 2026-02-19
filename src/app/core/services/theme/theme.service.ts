@@ -10,6 +10,7 @@ export class ThemeService {
   private readonly DEFAULT_THEME: Theme = 'dark';
 
   private _currentTheme = signal<Theme>(this.getInitialTheme());
+  private _forcedTheme: Theme | null = null;
 
   public readonly currentTheme = this._currentTheme.asReadonly();
 
@@ -61,8 +62,6 @@ export class ThemeService {
    * Force a specific theme temporarily (e.g., for login page)
    * Stores current theme to restore later
    */
-  private _forcedTheme: Theme | null = null;
-  
   public forceTheme(theme: Theme): void {
     if (!this._forcedTheme) {
       this._forcedTheme = this._currentTheme();
