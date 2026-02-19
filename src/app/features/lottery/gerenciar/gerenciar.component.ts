@@ -1,12 +1,6 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { MatCardModule } from '@angular/material/card';
-import { MatTableModule } from '@angular/material/table';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { LotteryService } from '../../../core/services/requests/lottery.service';
 import { LotteryDTO } from '../../../core/models/lottery';
 
@@ -15,12 +9,6 @@ import { LotteryDTO } from '../../../core/models/lottery';
   standalone: true,
   imports: [
     CommonModule,
-    MatCardModule,
-    MatTableModule,
-    MatButtonModule,
-    MatIconModule,
-    MatProgressSpinnerModule,
-    MatSnackBarModule,
   ],
   templateUrl: './gerenciar.component.html',
   styleUrl: './gerenciar.component.scss',
@@ -28,11 +16,12 @@ import { LotteryDTO } from '../../../core/models/lottery';
 export class GerenciarComponent implements OnInit {
   private readonly lotteryService = inject(LotteryService);
   private readonly router = inject(Router);
-  private readonly snackBar = inject(MatSnackBar);
 
   lotteries = signal<LotteryDTO[]>([]);
   loading = signal<boolean>(false);
-  displayedColumns: string[] = ['name', 'numTicketsTicketbook', 'numTicketbooks', 'priceTicket', 'doubleChance', 'createdAt', 'actions'];
+  toastMessage = signal<string>('');
+  toastVisible = signal<boolean>(false);
+  confirmDialog = signal<{ visible: boolean; lottery?: LotteryDTO }>({ visible: false });
 
   ngOnInit(): void {
     this.loadLotteries();
@@ -48,42 +37,46 @@ export class GerenciarComponent implements OnInit {
       error: (error) => {
         this.loading.set(false);
         const errorMessage = error?.error?.message || 'Erro ao carregar rifas';
-        this.snackBar.open(errorMessage, 'Fechar', {
-          duration: 5000,
-          horizontalPosition: 'center',
-          verticalPosition: 'top',
-          panelClass: ['error-snackbar'],
-        });
+        this.showToast(errorMessage);
       },
     });
   }
 
   deleteLottery(lottery: LotteryDTO): void {
-    const confirmed = confirm(`Tem certeza que deseja excluir a rifa "${lottery.name}"?`);
-    if (confirmed) {
-      this.lotteryService.delete(lottery.id).subscribe({
-        next: () => {
-          this.snackBar.open('Rifa excluída com sucesso!', 'Fechar', {
-            duration: 3000,
-            horizontalPosition: 'center',
-            verticalPosition: 'top',
-          });
-          this.loadLotteries();
-        },
-        error: (error) => {
-          const errorMessage = error?.error?.message || 'Erro ao excluir rifa';
-          this.snackBar.open(errorMessage, 'Fechar', {
-            duration: 5000,
-            horizontalPosition: 'center',
-            verticalPosition: 'top',
-            panelClass: ['error-snackbar'],
-          });
-        },
-      });
-    }
+    this.confirmDialog.set({ visible: true, lottery });
+  }
+
+  confirmDelete(): void {
+    const lottery = this.confirmDialog().lottery;
+    if (!lottery) return;
+
+    this.lotteryService.delete(lottery.id).subscribe({
+      next: () => {
+        this.showToast('Rifa excluída com sucesso!');
+        this.loadLotteries();
+        this.confirmDialog.set({ visible: false });
+      },
+      error: (error) => {
+        const errorMessage = error?.error?.message || 'Erro ao excluir rifa';
+        this.showToast(errorMessage);
+        this.confirmDialog.set({ visible: false });
+      },
+    });
+  }
+
+  cancelDelete(): void {
+    this.confirmDialog.set({ visible: false });
   }
 
   navigateToAdd(): void {
     this.router.navigate(['/rifas/adicionar']);
+  }
+
+  private showToast(message: string): void {
+    this.toastMessage.set(message);
+    this.toastVisible.set(true);
+    setTimeout(() => {
+      this.toastVisible.set(false);
+    }, 5000);
   }
 }

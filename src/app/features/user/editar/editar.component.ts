@@ -4,11 +4,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
 import { FormlyMaterialModule } from '@ngx-formly/material';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { UserService } from '../../../core/services/requests/user.service';
 import { UpdateUserDTO, UserDTO } from '../../../core/models/user';
 
@@ -27,11 +22,6 @@ interface EditUserFormModel {
     ReactiveFormsModule,
     FormlyModule,
     FormlyMaterialModule,
-    MatCardModule,
-    MatButtonModule,
-    MatIconModule,
-    MatProgressSpinnerModule,
-    MatSnackBarModule,
   ],
   templateUrl: './editar.component.html',
   styleUrl: './editar.component.scss',
@@ -40,7 +30,6 @@ export class EditarComponent implements OnInit {
   private readonly userService = inject(UserService);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
-  private readonly snackBar = inject(MatSnackBar);
 
   form = new FormGroup({});
   model: EditUserFormModel = {
@@ -51,6 +40,8 @@ export class EditarComponent implements OnInit {
   };
   loading = signal<boolean>(false);
   userId: string = '';
+  toastMessage = signal<string>('');
+  toastVisible = signal<boolean>(false);
 
   fields: FormlyFieldConfig[] = [
     {
@@ -111,10 +102,7 @@ export class EditarComponent implements OnInit {
       this.userId = id;
       this.loadUser(id);
     } else {
-      this.snackBar.open('ID do usuário não encontrado', 'Fechar', {
-        duration: 5000,
-        panelClass: ['error-snackbar'],
-      });
+      this.showToast('ID do usuário não encontrado');
       this.router.navigate(['/usuarios/gerenciar']);
     }
   }
@@ -133,12 +121,7 @@ export class EditarComponent implements OnInit {
       },
       error: (error) => {
         const errorMessage = error?.error?.message || 'Erro ao carregar usuário';
-        this.snackBar.open(errorMessage, 'Fechar', {
-          duration: 5000,
-          horizontalPosition: 'center',
-          verticalPosition: 'top',
-          panelClass: ['error-snackbar'],
-        });
+        this.showToast(errorMessage);
         this.loading.set(false);
         this.router.navigate(['/usuarios/gerenciar']);
       },
@@ -157,21 +140,14 @@ export class EditarComponent implements OnInit {
 
       this.userService.update(updateData).subscribe({
         next: () => {
-          this.snackBar.open('Usuário atualizado com sucesso!', 'Fechar', {
-            duration: 3000,
-            horizontalPosition: 'center',
-            verticalPosition: 'top',
-          });
-          this.router.navigate(['/usuarios/gerenciar']);
+          this.showToast('Usuário atualizado com sucesso!');
+          setTimeout(() => {
+            this.router.navigate(['/usuarios/gerenciar']);
+          }, 1000);
         },
         error: (error) => {
           const errorMessage = error?.error?.message || 'Erro ao atualizar usuário';
-          this.snackBar.open(errorMessage, 'Fechar', {
-            duration: 5000,
-            horizontalPosition: 'center',
-            verticalPosition: 'top',
-            panelClass: ['error-snackbar'],
-          });
+          this.showToast(errorMessage);
         },
       });
     }
@@ -179,5 +155,13 @@ export class EditarComponent implements OnInit {
 
   onCancel(): void {
     this.router.navigate(['/usuarios/gerenciar']);
+  }
+
+  private showToast(message: string): void {
+    this.toastMessage.set(message);
+    this.toastVisible.set(true);
+    setTimeout(() => {
+      this.toastVisible.set(false);
+    }, 5000);
   }
 }
