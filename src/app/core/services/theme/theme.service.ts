@@ -46,6 +46,16 @@ export class ThemeService {
     localStorage.setItem(this.THEME_STORAGE_KEY, theme);
   }
 
+  private applyThemeToDOM(theme: Theme): void {
+    const htmlElement = document.documentElement;
+    
+    // Remove both classes first
+    htmlElement.classList.remove('light', 'dark');
+    
+    // Add the current theme class
+    htmlElement.classList.add(theme);
+  }
+
   public toggleTheme(): void {
     const newTheme = this._currentTheme() === 'light' ? 'dark' : 'light';
     this.setTheme(newTheme);
@@ -65,19 +75,22 @@ export class ThemeService {
       this.savedTheme = this._currentTheme();
     }
     
-    // Apply the forced theme
-    const htmlElement = document.documentElement;
-    htmlElement.classList.remove('light', 'dark');
-    htmlElement.classList.add(theme);
+    // Apply the forced theme to DOM only (don't update signal or localStorage)
+    this.applyThemeToDOM(theme);
   }
 
   /**
-   * Restore the previously saved theme.
+   * Restore the theme from localStorage.
    * Used to restore user's preference after forcing a theme.
    */
   public restoreTheme(): void {
     if (this.savedTheme !== null) {
-      this.setTheme(this.savedTheme);
+      // Read the current preference from localStorage in case it changed
+      const storedTheme = localStorage.getItem(this.THEME_STORAGE_KEY) as Theme | null;
+      const themeToRestore = storedTheme || this.savedTheme;
+      
+      // Update signal which will trigger applyTheme through the effect
+      this._currentTheme.set(themeToRestore);
       this.savedTheme = null;
     }
   }
