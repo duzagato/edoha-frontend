@@ -1,14 +1,12 @@
 <div class="resumo-container">
   @if (loading()) {
     <div class="loading-container">
-      <mat-spinner></mat-spinner>
+      <p-progressspinner />
     </div>
   } @else if (lottery()) {
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title>Resumo da Rifa: {{ lottery()?.name }}</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
+    <p-card>
+      <ng-template pTemplate="title">Resumo da Rifa: {{ lottery()?.name }}</ng-template>
+      <ng-template pTemplate="content">
         <div class="info-section">
           <h3>Informações Gerais</h3>
           <div class="info-grid">
@@ -42,33 +40,33 @@
         <div class="stats-section">
           <h3>Estatísticas</h3>
           <div class="stats-grid">
-            <mat-card class="stat-card">
-              <mat-card-content>
+            <p-card styleClass="stat-card">
+              <ng-template pTemplate="content">
                 <div class="stat-value">{{ lottery()?.numTicketbooks }}</div>
                 <div class="stat-label">Total de Talões</div>
-              </mat-card-content>
-            </mat-card>
-            <mat-card class="stat-card">
-              <mat-card-content>
+              </ng-template>
+            </p-card>
+            <p-card styleClass="stat-card">
+              <ng-template pTemplate="content">
                 <div class="stat-value">{{ lottery()!.numTicketsTicketbook * lottery()!.numTicketbooks }}</div>
                 <div class="stat-label">Total de Números</div>
-              </mat-card-content>
-            </mat-card>
-            <mat-card class="stat-card">
-              <mat-card-content>
+              </ng-template>
+            </p-card>
+            <p-card styleClass="stat-card">
+              <ng-template pTemplate="content">
                 <div class="stat-value">R$ {{ lottery()!.priceTicket * lottery()!.numTicketsTicketbook * lottery()!.numTicketbooks | number: '1.2-2' }}</div>
                 <div class="stat-label">Valor Total</div>
-              </mat-card-content>
-            </mat-card>
+              </ng-template>
+            </p-card>
           </div>
         </div>
-      </mat-card-content>
-    </mat-card>
+      </ng-template>
+    </p-card>
   } @else {
-    <mat-card>
-      <mat-card-content>
+    <p-card>
+      <ng-template pTemplate="content">
         <p>Rifa não encontrada.</p>
-      </mat-card-content>
-    </mat-card>
+      </ng-template>
+    </p-card>
   }
 </div>

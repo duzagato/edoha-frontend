@@ -1,93 +1,64 @@
 <div class="gerenciar-container">
-  <mat-card class="gerenciar-card">
-    <mat-card-header>
-      <mat-card-title>
-        <div class="header-title">
-          <span>Gerenciar Rifas</span>
-          <button mat-raised-button color="primary" (click)="navigateToAdd()">
-            <mat-icon>add</mat-icon>
-            Adicionar Rifa
-          </button>
-        </div>
-      </mat-card-title>
-    </mat-card-header>
-
-    <mat-card-content>
+  <p-card>
+    <ng-template pTemplate="title">
+      <div class="header-title">
+        <span>Gerenciar Rifas</span>
+        <p-button label="Adicionar Rifa" icon="pi pi-plus" (onClick)="navigateToAdd()" />
+      </div>
+    </ng-template>
+    <ng-template pTemplate="content">
       @if (loading()) {
         <div class="loading-container">
-          <mat-spinner></mat-spinner>
+          <p-progressspinner />
           <p>Carregando rifas...</p>
         </div>
       } @else if (lotteries().length === 0) {
         <div class="empty-state">
-          <mat-icon>inbox</mat-icon>
+          <i class="pi pi-inbox" style="font-size: 4rem; color: rgba(0,0,0,0.3)"></i>
           <p>Nenhuma rifa cadastrada</p>
-          <button mat-raised-button color="primary" (click)="navigateToAdd()">
-            <mat-icon>add</mat-icon>
-            Criar primeira rifa
-          </button>
+          <p-button label="Criar primeira rifa" icon="pi pi-plus" (onClick)="navigateToAdd()" />
         </div>
       } @else {
-        <div class="table-container">
-          <table mat-table [dataSource]="lotteries()" class="lottery-table">
-            <!-- Name Column -->
-            <ng-container matColumnDef="name">
-              <th mat-header-cell *matHeaderCellDef>Nome</th>
-              <td mat-cell *matCellDef="let lottery">{{ lottery.name }}</td>
-            </ng-container>
-
-            <!-- Tickets per Ticketbook Column -->
-            <ng-container matColumnDef="numTicketsTicketbook">
-              <th mat-header-cell *matHeaderCellDef>Bilhetes/Talão</th>
-              <td mat-cell *matCellDef="let lottery">{{ lottery.numTicketsTicketbook }}</td>
-            </ng-container>
-
-            <!-- Number of Ticketbooks Column -->
-            <ng-container matColumnDef="numTicketbooks">
-              <th mat-header-cell *matHeaderCellDef>Qtd. Talões</th>
-              <td mat-cell *matCellDef="let lottery">{{ lottery.numTicketbooks }}</td>
-            </ng-container>
-
-            <!-- Ticket Price Column -->
-            <ng-container matColumnDef="priceTicket">
-              <th mat-header-cell *matHeaderCellDef>Preço Bilhete</th>
-              <td mat-cell *matCellDef="let lottery">{{ lottery.priceTicket | currency: 'BRL' }}</td>
-            </ng-container>
-
-            <!-- Double Chance Column -->
-            <ng-container matColumnDef="doubleChance">
-              <th mat-header-cell *matHeaderCellDef>Chance Dupla</th>
-              <td mat-cell *matCellDef="let lottery">
+        <p-table [value]="lotteries()" [tableStyle]="{ 'min-width': '50rem' }">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Nome</th>
+              <th>Bilhetes/Talão</th>
+              <th>Qtd. Talões</th>
+              <th>Preço Bilhete</th>
+              <th>Chance Dupla</th>
+              <th>Criado em</th>
+              <th>Ações</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-lottery>
+            <tr>
+              <td>{{ lottery.name }}</td>
+              <td>{{ lottery.numTicketsTicketbook }}</td>
+              <td>{{ lottery.numTicketbooks }}</td>
+              <td>{{ lottery.priceTicket | currency: 'BRL' }}</td>
+              <td>
                 @if (lottery.doubleChance) {
-                  <mat-icon color="primary">check_circle</mat-icon>
-                }
-                @if (!lottery.doubleChance) {
-                  <mat-icon color="warn">cancel</mat-icon>
+                  <i class="pi pi-check-circle" style="color: var(--color-primary, #2196f3)"></i>
+                } @else {
+                  <i class="pi pi-times-circle" style="color: var(--color-danger, #d32f2f)"></i>
                 }
               </td>
-            </ng-container>
-
-            <!-- Created At Column -->
-            <ng-container matColumnDef="createdAt">
-              <th mat-header-cell *matHeaderCellDef>Criado em</th>
-              <td mat-cell *matCellDef="let lottery">{{ lottery.createdAt | date: 'dd/MM/yyyy HH:mm' }}</td>
-            </ng-container>
-
-            <!-- Actions Column -->
-            <ng-container matColumnDef="actions">
-              <th mat-header-cell *matHeaderCellDef>Ações</th>
-              <td mat-cell *matCellDef="let lottery">
-                <button mat-icon-button color="warn" (click)="deleteLottery(lottery)" title="Excluir">
-                  <mat-icon>delete</mat-icon>
-                </button>
+              <td>{{ lottery.createdAt | date: 'dd/MM/yyyy HH:mm' }}</td>
+              <td>
+                <p-button
+                  icon="pi pi-trash"
+                  [text]="true"
+                  [rounded]="true"
+                  severity="danger"
+                  (onClick)="deleteLottery(lottery)"
+                  title="Excluir"
+                />
               </td>
-            </ng-container>
-
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-          </table>
-        </div>
+            </tr>
+          </ng-template>
+        </p-table>
       }
-    </mat-card-content>
-  </mat-card>
+    </ng-template>
+  </p-card>
 </div>

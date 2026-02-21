@@ -1,13 +1,11 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { MatCardModule } from '@angular/material/card';
-import { MatTableModule } from '@angular/material/table';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { TableModule } from 'primeng/table';
+import { ButtonModule } from 'primeng/button';
+import { CardModule } from 'primeng/card';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { MessageService } from 'primeng/api';
 import { UserService } from '../../../core/services/requests/user.service';
 import { UserDTO } from '../../../core/models/user';
 import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialog/confirm-dialog.component';
@@ -17,13 +15,11 @@ import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialo
   standalone: true,
   imports: [
     CommonModule,
-    MatCardModule,
-    MatTableModule,
-    MatButtonModule,
-    MatIconModule,
-    MatProgressSpinnerModule,
-    MatSnackBarModule,
-    MatDialogModule,
+    TableModule,
+    ButtonModule,
+    CardModule,
+    ProgressSpinnerModule,
+    ConfirmDialogComponent,
   ],
   templateUrl: './gerenciar.component.html',
   styleUrl: './gerenciar.component.scss',
@@ -31,12 +27,12 @@ import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialo
 export class GerenciarComponent implements OnInit {
   private readonly userService = inject(UserService);
   private readonly router = inject(Router);
-  private readonly snackBar = inject(MatSnackBar);
-  private readonly dialog = inject(MatDialog);
+  private readonly messageService = inject(MessageService);
+
+  @ViewChild('confirmDialog') confirmDialog!: ConfirmDialogComponent;
 
   users = signal<UserDTO[]>([]);
   loading = signal<boolean>(false);
-  displayedColumns: string[] = ['name', 'nickname', 'phone', 'idUserType', 'createdAt', 'actions'];
 
   ngOnInit(): void {
     this.loadUsers();
@@ -52,50 +48,38 @@ export class GerenciarComponent implements OnInit {
       error: (error) => {
         this.loading.set(false);
         const errorMessage = error?.error?.message || 'Erro ao carregar usuários';
-        this.snackBar.open(errorMessage, 'Fechar', {
-          duration: 5000,
-          horizontalPosition: 'center',
-          verticalPosition: 'top',
-          panelClass: ['error-snackbar'],
-        });
+        this.messageService.add({ severity: 'error', summary: 'Erro', detail: errorMessage, life: 5000 });
       },
     });
   }
 
   deleteUser(user: UserDTO): void {
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '400px',
-      data: {
+    this.confirmDialog
+      .open({
         title: 'Confirmar Exclusão',
         message: `Tem certeza que deseja excluir o usuário "${user.name}"?`,
         confirmText: 'Excluir',
         cancelText: 'Cancelar',
-      },
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.userService.delete(user.id).subscribe({
-          next: () => {
-            this.snackBar.open('Usuário excluído com sucesso!', 'Fechar', {
-              duration: 3000,
-              horizontalPosition: 'center',
-              verticalPosition: 'top',
-            });
-            this.loadUsers();
-          },
-          error: (error) => {
-            const errorMessage = error?.error?.message || 'Erro ao excluir usuário';
-            this.snackBar.open(errorMessage, 'Fechar', {
-              duration: 5000,
-              horizontalPosition: 'center',
-              verticalPosition: 'top',
-              panelClass: ['error-snackbar'],
-            });
-          },
-        });
-      }
-    });
+      })
+      .then((result) => {
+        if (result) {
+          this.userService.delete(user.id).subscribe({
+            next: () => {
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Sucesso',
+                detail: 'Usuário excluído com sucesso!',
+                life: 3000,
+              });
+              this.loadUsers();
+            },
+            error: (error) => {
+              const errorMessage = error?.error?.message || 'Erro ao excluir usuário';
+              this.messageService.add({ severity: 'error', summary: 'Erro', detail: errorMessage, life: 5000 });
+            },
+          });
+        }
+      });
   }
 
   editUser(user: UserDTO): void {

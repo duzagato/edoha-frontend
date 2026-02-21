@@ -1,3 +1,4 @@
+<p-toast />
 <div class="full-wrapper flex justify-content-center align-items-center min-h-screen">
   <p-card class="login-card bg-1" styleClass="p-4 shadow-4">
     <ng-template pTemplate="header">
@@ -8,13 +9,27 @@
     </ng-template>
 
     <form [formGroup]="form" (ngSubmit)="onSubmit()" class="flex flex-column gap-3">
-      <formly-form [form]="form" [fields]="fields" [model]="model"></formly-form>
+      <div class="form-field">
+        <label for="nickname">Apelido</label>
+        <input pInputText id="nickname" formControlName="nickname" placeholder="Apelido" class="w-full" />
+        @if (form.get('nickname')?.invalid && form.get('nickname')?.touched) {
+          <small class="error-msg">Apelido é obrigatório</small>
+        }
+      </div>
+
+      <div class="form-field">
+        <label for="password">Senha</label>
+        <p-password id="password" formControlName="password" placeholder="********" [feedback]="false" [toggleMask]="true" styleClass="w-full" />
+        @if (form.get('password')?.invalid && form.get('password')?.touched) {
+          <small class="error-msg">Senha é obrigatória</small>
+        }
+      </div>
 
       <div class="flex justify-content-center mt-4">
-        <p-button 
-          type="submit" 
-          label="Entrar" 
-          icon="pi pi-sign-in" 
+        <p-button
+          type="submit"
+          label="Entrar"
+          icon="pi pi-sign-in"
           [disabled]="!form.valid"
           styleClass="w-full font-bold btn-1">
         </p-button>

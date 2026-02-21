@@ -1,10 +1,10 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { MatCardModule } from '@angular/material/card';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { MatTableModule } from '@angular/material/table';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { CardModule } from 'primeng/card';
+import { AccordionModule } from 'primeng/accordion';
+import { TableModule } from 'primeng/table';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { LotteryMockService } from '../../../../core/services/lottery-mock.service';
 import { LotteryDTO } from '../../../../core/models/lottery';
 
@@ -20,13 +20,7 @@ interface TicketbookData {
 @Component({
   selector: 'app-gerenciar-detail',
   standalone: true,
-  imports: [
-    CommonModule,
-    MatCardModule,
-    MatExpansionModule,
-    MatTableModule,
-    MatProgressSpinnerModule,
-  ],
+  imports: [CommonModule, CardModule, AccordionModule, TableModule, ProgressSpinnerModule],
   templateUrl: './gerenciar.component.html',
   styleUrl: './gerenciar.component.scss',
 })
@@ -37,52 +31,16 @@ export class GerenciarDetailComponent implements OnInit {
   lottery = signal<LotteryDTO | undefined>(undefined);
   loading = signal<boolean>(false);
 
-  // Mock data for withdrawn ticketbooks
   withdrawnTicketbooks = signal<TicketbookData[]>([
-    {
-      number: 1,
-      holder: 'João Silva',
-      owner: 'Maria Santos',
-      withdrawnDate: '2024-01-10',
-      status: 'Retirado',
-    },
-    {
-      number: 5,
-      holder: 'Pedro Oliveira',
-      owner: 'Ana Costa',
-      withdrawnDate: '2024-01-12',
-      status: 'Retirado',
-    },
-    {
-      number: 8,
-      holder: 'Carlos Souza',
-      owner: 'Fernanda Lima',
-      withdrawnDate: '2024-01-15',
-      status: 'Retirado',
-    },
+    { number: 1, holder: 'João Silva', owner: 'Maria Santos', withdrawnDate: '2024-01-10', status: 'Retirado' },
+    { number: 5, holder: 'Pedro Oliveira', owner: 'Ana Costa', withdrawnDate: '2024-01-12', status: 'Retirado' },
+    { number: 8, holder: 'Carlos Souza', owner: 'Fernanda Lima', withdrawnDate: '2024-01-15', status: 'Retirado' },
   ]);
 
-  // Mock data for returned ticketbooks
   returnedTicketbooks = signal<TicketbookData[]>([
-    {
-      number: 2,
-      holder: 'José Santos',
-      owner: 'Ricardo Alves',
-      withdrawnDate: '2024-01-08',
-      devolutionDate: '2024-01-20',
-      status: 'Devolvido',
-    },
-    {
-      number: 3,
-      holder: 'Marcos Pereira',
-      owner: 'Juliana Rocha',
-      withdrawnDate: '2024-01-09',
-      devolutionDate: '2024-01-21',
-      status: 'Devolvido',
-    },
+    { number: 2, holder: 'José Santos', owner: 'Ricardo Alves', withdrawnDate: '2024-01-08', devolutionDate: '2024-01-20', status: 'Devolvido' },
+    { number: 3, holder: 'Marcos Pereira', owner: 'Juliana Rocha', withdrawnDate: '2024-01-09', devolutionDate: '2024-01-21', status: 'Devolvido' },
   ]);
-
-  displayedColumns: string[] = ['number', 'holder', 'owner', 'withdrawnDate', 'devolutionDate', 'status'];
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');

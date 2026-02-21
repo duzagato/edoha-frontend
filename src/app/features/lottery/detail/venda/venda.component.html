@@ -1,154 +1,87 @@
 <div class="venda-container">
   @if (loading()) {
     <div class="loading-container">
-      <mat-spinner></mat-spinner>
+      <p-progressspinner />
     </div>
   } @else if (lottery()) {
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title>Venda de Número - {{ lottery()?.name }}</mat-card-title>
-        <mat-card-subtitle>Registre a venda de um número</mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content>
+    <p-card>
+      <ng-template pTemplate="title">Venda de Número - {{ lottery()?.name }}</ng-template>
+      <ng-template pTemplate="subtitle">Registre a venda de um número</ng-template>
+      <ng-template pTemplate="content">
         <form [formGroup]="vendaForm" (ngSubmit)="onSubmit()" class="form-container">
           <div class="form-row">
-            <mat-form-field appearance="outline" class="half-width">
-              <mat-label>Número do Talão</mat-label>
-              <input
-                matInput
-                type="number"
-                formControlName="ticketbookNumber"
-                placeholder="Digite o número do talão"
-              />
-              @if (vendaForm.get('ticketbookNumber')?.hasError('required')) {
-                <mat-error>Número do talão é obrigatório</mat-error>
+            <div class="form-field half-width">
+              <label for="ticketbookNumber">Número do Talão *</label>
+              <p-inputnumber id="ticketbookNumber" formControlName="ticketbookNumber" placeholder="Digite o número do talão" [min]="1" styleClass="w-full" />
+              @if (vendaForm.get('ticketbookNumber')?.hasError('required') && vendaForm.get('ticketbookNumber')?.touched) {
+                <small class="error-msg">Número do talão é obrigatório</small>
               }
-              @if (vendaForm.get('ticketbookNumber')?.hasError('min')) {
-                <mat-error>Número deve ser maior que zero</mat-error>
-              }
-            </mat-form-field>
+            </div>
 
-            <mat-form-field appearance="outline" class="half-width">
-              <mat-label>Número do Bilhete</mat-label>
-              <input
-                matInput
-                type="number"
-                formControlName="ticketNumber"
-                placeholder="Digite o número do bilhete"
-              />
-              @if (vendaForm.get('ticketNumber')?.hasError('required')) {
-                <mat-error>Número do bilhete é obrigatório</mat-error>
+            <div class="form-field half-width">
+              <label for="ticketNumber">Número do Bilhete *</label>
+              <p-inputnumber id="ticketNumber" formControlName="ticketNumber" placeholder="Digite o número do bilhete" [min]="1" styleClass="w-full" />
+              @if (vendaForm.get('ticketNumber')?.hasError('required') && vendaForm.get('ticketNumber')?.touched) {
+                <small class="error-msg">Número do bilhete é obrigatório</small>
               }
-              @if (vendaForm.get('ticketNumber')?.hasError('min')) {
-                <mat-error>Número deve ser maior que zero</mat-error>
-              }
-            </mat-form-field>
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label for="donaterName">Nome do Comprador *</label>
+            <input pInputText id="donaterName" formControlName="donaterName" placeholder="Digite o nome do comprador" class="w-full" />
+            @if (vendaForm.get('donaterName')?.hasError('required') && vendaForm.get('donaterName')?.touched) {
+              <small class="error-msg">Nome do comprador é obrigatório</small>
+            }
+          </div>
+
+          <div class="form-field">
+            <label for="donaterPhone">Telefone do Comprador *</label>
+            <input pInputText id="donaterPhone" formControlName="donaterPhone" placeholder="Digite o telefone do comprador" class="w-full" />
+            @if (vendaForm.get('donaterPhone')?.hasError('required') && vendaForm.get('donaterPhone')?.touched) {
+              <small class="error-msg">Telefone do comprador é obrigatório</small>
+            }
           </div>
 
           <div class="form-row">
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Nome do Comprador</mat-label>
-              <input
-                matInput
-                formControlName="donaterName"
-                placeholder="Digite o nome do comprador"
-              />
-              @if (vendaForm.get('donaterName')?.hasError('required')) {
-                <mat-error>Nome do comprador é obrigatório</mat-error>
+            <div class="form-field half-width">
+              <label for="soldDate">Data da Venda *</label>
+              <p-datepicker id="soldDate" formControlName="soldDate" dateFormat="dd/mm/yy" styleClass="w-full" />
+              @if (vendaForm.get('soldDate')?.hasError('required') && vendaForm.get('soldDate')?.touched) {
+                <small class="error-msg">Data da venda é obrigatória</small>
               }
-            </mat-form-field>
+            </div>
+
+            <div class="form-field half-width">
+              <label for="amount">Valor *</label>
+              <p-inputnumber id="amount" formControlName="amount" placeholder="0.00" [min]="0" [minFractionDigits]="2" [maxFractionDigits]="2" mode="currency" currency="BRL" styleClass="w-full" />
+              @if (vendaForm.get('amount')?.hasError('required') && vendaForm.get('amount')?.touched) {
+                <small class="error-msg">Valor é obrigatório</small>
+              }
+            </div>
           </div>
 
-          <div class="form-row">
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Telefone do Comprador</mat-label>
-              <input
-                matInput
-                formControlName="donaterPhone"
-                placeholder="Digite o telefone do comprador"
-              />
-              @if (vendaForm.get('donaterPhone')?.hasError('required')) {
-                <mat-error>Telefone do comprador é obrigatório</mat-error>
-              }
-            </mat-form-field>
-          </div>
-
-          <div class="form-row">
-            <mat-form-field appearance="outline" class="half-width">
-              <mat-label>Data da Venda</mat-label>
-              <input
-                matInput
-                [matDatepicker]="picker"
-                formControlName="soldDate"
-              />
-              <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-              <mat-datepicker #picker></mat-datepicker>
-              @if (vendaForm.get('soldDate')?.hasError('required')) {
-                <mat-error>Data da venda é obrigatória</mat-error>
-              }
-            </mat-form-field>
-
-            <mat-form-field appearance="outline" class="half-width">
-              <mat-label>Valor</mat-label>
-              <input
-                matInput
-                type="number"
-                formControlName="amount"
-                placeholder="0.00"
-                step="0.01"
-              />
-              <span matTextPrefix>R$&nbsp;</span>
-              @if (vendaForm.get('amount')?.hasError('required')) {
-                <mat-error>Valor é obrigatório</mat-error>
-              }
-              @if (vendaForm.get('amount')?.hasError('min')) {
-                <mat-error>Valor deve ser maior ou igual a zero</mat-error>
-              }
-            </mat-form-field>
-          </div>
-
-          <div class="form-row">
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Observações</mat-label>
-              <textarea
-                matInput
-                formControlName="observations"
-                rows="3"
-                placeholder="Observações adicionais (opcional)"
-              ></textarea>
-            </mat-form-field>
+          <div class="form-field">
+            <label for="observations">Observações</label>
+            <textarea pTextarea id="observations" formControlName="observations" rows="3" placeholder="Observações adicionais (opcional)" class="w-full"></textarea>
           </div>
 
           <div class="form-actions">
-            <button
-              mat-raised-button
-              type="button"
-              (click)="onCancel()"
-              [disabled]="submitting()"
-            >
-              Cancelar
-            </button>
-            <button
-              mat-raised-button
-              color="primary"
-              type="submit"
-              [disabled]="!vendaForm.valid || submitting()"
-            >
+            <p-button type="button" label="Cancelar" [outlined]="true" (onClick)="onCancel()" [disabled]="submitting()" />
+            <p-button type="submit" label="Registrar Venda" [disabled]="!vendaForm.valid || submitting()">
               @if (submitting()) {
-                <mat-spinner diameter="20"></mat-spinner>
-              } @else {
-                Registrar Venda
+                <p-progressspinner styleClass="spinner-inline" />
               }
-            </button>
+            </p-button>
           </div>
         </form>
-      </mat-card-content>
-    </mat-card>
+      </ng-template>
+    </p-card>
   } @else {
-    <mat-card>
-      <mat-card-content>
+    <p-card>
+      <ng-template pTemplate="content">
         <p>Rifa não encontrada.</p>
-      </mat-card-content>
-    </mat-card>
+      </ng-template>
+    </p-card>
   }
 </div>

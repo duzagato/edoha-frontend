@@ -11,19 +11,11 @@
   min-height: 400px;
 }
 
-mat-card {
-  margin-bottom: 20px;
-}
-
 .accordion-section {
   margin-top: 20px;
-
-  mat-expansion-panel {
-    margin-bottom: 16px;
-  }
 }
 
-mat-panel-title {
+.accordion-title {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -39,26 +31,6 @@ mat-panel-title {
     border-radius: 12px;
     font-size: 0.875rem;
     font-weight: 500;
-  }
-}
-
-.table-container {
-  overflow-x: auto;
-  margin-top: 16px;
-}
-
-.full-width-table {
-  width: 100%;
-}
-
-table {
-  mat-header-cell {
-    font-weight: 600;
-    color: #333;
-  }
-
-  mat-cell {
-    color: #666;
   }
 }
 
@@ -82,15 +54,5 @@ table {
 @media (max-width: 768px) {
   .gerenciar-container {
     padding: 10px;
-  }
-
-  mat-panel-title {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-  }
-
-  .table-container {
-    font-size: 0.875rem;
   }
 }

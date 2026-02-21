@@ -4,21 +4,11 @@
   margin: 0 auto;
 }
 
-.adicionar-card {
-  width: 100%;
-}
-
 .header-title {
   display: flex;
   align-items: center;
   gap: 12px;
   padding: 16px 0;
-
-  mat-icon {
-    font-size: 32px;
-    width: 32px;
-    height: 32px;
-  }
 
   span {
     font-size: 24px;
@@ -28,12 +18,31 @@
 
 .lottery-form {
   padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
 
-  formly-form {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  label {
+    font-weight: 500;
+    font-size: 0.875rem;
   }
+
+  &.form-field-checkbox {
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+  }
+}
+
+.error-msg {
+  color: #d32f2f;
+  font-size: 0.75rem;
 }
 
 .form-actions {
@@ -43,10 +52,6 @@
   margin-top: 24px;
   padding-top: 24px;
   border-top: 1px solid rgba(0, 0, 0, 0.12);
-
-  button {
-    min-width: 120px;
-  }
 }
 
 @media (max-width: 768px) {
@@ -56,9 +61,5 @@
 
   .form-actions {
     flex-direction: column-reverse;
-
-    button {
-      width: 100%;
-    }
   }
 }

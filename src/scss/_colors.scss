@@ -1,61 +1,7 @@
-@use '@angular/material' as mat;
 @use 'palettes' as palettes;
-
-$custom-green-palette: (
-  0: #000000,
-  10: #002106,
-  20: #003910,
-  25: #00461a,
-  30: #005323,
-  35: #00612d,
-  40: #006e37,
-  50: #008a49,
-  60: #00a85c,
-  70: #1ec56e,
-  80: #4ee285,
-  90: #70df9c,
-  95: #c1f2ce,
-  98: #e6f9eb,
-  99: #f3fcf4,
-  100: #ffffff,
-);
-
-// Light theme configuration
-$light-theme: mat.define-theme((
-  color: (
-    theme-type: light,
-    primary: mat.$azure-palette,
-    tertiary: mat.$cyan-palette,
-  ),
-  typography: (
-    brand-family: 'Titillium Web, sans-serif',
-  ),
-  density: (
-    scale: 0,
-  ),
-));
-
-// Dark theme configuration
-$dark-theme: mat.define-theme((
-  color: (
-    theme-type: dark,
-    primary: mat.$azure-palette,
-    tertiary: mat.$cyan-palette,
-  ),
-  typography: (
-    brand-family: 'Titillium Web, sans-serif',
-  ),
-  density: (
-    scale: 0,
-  ),
-));
 
 // Apply light theme by default
 html {
-  @include mat.all-component-themes($light-theme);
-
-  --mat-sys-surface: #0F2027;
-
   --color-primary-light: #90caf9;
   --color-primary: #2196f3;
   --color-primary-dark: #1976d2;
@@ -81,9 +27,6 @@ html {
 
 // Apply dark theme when data-theme="dark"
 html[data-theme="dark"] {
-  @include mat.all-component-colors($dark-theme);
-  
-  --mat-sys-surface: #0F2027;
   --color-surface-gradient: linear-gradient(to bottom, #0F2027, #203A43, #2C5364);
 
   --color-primary-light: #90caf9;
@@ -109,11 +52,11 @@ html[data-theme="dark"] {
   --gradient-surface: linear-gradient(to bottom, palettes.$blue-4, palettes.$blue-5);
 }
 
-// Body styling - uses Angular Material system tokens for automatic theme integration
+// Body styling
 body {
-  background-color: var(--mat-sys-surface);
+  background-color: #0F2027;
   background: linear-gradient(to bottom, palettes.$blue-4, palettes.$blue-5);
-  color: var(--mat-sys-on-surface);
+  color: #ffffff;
   margin: 0;
 }
 

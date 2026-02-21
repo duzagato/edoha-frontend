@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
+import { CardModule } from 'primeng/card';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [MatCardModule],
+  imports: [CardModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })

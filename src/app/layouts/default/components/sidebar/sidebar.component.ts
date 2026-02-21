@@ -1,28 +1,15 @@
 import { Component, signal, OnInit, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { MatListModule } from '@angular/material/list';
-import { MatIconModule } from '@angular/material/icon';
-import { MatExpansionModule } from '@angular/material/expansion';
+import { PanelMenuModule } from 'primeng/panelmenu';
+import { MenuItem } from 'primeng/api';
 
 import { LotteryMockService } from '../../../../core/services/lottery-mock.service';
 import { LotteryDTO } from '../../../../core/models/lottery';
 
-interface MenuItem {
-  title: string;
-  icon: string;
-  route?: string;
-  children?: MenuItem[];
-}
-
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [
-    RouterModule,
-    MatListModule,
-    MatIconModule,
-    MatExpansionModule
-],
+  imports: [RouterModule, PanelMenuModule],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
 })
@@ -30,7 +17,6 @@ export class SidebarComponent implements OnInit {
   private readonly lotteryMockService = inject(LotteryMockService);
 
   menuItems = signal<MenuItem[]>([]);
-  lotteries = signal<LotteryDTO[]>([]);
 
   ngOnInit(): void {
     this.loadLotteries();
@@ -39,49 +25,46 @@ export class SidebarComponent implements OnInit {
   private loadLotteries(): void {
     this.lotteryMockService.getAllLotteries().subscribe({
       next: (lotteries) => {
-        this.lotteries.set(lotteries);
         this.buildMenuItems(lotteries);
       },
     });
   }
 
   private buildMenuItems(lotteries: LotteryDTO[]): void {
-    const baseMenuItems: MenuItem[] = [
+    const items: MenuItem[] = [
       {
-        title: 'Home',
-        icon: 'home',
-        route: '/',
+        label: 'Home',
+        icon: 'pi pi-home',
+        routerLink: '/',
       },
       {
-        title: 'Usuário',
-        icon: 'person',
-        children: [
-          { title: 'Gerenciar Usuários', icon: 'manage_accounts', route: '/usuarios/gerenciar' },
-          { title: 'Adicionar Usuário', icon: 'person_add', route: '/usuarios/adicionar' },
+        label: 'Usuário',
+        icon: 'pi pi-user',
+        items: [
+          { label: 'Gerenciar Usuários', icon: 'pi pi-users', routerLink: '/usuarios/gerenciar' },
+          { label: 'Adicionar Usuário', icon: 'pi pi-user-plus', routerLink: '/usuarios/adicionar' },
         ],
       },
       {
-        title: 'Rifa',
-        icon: 'confirmation_number',
-        children: [
-          { title: 'Gerenciar Rifas', icon: 'list', route: '/rifas/gerenciar' },
-          { title: 'Adicionar Rifa', icon: 'add_circle', route: '/rifas/adicionar' },
+        label: 'Rifa',
+        icon: 'pi pi-ticket',
+        items: [
+          { label: 'Gerenciar Rifas', icon: 'pi pi-list', routerLink: '/rifas/gerenciar' },
+          { label: 'Adicionar Rifa', icon: 'pi pi-plus-circle', routerLink: '/rifas/adicionar' },
         ],
       },
+      ...lotteries.map((lottery) => ({
+        label: lottery.name,
+        icon: 'pi pi-ticket',
+        items: [
+          { label: 'Resumo', icon: 'pi pi-chart-bar', routerLink: `/rifas/${lottery.id}/resumo` },
+          { label: 'Gerenciar', icon: 'pi pi-cog', routerLink: `/rifas/${lottery.id}/gerenciar` },
+          { label: 'Retirada de talão', icon: 'pi pi-download', routerLink: `/rifas/${lottery.id}/retirada` },
+          { label: 'Venda de Número', icon: 'pi pi-tag', routerLink: `/rifas/${lottery.id}/venda` },
+        ],
+      })),
     ];
 
-    // Add dynamic lottery menu items after the main Rifa menu
-    const lotteryMenuItems: MenuItem[] = lotteries.map((lottery) => ({
-      title: lottery.name,
-      icon: 'confirmation_number',
-      children: [
-        { title: 'Resumo', icon: 'dashboard', route: `/rifas/${lottery.id}/resumo` },
-        { title: 'Gerenciar', icon: 'settings', route: `/rifas/${lottery.id}/gerenciar` },
-        { title: 'Retirada de talão', icon: 'file_download', route: `/rifas/${lottery.id}/retirada` },
-        { title: 'Venda de Número', icon: 'sell', route: `/rifas/${lottery.id}/venda` },
-      ],
-    }));
-
-    this.menuItems.set([...baseMenuItems, ...lotteryMenuItems]);
+    this.menuItems.set(items);
   }
 }

@@ -3,26 +3,47 @@
   flex-direction: column;
   height: 100vh;
 
-  .drawer-container {
+  .layout-body {
+    display: flex;
     flex: 1;
     height: calc(100vh - 64px);
+    position: relative;
+    overflow: hidden;
 
-    .drawer {
+    .sidebar {
       width: 280px;
+      height: 100%;
+      flex-shrink: 0;
       border-right: 1px solid rgba(0, 0, 0, 0.12);
+      overflow-y: auto;
+      transform: translateX(-280px);
+      transition: transform 0.3s ease;
+
+      &.sidebar-open {
+        transform: translateX(0);
+      }
+
+      &.sidebar-overlay {
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: 100;
+        background: white;
+      }
+    }
+
+    .sidebar-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 99;
     }
 
     .main-content {
+      flex: 1;
       padding: 24px;
       overflow: auto;
       background-color: #f5f5f5;
     }
-  }
-}
-
-@media (max-width: 960px) {
-  .default-layout .drawer-container .drawer {
-    width: 100%;
-    max-width: 280px;
   }
 }

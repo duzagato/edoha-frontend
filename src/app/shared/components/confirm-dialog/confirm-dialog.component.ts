@@ -1,6 +1,6 @@
-import { Component, inject } from '@angular/core';
-import { MatDialogModule, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { MatButtonModule } from '@angular/material/button';
+import { Component } from '@angular/core';
+import { ButtonModule } from 'primeng/button';
+import { DialogModule } from 'primeng/dialog';
 
 export interface ConfirmDialogData {
   title: string;
@@ -12,36 +12,52 @@ export interface ConfirmDialogData {
 @Component({
   selector: 'app-confirm-dialog',
   standalone: true,
-  imports: [MatDialogModule, MatButtonModule],
+  imports: [DialogModule, ButtonModule],
   template: `
-    <h2 mat-dialog-title>{{ data.title }}</h2>
-    <mat-dialog-content>
+    <p-dialog
+      [header]="data.title"
+      [(visible)]="visible"
+      [modal]="true"
+      [style]="{ width: '400px' }"
+      [closable]="false"
+    >
       <p>{{ data.message }}</p>
-    </mat-dialog-content>
-    <mat-dialog-actions align="end">
-      <button mat-button (click)="onCancel()">{{ data.cancelText || 'Cancelar' }}</button>
-      <button mat-raised-button color="warn" (click)="onConfirm()">
-        {{ data.confirmText || 'Confirmar' }}
-      </button>
-    </mat-dialog-actions>
+      <ng-template pTemplate="footer">
+        <p-button
+          [label]="data.cancelText || 'Cancelar'"
+          [text]="true"
+          (onClick)="onCancel()"
+        />
+        <p-button
+          [label]="data.confirmText || 'Confirmar'"
+          severity="danger"
+          (onClick)="onConfirm()"
+        />
+      </ng-template>
+    </p-dialog>
   `,
-  styles: [
-    `
-      mat-dialog-content {
-        padding: 20px 0;
-      }
-    `,
-  ],
 })
 export class ConfirmDialogComponent {
-  data: ConfirmDialogData = inject(MAT_DIALOG_DATA);
-  private dialogRef = inject(MatDialogRef<ConfirmDialogComponent>);
+  data: ConfirmDialogData = { title: '', message: '' };
+  visible = false;
+
+  private resolveCallback?: (result: boolean) => void;
+
+  open(dialogData: ConfirmDialogData): Promise<boolean> {
+    this.data = dialogData;
+    this.visible = true;
+    return new Promise<boolean>((resolve) => {
+      this.resolveCallback = resolve;
+    });
+  }
 
   onConfirm(): void {
-    this.dialogRef.close(true);
+    this.visible = false;
+    this.resolveCallback?.(true);
   }
 
   onCancel(): void {
-    this.dialogRef.close(false);
+    this.visible = false;
+    this.resolveCallback?.(false);
   }
 }

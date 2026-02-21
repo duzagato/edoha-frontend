@@ -1,15 +1,15 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { MatCardModule } from '@angular/material/card';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { CardModule } from 'primeng/card';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { LotteryMockService } from '../../../../core/services/lottery-mock.service';
 import { LotteryDTO } from '../../../../core/models/lottery';
 
 @Component({
   selector: 'app-resumo',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatProgressSpinnerModule],
+  imports: [CommonModule, CardModule, ProgressSpinnerModule],
   templateUrl: './resumo.component.html',
   styleUrl: './resumo.component.scss',
 })

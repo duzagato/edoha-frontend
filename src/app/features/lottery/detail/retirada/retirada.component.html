@@ -1,120 +1,67 @@
 <div class="retirada-container">
   @if (loading()) {
     <div class="loading-container">
-      <mat-spinner></mat-spinner>
+      <p-progressspinner />
     </div>
   } @else if (lottery()) {
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title>Retirada de Talão - {{ lottery()?.name }}</mat-card-title>
-        <mat-card-subtitle>Registre a retirada de um novo talão</mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content>
+    <p-card>
+      <ng-template pTemplate="title">Retirada de Talão - {{ lottery()?.name }}</ng-template>
+      <ng-template pTemplate="subtitle">Registre a retirada de um novo talão</ng-template>
+      <ng-template pTemplate="content">
         <form [formGroup]="retiradaForm" (ngSubmit)="onSubmit()" class="form-container">
-          <div class="form-row">
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Número do Talão</mat-label>
-              <input
-                matInput
-                type="number"
-                formControlName="ticketbookNumber"
-                placeholder="Digite o número do talão"
-              />
-              @if (retiradaForm.get('ticketbookNumber')?.hasError('required')) {
-                <mat-error>Número do talão é obrigatório</mat-error>
-              }
-              @if (retiradaForm.get('ticketbookNumber')?.hasError('min')) {
-                <mat-error>Número deve ser maior que zero</mat-error>
-              }
-            </mat-form-field>
+          <div class="form-field">
+            <label for="ticketbookNumber">Número do Talão *</label>
+            <p-inputnumber id="ticketbookNumber" formControlName="ticketbookNumber" placeholder="Digite o número do talão" [min]="1" styleClass="w-full" />
+            @if (retiradaForm.get('ticketbookNumber')?.hasError('required') && retiradaForm.get('ticketbookNumber')?.touched) {
+              <small class="error-msg">Número do talão é obrigatório</small>
+            }
           </div>
 
-          <div class="form-row">
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Nome do Responsável</mat-label>
-              <input
-                matInput
-                formControlName="holderName"
-                placeholder="Digite o nome do responsável"
-              />
-              @if (retiradaForm.get('holderName')?.hasError('required')) {
-                <mat-error>Nome do responsável é obrigatório</mat-error>
-              }
-            </mat-form-field>
+          <div class="form-field">
+            <label for="holderName">Nome do Responsável *</label>
+            <input pInputText id="holderName" formControlName="holderName" placeholder="Digite o nome do responsável" class="w-full" />
+            @if (retiradaForm.get('holderName')?.hasError('required') && retiradaForm.get('holderName')?.touched) {
+              <small class="error-msg">Nome do responsável é obrigatório</small>
+            }
           </div>
 
-          <div class="form-row">
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Nome do Titular</mat-label>
-              <input
-                matInput
-                formControlName="ownerName"
-                placeholder="Digite o nome do titular"
-              />
-              @if (retiradaForm.get('ownerName')?.hasError('required')) {
-                <mat-error>Nome do titular é obrigatório</mat-error>
-              }
-            </mat-form-field>
+          <div class="form-field">
+            <label for="ownerName">Nome do Titular *</label>
+            <input pInputText id="ownerName" formControlName="ownerName" placeholder="Digite o nome do titular" class="w-full" />
+            @if (retiradaForm.get('ownerName')?.hasError('required') && retiradaForm.get('ownerName')?.touched) {
+              <small class="error-msg">Nome do titular é obrigatório</small>
+            }
           </div>
 
-          <div class="form-row">
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Data de Retirada</mat-label>
-              <input
-                matInput
-                [matDatepicker]="picker"
-                formControlName="withdrawnDate"
-              />
-              <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-              <mat-datepicker #picker></mat-datepicker>
-              @if (retiradaForm.get('withdrawnDate')?.hasError('required')) {
-                <mat-error>Data de retirada é obrigatória</mat-error>
-              }
-            </mat-form-field>
+          <div class="form-field">
+            <label for="withdrawnDate">Data de Retirada *</label>
+            <p-datepicker id="withdrawnDate" formControlName="withdrawnDate" dateFormat="dd/mm/yy" styleClass="w-full" />
+            @if (retiradaForm.get('withdrawnDate')?.hasError('required') && retiradaForm.get('withdrawnDate')?.touched) {
+              <small class="error-msg">Data de retirada é obrigatória</small>
+            }
           </div>
 
-          <div class="form-row">
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Observações</mat-label>
-              <textarea
-                matInput
-                formControlName="observations"
-                rows="3"
-                placeholder="Observações adicionais (opcional)"
-              ></textarea>
-            </mat-form-field>
+          <div class="form-field">
+            <label for="observations">Observações</label>
+            <textarea pTextarea id="observations" formControlName="observations" rows="3" placeholder="Observações adicionais (opcional)" class="w-full"></textarea>
           </div>
 
           <div class="form-actions">
-            <button
-              mat-raised-button
-              type="button"
-              (click)="onCancel()"
-              [disabled]="submitting()"
-            >
-              Cancelar
-            </button>
-            <button
-              mat-raised-button
-              color="primary"
-              type="submit"
-              [disabled]="!retiradaForm.valid || submitting()"
-            >
+            <p-button type="button" label="Cancelar" [outlined]="true" (onClick)="onCancel()" [disabled]="submitting()" />
+            <p-button type="submit" label="Registrar Retirada" [disabled]="!retiradaForm.valid || submitting()">
               @if (submitting()) {
-                <mat-spinner diameter="20"></mat-spinner>
-              } @else {
-                Registrar Retirada
+                <p-progressspinner [style]="{ width: '20px', height: '20px' }" />
               }
-            </button>
+            </p-button>
           </div>
         </form>
-      </mat-card-content>
-    </mat-card>
+      </ng-template>
+    </p-card>
   } @else {
-    <mat-card>
-      <mat-card-content>
+    <p-card>
+      <ng-template pTemplate="content">
         <p>Rifa não encontrada.</p>
-      </mat-card-content>
-    </mat-card>
+      </ng-template>
+    </p-card>
   }
 </div>

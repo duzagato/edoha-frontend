@@ -1,29 +1,58 @@
 <div class="adicionar-container">
-  <mat-card class="adicionar-card">
-    <mat-card-header>
-      <mat-card-title>
-        <div class="header-title">
-          <mat-icon>add_circle</mat-icon>
-          <span>Adicionar Novo Usuário</span>
-        </div>
-      </mat-card-title>
-    </mat-card-header>
-
-    <mat-card-content>
+  <p-card>
+    <ng-template pTemplate="title">
+      <div class="header-title">
+        <i class="pi pi-plus-circle"></i>
+        <span>Adicionar Novo Usuário</span>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="content">
       <form [formGroup]="form" (ngSubmit)="onSubmit()" class="user-form">
-        <formly-form [form]="form" [fields]="fields" [model]="model"></formly-form>
+        <div class="form-field">
+          <label for="name">Nome *</label>
+          <input pInputText id="name" formControlName="name" placeholder="Digite o nome completo" class="w-full" />
+          @if (form.get('name')?.invalid && form.get('name')?.touched) {
+            <small class="error-msg">Nome é obrigatório</small>
+          }
+        </div>
+
+        <div class="form-field">
+          <label for="nickname">Apelido *</label>
+          <input pInputText id="nickname" formControlName="nickname" placeholder="Digite o apelido" class="w-full" />
+          @if (form.get('nickname')?.invalid && form.get('nickname')?.touched) {
+            <small class="error-msg">Apelido é obrigatório</small>
+          }
+        </div>
+
+        <div class="form-field">
+          <label for="phone">Telefone *</label>
+          <input pInputText id="phone" formControlName="phone" placeholder="(00) 00000-0000" class="w-full" />
+          @if (form.get('phone')?.invalid && form.get('phone')?.touched) {
+            <small class="error-msg">Telefone é obrigatório</small>
+          }
+        </div>
+
+        <div class="form-field">
+          <label for="unhashedPassword">Senha *</label>
+          <p-password id="unhashedPassword" formControlName="unhashedPassword" placeholder="********" [feedback]="false" [toggleMask]="true" styleClass="w-full" />
+          @if (form.get('unhashedPassword')?.invalid && form.get('unhashedPassword')?.touched) {
+            <small class="error-msg">Senha é obrigatória</small>
+          }
+        </div>
+
+        <div class="form-field">
+          <label for="idUserType">ID Tipo de Usuário *</label>
+          <input pInputText id="idUserType" formControlName="idUserType" placeholder="Digite o ID do tipo de usuário" class="w-full" />
+          @if (form.get('idUserType')?.invalid && form.get('idUserType')?.touched) {
+            <small class="error-msg">ID do tipo de usuário é obrigatório</small>
+          }
+        </div>
 
         <div class="form-actions">
-          <button type="button" mat-stroked-button (click)="onCancel()">
-            <mat-icon>cancel</mat-icon>
-            Cancelar
-          </button>
-          <button type="submit" mat-raised-button color="primary" [disabled]="!form.valid">
-            <mat-icon>save</mat-icon>
-            Salvar Usuário
-          </button>
+          <p-button type="button" label="Cancelar" icon="pi pi-times" [outlined]="true" (onClick)="onCancel()" />
+          <p-button type="submit" label="Salvar Usuário" icon="pi pi-save" [disabled]="!form.valid" />
         </div>
       </form>
-    </mat-card-content>
-  </mat-card>
+    </ng-template>
+  </p-card>
 </div>

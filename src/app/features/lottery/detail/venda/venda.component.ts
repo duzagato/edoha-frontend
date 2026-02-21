@@ -2,14 +2,14 @@ import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { CardModule } from 'primeng/card';
+import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { DatePickerModule } from 'primeng/datepicker';
+import { TextareaModule } from 'primeng/textarea';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { MessageService } from 'primeng/api';
 import { LotteryMockService } from '../../../../core/services/lottery-mock.service';
 import { LotteryDTO } from '../../../../core/models/lottery';
 
@@ -18,15 +18,14 @@ import { LotteryDTO } from '../../../../core/models/lottery';
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatProgressSpinnerModule,
-    MatSnackBarModule
-],
+    CardModule,
+    ButtonModule,
+    InputTextModule,
+    InputNumberModule,
+    DatePickerModule,
+    TextareaModule,
+    ProgressSpinnerModule,
+  ],
   templateUrl: './venda.component.html',
   styleUrl: './venda.component.scss',
 })
@@ -35,23 +34,23 @@ export class VendaComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly fb = inject(FormBuilder);
   private readonly lotteryService = inject(LotteryMockService);
-  private readonly snackBar = inject(MatSnackBar);
+  private readonly messageService = inject(MessageService);
 
   lottery = signal<LotteryDTO | undefined>(undefined);
   loading = signal<boolean>(false);
   submitting = signal<boolean>(false);
-  
+
   vendaForm: FormGroup;
   lotteryId: string | null = null;
 
   constructor() {
     this.vendaForm = this.fb.group({
-      ticketbookNumber: ['', [Validators.required, Validators.min(1)]],
-      ticketNumber: ['', [Validators.required, Validators.min(1)]],
+      ticketbookNumber: [null, [Validators.required, Validators.min(1)]],
+      ticketNumber: [null, [Validators.required, Validators.min(1)]],
       donaterName: ['', Validators.required],
       donaterPhone: ['', Validators.required],
       soldDate: [new Date(), Validators.required],
-      amount: ['', [Validators.required, Validators.min(0)]],
+      amount: [null, [Validators.required, Validators.min(0)]],
       observations: [''],
     });
   }
@@ -69,7 +68,6 @@ export class VendaComponent implements OnInit {
       next: (lottery) => {
         this.lottery.set(lottery);
         this.loading.set(false);
-        // Set default amount based on lottery price
         if (lottery) {
           this.vendaForm.patchValue({ amount: lottery.priceTicket });
         }
@@ -83,18 +81,13 @@ export class VendaComponent implements OnInit {
   onSubmit(): void {
     if (this.vendaForm.valid) {
       this.submitting.set(true);
-      
-      // Mock submission - in real scenario, this would call a service
+
       setTimeout(() => {
         this.submitting.set(false);
-        this.snackBar.open('Venda de número registrada com sucesso!', 'Fechar', {
-          duration: 3000,
-          horizontalPosition: 'center',
-          verticalPosition: 'top',
-        });
-        this.vendaForm.reset({ 
+        this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Venda de número registrada com sucesso!', life: 3000 });
+        this.vendaForm.reset({
           soldDate: new Date(),
-          amount: this.lottery()?.priceTicket || 0
+          amount: this.lottery()?.priceTicket || 0,
         });
       }, 1000);
     }

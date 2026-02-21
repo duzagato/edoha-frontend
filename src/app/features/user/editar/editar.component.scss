@@ -4,22 +4,11 @@
   margin: 0 auto;
 }
 
-.editar-card {
-  width: 100%;
-}
-
 .header-title {
   display: flex;
   align-items: center;
   gap: 12px;
   padding: 16px 0;
-
-  mat-icon {
-    font-size: 32px;
-    width: 32px;
-    height: 32px;
-    color: #1976d2;
-  }
 
   span {
     font-size: 24px;
@@ -43,6 +32,25 @@
 
 .user-form {
   padding: 16px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  label {
+    font-weight: 500;
+    font-size: 0.875rem;
+  }
+}
+
+.error-msg {
+  color: #d32f2f;
+  font-size: 0.75rem;
 }
 
 .form-actions {
@@ -61,9 +69,5 @@
 
   .form-actions {
     flex-direction: column-reverse;
-
-    button {
-      width: 100%;
-    }
   }
 }

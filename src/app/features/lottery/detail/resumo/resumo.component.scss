@@ -11,10 +11,6 @@
   min-height: 400px;
 }
 
-mat-card {
-  margin-bottom: 20px;
-}
-
 .info-section,
 .stats-section {
   margin: 20px 0;
@@ -57,25 +53,25 @@ h3 {
   gap: 16px;
 }
 
-.stat-card {
+:host ::ng-deep .stat-card {
   text-align: center;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
 
-  mat-card-content {
-    padding: 24px !important;
+  .p-card-content {
+    padding: 24px;
   }
+}
 
-  .stat-value {
-    font-size: 2rem;
-    font-weight: bold;
-    margin-bottom: 8px;
-  }
+.stat-value {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
 
-  .stat-label {
-    font-size: 0.875rem;
-    opacity: 0.9;
-  }
+.stat-label {
+  font-size: 0.875rem;
+  opacity: 0.9;
 }
 
 @media (max-width: 768px) {

@@ -1,38 +1,28 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { MatCardModule } from '@angular/material/card';
-import { MatTableModule } from '@angular/material/table';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { TableModule } from 'primeng/table';
+import { ButtonModule } from 'primeng/button';
+import { CardModule } from 'primeng/card';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { MessageService } from 'primeng/api';
 import { LotteryService } from '../../../core/services/requests/lottery.service';
 import { LotteryDTO } from '../../../core/models/lottery';
 
 @Component({
   selector: 'app-gerenciar-lottery',
   standalone: true,
-  imports: [
-    CommonModule,
-    MatCardModule,
-    MatTableModule,
-    MatButtonModule,
-    MatIconModule,
-    MatProgressSpinnerModule,
-    MatSnackBarModule,
-  ],
+  imports: [CommonModule, TableModule, ButtonModule, CardModule, ProgressSpinnerModule],
   templateUrl: './gerenciar.component.html',
   styleUrl: './gerenciar.component.scss',
 })
 export class GerenciarComponent implements OnInit {
   private readonly lotteryService = inject(LotteryService);
   private readonly router = inject(Router);
-  private readonly snackBar = inject(MatSnackBar);
+  private readonly messageService = inject(MessageService);
 
   lotteries = signal<LotteryDTO[]>([]);
   loading = signal<boolean>(false);
-  displayedColumns: string[] = ['name', 'numTicketsTicketbook', 'numTicketbooks', 'priceTicket', 'doubleChance', 'createdAt', 'actions'];
 
   ngOnInit(): void {
     this.loadLotteries();
@@ -48,12 +38,7 @@ export class GerenciarComponent implements OnInit {
       error: (error) => {
         this.loading.set(false);
         const errorMessage = error?.error?.message || 'Erro ao carregar rifas';
-        this.snackBar.open(errorMessage, 'Fechar', {
-          duration: 5000,
-          horizontalPosition: 'center',
-          verticalPosition: 'top',
-          panelClass: ['error-snackbar'],
-        });
+        this.messageService.add({ severity: 'error', summary: 'Erro', detail: errorMessage, life: 5000 });
       },
     });
   }
@@ -63,21 +48,12 @@ export class GerenciarComponent implements OnInit {
     if (confirmed) {
       this.lotteryService.delete(lottery.id).subscribe({
         next: () => {
-          this.snackBar.open('Rifa excluída com sucesso!', 'Fechar', {
-            duration: 3000,
-            horizontalPosition: 'center',
-            verticalPosition: 'top',
-          });
+          this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Rifa excluída com sucesso!', life: 3000 });
           this.loadLotteries();
         },
         error: (error) => {
           const errorMessage = error?.error?.message || 'Erro ao excluir rifa';
-          this.snackBar.open(errorMessage, 'Fechar', {
-            duration: 5000,
-            horizontalPosition: 'center',
-            verticalPosition: 'top',
-            panelClass: ['error-snackbar'],
-          });
+          this.messageService.add({ severity: 'error', summary: 'Erro', detail: errorMessage, life: 5000 });
         },
       });
     }

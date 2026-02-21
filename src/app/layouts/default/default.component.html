@@ -1,18 +1,18 @@
+<p-toast />
 <div class="default-layout">
   <app-header (menuToggle)="toggleDrawer()"></app-header>
 
-  <mat-drawer-container class="drawer-container">
-    <mat-drawer
-      #drawer
-      [mode]="isHandset() ? 'over' : 'side'"
-      [opened]="!isHandset()"
-      class="drawer"
-    >
+  <div class="layout-body">
+    <aside class="sidebar" [class.sidebar-open]="sidebarOpen()" [class.sidebar-overlay]="isHandset()">
       <app-sidebar></app-sidebar>
-    </mat-drawer>
+    </aside>
 
-    <mat-drawer-content class="main-content">
+    @if (isHandset() && sidebarOpen()) {
+      <div class="sidebar-backdrop" (click)="toggleDrawer()"></div>
+    }
+
+    <main class="main-content">
       <router-outlet></router-outlet>
-    </mat-drawer-content>
-  </mat-drawer-container>
+    </main>
+  </div>
 </div>

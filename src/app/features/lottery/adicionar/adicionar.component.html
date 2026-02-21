@@ -1,29 +1,55 @@
 <div class="adicionar-container">
-  <mat-card class="adicionar-card">
-    <mat-card-header>
-      <mat-card-title>
-        <div class="header-title">
-          <mat-icon>add_circle</mat-icon>
-          <span>Adicionar Nova Rifa</span>
-        </div>
-      </mat-card-title>
-    </mat-card-header>
-
-    <mat-card-content>
+  <p-card>
+    <ng-template pTemplate="title">
+      <div class="header-title">
+        <i class="pi pi-plus-circle"></i>
+        <span>Adicionar Nova Rifa</span>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="content">
       <form [formGroup]="form" (ngSubmit)="onSubmit()" class="lottery-form">
-        <formly-form [form]="form" [fields]="fields" [model]="model"></formly-form>
+        <div class="form-field">
+          <label for="name">Nome da Rifa *</label>
+          <input pInputText id="name" formControlName="name" placeholder="Digite o nome da rifa" class="w-full" />
+          @if (form.get('name')?.invalid && form.get('name')?.touched) {
+            <small class="error-msg">Nome é obrigatório</small>
+          }
+        </div>
+
+        <div class="form-field">
+          <label for="numTicketsTicketbook">Número de Bilhetes por Talão *</label>
+          <p-inputnumber id="numTicketsTicketbook" formControlName="numTicketsTicketbook" placeholder="Ex: 10" [min]="1" styleClass="w-full" />
+          @if (form.get('numTicketsTicketbook')?.invalid && form.get('numTicketsTicketbook')?.touched) {
+            <small class="error-msg">Número de bilhetes por talão é obrigatório e deve ser pelo menos 1</small>
+          }
+        </div>
+
+        <div class="form-field">
+          <label for="numTicketbooks">Quantidade de Talões *</label>
+          <p-inputnumber id="numTicketbooks" formControlName="numTicketbooks" placeholder="Ex: 100" [min]="1" styleClass="w-full" />
+          @if (form.get('numTicketbooks')?.invalid && form.get('numTicketbooks')?.touched) {
+            <small class="error-msg">Quantidade de talões é obrigatória e deve ser pelo menos 1</small>
+          }
+        </div>
+
+        <div class="form-field">
+          <label for="priceTicket">Preço do Bilhete *</label>
+          <p-inputnumber id="priceTicket" formControlName="priceTicket" placeholder="Ex: 5.00" [min]="0.01" [minFractionDigits]="2" [maxFractionDigits]="2" mode="currency" currency="BRL" styleClass="w-full" />
+          @if (form.get('priceTicket')?.invalid && form.get('priceTicket')?.touched) {
+            <small class="error-msg">Preço do bilhete é obrigatório e deve ser maior que 0</small>
+          }
+        </div>
+
+        <div class="form-field form-field-checkbox">
+          <p-checkbox formControlName="doubleChance" [binary]="true" inputId="doubleChance" />
+          <label for="doubleChance">Chance Dupla</label>
+        </div>
 
         <div class="form-actions">
-          <button type="button" mat-stroked-button (click)="onCancel()">
-            <mat-icon>cancel</mat-icon>
-            Cancelar
-          </button>
-          <button type="submit" mat-raised-button color="primary" [disabled]="!form.valid">
-            <mat-icon>save</mat-icon>
-            Salvar Rifa
-          </button>
+          <p-button type="button" label="Cancelar" icon="pi pi-times" [outlined]="true" (onClick)="onCancel()" />
+          <p-button type="submit" label="Salvar Rifa" icon="pi pi-save" [disabled]="!form.valid" />
         </div>
       </form>
-    </mat-card-content>
-  </mat-card>
+    </ng-template>
+  </p-card>
 </div>

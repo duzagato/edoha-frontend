@@ -4,6 +4,7 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { routes } from './app.routes';
 import { authInterceptor } from './core/interceptors/auth.interceptor';
 import { providePrimeNG } from 'primeng/config';
+import { MessageService } from 'primeng/api';
 import Lara from '@primeuix/themes/lara';
 
 export const appConfig: ApplicationConfig = {
@@ -14,8 +15,9 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptors([authInterceptor])),
     providePrimeNG({
       theme: {
-        preset: Lara,       
-          }
-    })
-  ]
+        preset: Lara,
+      },
+    }),
+    MessageService,
+  ],
 };

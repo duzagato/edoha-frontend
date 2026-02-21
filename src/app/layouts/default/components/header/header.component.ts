@@ -1,16 +1,15 @@
 import { Component, inject, output } from '@angular/core';
 import { Router } from '@angular/router';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
+import { ButtonModule } from 'primeng/button';
+import { MenuModule } from 'primeng/menu';
+import { MenuItem } from 'primeng/api';
 import { AuthService } from '../../../../core/services/requests/auth.service';
 import { ThemeService } from '../../../../core/services/theme/theme.service';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [MatToolbarModule, MatButtonModule, MatIconModule, MatMenuModule],
+  imports: [ButtonModule, MenuModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
@@ -23,6 +22,21 @@ export class HeaderComponent {
 
   get userName(): string {
     return this.authService.getNickname() || 'Usuário';
+  }
+
+  get userMenuItems(): MenuItem[] {
+    return [
+      {
+        label: 'Configurações',
+        icon: 'pi pi-cog',
+        command: () => this.navigateToSettings(),
+      },
+      {
+        label: 'Sair',
+        icon: 'pi pi-sign-out',
+        command: () => this.logout(),
+      },
+    ];
   }
 
   toggleTheme(): void {

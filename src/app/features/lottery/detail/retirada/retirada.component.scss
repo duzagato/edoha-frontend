@@ -11,20 +11,27 @@
   min-height: 400px;
 }
 
-mat-card {
-  margin-bottom: 20px;
-}
-
 .form-container {
   padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
-.form-row {
-  margin-bottom: 16px;
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  label {
+    font-weight: 500;
+    font-size: 0.875rem;
+  }
 }
 
-.full-width {
-  width: 100%;
+.error-msg {
+  color: #d32f2f;
+  font-size: 0.75rem;
 }
 
 .form-actions {
@@ -32,15 +39,6 @@ mat-card {
   gap: 12px;
   justify-content: flex-end;
   margin-top: 24px;
-
-  button {
-    min-width: 120px;
-  }
-}
-
-mat-spinner {
-  display: inline-block;
-  margin: 0 auto;
 }
 
 @media (max-width: 768px) {
@@ -50,9 +48,5 @@ mat-spinner {
 
   .form-actions {
     flex-direction: column;
-
-    button {
-      width: 100%;
-    }
   }
 }
