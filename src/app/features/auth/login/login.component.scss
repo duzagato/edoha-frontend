@@ -1,5 +1,9 @@
 @use '../../../../scss/spaces' as spaces;
 
+// Dark-mode form field accent colors
+$form-primary: #64b5f6;
+$form-error: #ef5350;
+
 .login-card {
   min-width: 420px;
   gap: spaces.$space-4;
@@ -47,6 +51,73 @@
   animation: slide-in 0.3s ease-out;
 }
 
-input::placeholder {
-  padding: 0 5px !important;
+/* Formly Material form field overrides for dark login background */
+:host ::ng-deep {
+  .formly-container {
+    formly-field {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .mat-mdc-form-field {
+      width: 100%;
+
+      // Outline border color on dark background
+      .mdc-notched-outline__leading,
+      .mdc-notched-outline__notch,
+      .mdc-notched-outline__trailing {
+        border-color: rgba(255, 255, 255, 0.35) !important;
+        border-width: 1.5px !important;
+      }
+
+      // Input text and caret
+      .mat-mdc-input-element,
+      input.mat-mdc-input-element {
+        color: rgba(255, 255, 255, 0.9) !important;
+        caret-color: $form-primary !important;
+        padding: 4px 8px !important;
+      }
+
+      // Floating label / placeholder color
+      .mdc-floating-label,
+      .mat-mdc-floating-label {
+        color: rgba(255, 255, 255, 0.6) !important;
+      }
+
+      // Focus state
+      &.mat-focused {
+        .mdc-notched-outline__leading,
+        .mdc-notched-outline__notch,
+        .mdc-notched-outline__trailing {
+          border-color: $form-primary !important;
+          border-width: 2px !important;
+        }
+
+        .mdc-floating-label,
+        .mat-mdc-floating-label {
+          color: $form-primary !important;
+        }
+      }
+
+      // Error / invalid state
+      &.mat-form-field-invalid {
+        .mdc-notched-outline__leading,
+        .mdc-notched-outline__notch,
+        .mdc-notched-outline__trailing {
+          border-color: $form-error !important;
+        }
+
+        .mdc-floating-label,
+        .mat-mdc-floating-label {
+          color: $form-error !important;
+        }
+      }
+    }
+
+    // Validation error messages
+    mat-error {
+      color: $form-error !important;
+      font-size: 12px;
+    }
+  }
 }
