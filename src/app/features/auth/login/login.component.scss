@@ -4,6 +4,8 @@
   min-width: 420px;
   gap: spaces.$space-4;
   padding: spaces.$space-4;
+  background-color: var(--cyan-100);
+  border: 1px solid var(--primary-color);
 }
 
 .logo{

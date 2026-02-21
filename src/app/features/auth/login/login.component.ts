@@ -9,6 +9,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { AuthService } from '../../../core/services/requests/auth.service';
 import { CredentialsDTO } from '../../../core/models/auth';
+import { CardModule } from 'primeng/card';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-login',
@@ -21,6 +23,8 @@ import { CredentialsDTO } from '../../../core/models/auth';
     MatButtonModule,
     MatIconModule,
     MatSnackBarModule,
+    CardModule,
+    ButtonModule,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
