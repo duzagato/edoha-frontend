@@ -46,3 +46,7 @@
 .animate-slide-in {
   animation: slide-in 0.3s ease-out;
 }
+
+input::placeholder {
+  padding: 0 5px !important;
+}
