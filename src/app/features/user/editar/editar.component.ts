@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
@@ -23,7 +23,6 @@ interface EditUserFormModel {
   selector: 'app-editar-user',
   standalone: true,
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     FormlyModule,
     FormlyMaterialModule,
@@ -31,8 +30,8 @@ interface EditUserFormModel {
     MatButtonModule,
     MatIconModule,
     MatProgressSpinnerModule,
-    MatSnackBarModule,
-  ],
+    MatSnackBarModule
+],
   templateUrl: './editar.component.html',
   styleUrl: './editar.component.scss',
 })

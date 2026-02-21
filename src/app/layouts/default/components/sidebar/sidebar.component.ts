@@ -3,7 +3,7 @@ import { RouterModule } from '@angular/router';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { CommonModule } from '@angular/common';
+
 import { LotteryMockService } from '../../../../core/services/lottery-mock.service';
 import { LotteryDTO } from '../../../../core/models/lottery';
 
@@ -18,12 +18,11 @@ interface MenuItem {
   selector: 'app-sidebar',
   standalone: true,
   imports: [
-    CommonModule,
     RouterModule,
     MatListModule,
     MatIconModule,
-    MatExpansionModule,
-  ],
+    MatExpansionModule
+],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
 })

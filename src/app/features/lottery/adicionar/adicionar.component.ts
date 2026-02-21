@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { Router } from '@angular/router';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
@@ -15,15 +15,14 @@ import { CreateLotteryDTO } from '../../../core/models/lottery';
   selector: 'app-adicionar-lottery',
   standalone: true,
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     FormlyModule,
     FormlyMaterialModule,
     MatCardModule,
     MatButtonModule,
     MatIconModule,
-    MatSnackBarModule,
-  ],
+    MatSnackBarModule
+],
   templateUrl: './adicionar.component.html',
   styleUrl: './adicionar.component.scss',
 })

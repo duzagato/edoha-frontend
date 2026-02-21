@@ -58,8 +58,12 @@
             <ng-container matColumnDef="doubleChance">
               <th mat-header-cell *matHeaderCellDef>Chance Dupla</th>
               <td mat-cell *matCellDef="let lottery">
-                <mat-icon *ngIf="lottery.doubleChance" color="primary">check_circle</mat-icon>
-                <mat-icon *ngIf="!lottery.doubleChance" color="warn">cancel</mat-icon>
+                @if (lottery.doubleChance) {
+                  <mat-icon color="primary">check_circle</mat-icon>
+                }
+                @if (!lottery.doubleChance) {
+                  <mat-icon color="warn">cancel</mat-icon>
+                }
               </td>
             </ng-container>
 
