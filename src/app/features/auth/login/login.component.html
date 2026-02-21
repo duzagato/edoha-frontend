@@ -1,24 +1,48 @@
-<div class="full-wrapper flex justify-content-center align-items-center min-h-screen">
-  <p-card class="login-card bg-1" styleClass="p-4 shadow-4">
+<p-toast position="top-center"></p-toast>
+
+<div class="login-wrapper">
+  <p-card styleClass="login-card">
     <ng-template pTemplate="header">
-      <div class="flex justify-content-center align-items-center pt-4">
-        <img src="/assets/images/logo.png" class="login-card-logo" alt="Edoha Logo" style="width: 50px; height: auto;" />
-        <span class="text-2xl font-bold ml-2">edoha</span>
+      <div class="login-header">
+        <img src="/assets/images/logo.png" class="login-logo" alt="Edoha Logo" />
+        <span class="login-title">edoha</span>
       </div>
     </ng-template>
 
-    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="flex flex-column gap-3">
-      <formly-form [form]="form" [fields]="fields" [model]="model"></formly-form>
+    <form (ngSubmit)="onSubmit()" #loginForm="ngForm" class="login-form">
+      <p-float-label variant="on">
+        <input
+          pInputText
+          id="nickname"
+          name="nickname"
+          [(ngModel)]="model.nickname"
+          required
+          class="w-full"
+        />
+        <label for="nickname">Apelido</label>
+      </p-float-label>
 
-      <div class="flex justify-content-center mt-4">
-        <p-button 
-          type="submit" 
-          label="Entrar" 
-          icon="pi pi-sign-in" 
-          [disabled]="!form.valid"
-          styleClass="w-full font-bold btn-1">
-        </p-button>
-      </div>
+      <p-float-label variant="on">
+        <p-password
+          inputId="password"
+          name="password"
+          [(ngModel)]="model.password"
+          [feedback]="false"
+          [toggleMask]="true"
+          required
+          styleClass="w-full"
+          inputStyleClass="w-full"
+        ></p-password>
+        <label for="password">Senha</label>
+      </p-float-label>
+
+      <p-button
+        type="submit"
+        label="Entrar"
+        icon="pi pi-sign-in"
+        [disabled]="loginForm.invalid"
+        styleClass="w-full"
+      ></p-button>
     </form>
   </p-card>
 </div>
