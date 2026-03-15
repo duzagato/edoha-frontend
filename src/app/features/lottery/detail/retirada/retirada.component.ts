@@ -10,7 +10,7 @@ import { DatePickerModule } from 'primeng/datepicker';
 import { TextareaModule } from 'primeng/textarea';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { MessageService } from 'primeng/api';
-import { LotteryMockService } from '../../../../core/services/lottery-mock.service';
+import { LotteryStorageService } from '../../../../core/services/lottery-storage.service';
 import { LotteryDTO } from '../../../../core/models/lottery';
 
 @Component({
@@ -33,7 +33,7 @@ export class RetiradaComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly fb = inject(FormBuilder);
-  private readonly lotteryService = inject(LotteryMockService);
+  private readonly lotteryStorageService = inject(LotteryStorageService);
   private readonly messageService = inject(MessageService);
 
   lottery = signal<LotteryDTO | undefined>(undefined);
@@ -41,7 +41,7 @@ export class RetiradaComponent implements OnInit {
   submitting = signal<boolean>(false);
 
   retiradaForm: FormGroup;
-  lotteryId: string | null = null;
+  nameLottery: string | null = null;
 
   constructor() {
     this.retiradaForm = this.fb.group({
@@ -54,15 +54,15 @@ export class RetiradaComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.lotteryId = this.route.snapshot.paramMap.get('nomeRifa');
-    if (this.lotteryId) {
-      this.loadLottery(this.lotteryId);
+    this.nameLottery = this.route.snapshot.paramMap.get('nameLottery');
+    if (this.nameLottery) {
+      this.loadLottery(this.nameLottery);
     }
   }
 
-  private loadLottery(id: string): void {
+  private loadLottery(nameLottery: string): void {
     this.loading.set(true);
-    this.lotteryService.getLotteryById(id).subscribe({
+    this.lotteryStorageService.getLotteryByName(nameLottery).subscribe({
       next: (lottery) => {
         this.lottery.set(lottery);
         this.loading.set(false);
@@ -86,6 +86,7 @@ export class RetiradaComponent implements OnInit {
   }
 
   onCancel(): void {
-    this.router.navigate(['/rifas', this.lotteryId, 'gerenciar']);
+    this.router.navigate(['/rifas', this.nameLottery, 'gerenciar']);
   }
 }
+

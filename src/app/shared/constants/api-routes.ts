@@ -24,6 +24,7 @@ export class ApiRoutes {
   // Lottery Controller - /Lottery
   static readonly LOTTERY_GET_ALL = '/Lottery';
   static readonly LOTTERY_GET_BY_ID = '/Lottery';
+  static readonly LOTTERY_GET_BY_INSTITUTION = '/institution';
   static readonly LOTTERY_POST = '/Lottery';
   static readonly LOTTERY_PUT = '/Lottery';
   static readonly LOTTERY_DELETE = '/Lottery';

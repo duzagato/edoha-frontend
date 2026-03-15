@@ -8,4 +8,5 @@ export class CacheKeys {
   static readonly USER_PERMISSIONS = 'edoha_user_permissions';
   static readonly ID_USER = 'idUser';
   static readonly ID_INSTITUTION = 'idInstitution';
+  static readonly LOTTERY_STORAGE_PREFIX = 'lottery';
 }
