@@ -4,10 +4,12 @@
   position: sticky;
   top: 0;
   z-index: 1000;
+  background-color: var(--color-primary) !important;
   height: 64px;
   padding: 0 16px;
   background-color: var(--color-primary-dark, #1976d2);
   color: #ffffff;
+  padding: 0px 80px;
 
   .menu-toggle {
     @media (min-width: 960px) {
@@ -25,7 +27,7 @@
       width: auto;
     }
 
-    .app-title {
+    .header-title {
       font-size: 24px;
       font-weight: 500;
       letter-spacing: 0.5px;

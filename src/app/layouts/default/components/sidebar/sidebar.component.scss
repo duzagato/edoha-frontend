@@ -1,14 +1,11 @@
+@use '../../../../../scss/colors' as *;
+@use '../../../../../scss/spaces' as *;
+
 .sidebar {
   height: 100%;
-
-  :host ::ng-deep .sidebar-menu {
-    border: none;
-    border-radius: 0;
-    width: 100%;
-
-    // Align items without submenu chevron with items that have one
-    .p-panelmenu-header-link:not(:has(.p-panelmenu-submenu-icon)) {
-      padding-left: calc(0.75rem + 1rem + 0.5rem);
-    }
-  }
+  padding: $space-3 0;
+  display: flex;
+  flex-direction: column;
+  gap: $space-5;
 }
+

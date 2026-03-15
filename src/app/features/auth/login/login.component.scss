@@ -2,25 +2,11 @@
 
 .login-card {
   min-width: 420px;
-  gap: spaces.$space-4;
-  padding: spaces.$space-4;
-  background-color: var(--cyan-100);
-  border: 1px solid var(--primary-color);
+  gap: spaces.$space-5;
 }
 
-.logo{
-  max-width: 100px;
-}
-
-.login-card-logo{
-  max-height: 75px;
-  width: auto;
-}
-
-.form-title {
-  font-size: 3em;
-  font-weight: bold;
-  color: #1e8bc3;
+form{
+  margin-top: spaces.$space-5;
 }
 
 .x-center-wrapper{
@@ -47,4 +33,8 @@
 .error-msg {
   color: #d32f2f;
   font-size: 0.75rem;
+}
+
+button{
+  color: white !important;
 }

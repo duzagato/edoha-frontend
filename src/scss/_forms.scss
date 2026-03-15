@@ -1,0 +1,11 @@
+@use 'colors' as *;
+
+.input-border-standard{
+    border: 1px solid #999 !important;
+}
+
+.input-border-standard:focus {
+    border-color: var(--color-primary) !important;
+    box-shadow: 0 0 0 0.2rem rgba(30, 139, 195, 0.25);
+    outline: none !important;
+}

@@ -5,17 +5,11 @@ import { CardModule } from 'primeng/card';
 import { AccordionModule } from 'primeng/accordion';
 import { TableModule } from 'primeng/table';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { LotteryMockService } from '../../../../core/services/lottery-mock.service';
+import { LotteryService, TicketbookService } from '../../../../core/services/requests';
 import { LotteryDTO } from '../../../../core/models/lottery';
+import { Ticketbook } from '../../../../core/models';
 
-interface TicketbookData {
-  number: number;
-  holder: string;
-  owner: string;
-  withdrawnDate: string;
-  devolutionDate?: string;
-  status: string;
-}
+
 
 @Component({
   selector: 'app-gerenciar-detail',
@@ -26,35 +20,23 @@ interface TicketbookData {
 })
 export class GerenciarDetailComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
-  private readonly lotteryService = inject(LotteryMockService);
-
+  private readonly lotteryService = inject(LotteryService);
+  private readonly ticketbookService = inject(TicketbookService);
   lottery = signal<LotteryDTO | undefined>(undefined);
   loading = signal<boolean>(false);
 
-  withdrawnTicketbooks = signal<TicketbookData[]>([
-    { number: 1, holder: 'João Silva', owner: 'Maria Santos', withdrawnDate: '2024-01-10', status: 'Retirado' },
-    { number: 5, holder: 'Pedro Oliveira', owner: 'Ana Costa', withdrawnDate: '2024-01-12', status: 'Retirado' },
-    { number: 8, holder: 'Carlos Souza', owner: 'Fernanda Lima', withdrawnDate: '2024-01-15', status: 'Retirado' },
-  ]);
-
-  returnedTicketbooks = signal<TicketbookData[]>([
-    { number: 2, holder: 'José Santos', owner: 'Ricardo Alves', withdrawnDate: '2024-01-08', devolutionDate: '2024-01-20', status: 'Devolvido' },
-    { number: 3, holder: 'Marcos Pereira', owner: 'Juliana Rocha', withdrawnDate: '2024-01-09', devolutionDate: '2024-01-21', status: 'Devolvido' },
-  ]);
+  withdrawnTicketbooks = signal<Ticketbook[]>([]);
+  returnedTicketbooks = signal<Ticketbook[]>([]);
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id) {
-      this.loadLottery(id);
-    }
+    this.loadTicketbooks();
   }
 
-  private loadLottery(id: string): void {
+  private loadTicketbooks(): void {
     this.loading.set(true);
-    this.lotteryService.getLotteryById(id).subscribe({
-      next: (lottery) => {
-        this.lottery.set(lottery);
-        this.loading.set(false);
+    this.ticketbookService.getReturneds("b5ddc839-b43b-4e7e-8264-5da133b9f973").subscribe({
+      next: (ticketbooks) => {
+        this.returnedTicketbooks.set(ticketbooks);
       },
       error: () => {
         this.loading.set(false);

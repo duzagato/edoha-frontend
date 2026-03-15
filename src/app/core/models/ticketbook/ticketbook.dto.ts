@@ -15,6 +15,20 @@ export interface TicketbookDTO {
   createdBy: string | null;
 }
 
+
+export interface Ticketbook {
+  id: string;
+  idLottery: string;
+  idOwner: string | null;
+  idHolder: string | null;
+  idStatusTicketbook: string;
+  number: number;
+  withdrawnDate: string | null;
+  devolutionDate: string | null;
+  createdAt: string;
+  createdBy: string | null;
+}
+
 /**
  * DTO for creating a new Ticketbook
  * Maps to CreateTicketbookDTO in backend

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { catchError, throwError } from 'rxjs';
 import { AuthService } from '../services/requests/auth.service';
 
+
 /**
  * HTTP Interceptor for JWT authentication
  * Automatically attaches the Authorization header to all requests

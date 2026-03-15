@@ -5,6 +5,7 @@ import { AuthService } from '../../../core/services/requests/auth.service';
 import { CredentialsDTO } from '../../../core/models/auth';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
+import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { ToastModule } from 'primeng/toast';
@@ -13,7 +14,7 @@ import { MessageService } from 'primeng/api';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, CardModule, ButtonModule, InputTextModule, PasswordModule, ToastModule],
+  imports: [ReactiveFormsModule, CardModule, ButtonModule, InputTextModule, PasswordModule, ToastModule, FloatLabelModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })

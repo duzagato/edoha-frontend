@@ -56,7 +56,7 @@ export class VendaComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.lotteryId = this.route.snapshot.paramMap.get('id');
+    this.lotteryId = this.route.snapshot.paramMap.get('nomeRifa');
     if (this.lotteryId) {
       this.loadLottery(this.lotteryId);
     }

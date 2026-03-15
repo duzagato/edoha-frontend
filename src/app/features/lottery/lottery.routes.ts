@@ -20,11 +20,11 @@ export const lotteryRoutes: Routes = [
     component: ResumoComponent,
   },
   {
-    path: ':id/gerenciar',
+    path: ':nomeRifa/gerenciar',
     component: GerenciarDetailComponent,
   },
   {
-    path: ':id/retirada',
+    path: ':nomeRifa/talao/retirada',
     component: RetiradaComponent,
   },
   {

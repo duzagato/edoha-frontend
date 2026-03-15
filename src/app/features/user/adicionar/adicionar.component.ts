@@ -31,7 +31,6 @@ export class AdicionarComponent {
       nickname: ['', Validators.required],
       phone: ['', Validators.required],
       unhashedPassword: ['', Validators.required],
-      idUserType: ['', Validators.required],
     });
   }
 
@@ -42,7 +41,6 @@ export class AdicionarComponent {
         phone: this.form.value.phone,
         nickname: this.form.value.nickname,
         unhashedPassword: this.form.value.unhashedPassword,
-        idUserType: this.form.value.idUserType,
       };
 
       this.userService.create(model).subscribe({

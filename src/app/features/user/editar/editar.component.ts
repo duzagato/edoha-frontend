@@ -33,7 +33,6 @@ export class EditarComponent implements OnInit {
       name: ['', Validators.required],
       nickname: [''],
       phone: [''],
-      idUserType: ['', Validators.required],
     });
   }
 
@@ -56,7 +55,6 @@ export class EditarComponent implements OnInit {
           name: user.name,
           nickname: user.nickname,
           phone: user.phone,
-          idUserType: user.idUserType,
         });
         this.loading.set(false);
       },
@@ -76,7 +74,6 @@ export class EditarComponent implements OnInit {
         name: this.form.value.name,
         nickname: this.form.value.nickname || null,
         phone: this.form.value.phone || undefined,
-        idUserType: this.form.value.idUserType,
       };
 
       this.userService.update(updateData).subscribe({

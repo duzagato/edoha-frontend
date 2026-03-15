@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { ApiRoutes } from '../../../shared/constants/api-routes';
-import { TicketbookDTO, CreateTicketbookDTO, UpdateTicketbookDTO } from '../../models/ticketbook';
+import { TicketbookDTO, Ticketbook, CreateTicketbookDTO, UpdateTicketbookDTO } from '../../models/ticketbook';
 
 /**
  * Service for managing Ticketbook entities
@@ -57,5 +57,17 @@ export class TicketbookService {
    */
   delete(id: string): Observable<void> {
     return this.http.delete<void>(`${environment.apiUrl}${ApiRoutes.TICKETBOOK_DELETE}/${id}`);
+  }
+
+  getReturneds(idLottery: string): Observable<Ticketbook[]>{
+    return this.http.get<Ticketbook[]>(`${environment.apiUrl}${ApiRoutes.TICKETBOOK_GET_RETURNEDS}`, {
+      params: { idLottery }
+    });
+  }
+
+  getWithdrawns(idLottery: string): Observable<Ticketbook[]>{
+    return this.http.get<Ticketbook[]>(`${environment.apiUrl}${ApiRoutes.TICKETBOOK_GET_WITHDRAWNS}`, {
+      params: { idLottery }
+    });
   }
 }

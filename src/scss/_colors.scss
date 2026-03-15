@@ -1,15 +1,14 @@
 @use 'palettes' as palettes;
 
-// Apply light theme by default
 html {
   --color-primary-light: #90caf9;
-  --color-primary: #2196f3;
+  --color-primary: #005FFF;
   --color-primary-dark: #1976d2;
   
   --color-secondary-light: #4ee285;
   --color-secondary: #00a85c;
   --color-secondary-dark: #005323;
-  
+   
   --color-tertiary-light: #4dd0e1;
   --color-tertiary: #00bcd4;
   --color-tertiary-dark: #0097a7;
@@ -22,15 +21,14 @@ html {
   --color-neutral: #9e9e9e;
   --color-neutral-dark: #424242;
 
-  --gradient-surface: linear-gradient(to bottom, palettes.$blue-4, palettes.$blue-5);
+  --gradient-surface: linear-gradient(to bottom, palettes.$blue-7, palettes.$blue-8);
 }
 
-// Apply dark theme when data-theme="dark"
 html[data-theme="dark"] {
   --color-surface-gradient: linear-gradient(to bottom, #0F2027, #203A43, #2C5364);
 
   --color-primary-light: #90caf9;
-  --color-primary: #64b5f6;
+  --color-primary: #005FFF;
   --color-primary-dark: #42a5f5;
   
   --color-secondary-light: #70df9c;
@@ -49,24 +47,26 @@ html[data-theme="dark"] {
   --color-neutral: #424242;
   --color-neutral-dark: #212121;
 
-  --gradient-surface: linear-gradient(to bottom, palettes.$blue-4, palettes.$blue-5);
+  --gradient-surface: linear-gradient(to bottom, palettes.$blue-7, palettes.$blue-8);
 }
 
-// Body styling
-body {
-  background-color: #0F2027;
-  background: linear-gradient(to bottom, palettes.$blue-4, palettes.$blue-5);
-  color: #ffffff;
-  margin: 0;
+@font-face{
+  font-family: 'Teste';
+  src: url('../assets/fonts/Exo2-VariableFont_wght.ttf');
+  font-weight: 100 900;
+  font-display: swap;
 }
 
 html, body { 
   height: 100%; 
 }
 
-body { 
-  margin: 0; 
-  font-family: "Titillium Web", sans-serif;
+body {
+  background-color: #0F2027;
+  color: #ffffff;
+  margin: 0;
+  font-family: "Teste", "Times New Romance", serif;
+  font-weight: 100 !important;
 }
 
 // Background utility classes
@@ -110,25 +110,3 @@ body {
 .text-neutral-light { color: var(--color-neutral-light) !important; }
 .text-neutral { color: var(--color-neutral) !important; }
 .text-neutral-dark { color: var(--color-neutral-dark) !important; }
-
-
-
-.btn-1{
-  width: 240px;
-  display: flex;
-  align-items:center;
-  justify-content:center;
-  border-radius: 24px;
-  background: palettes.$green-1;
-  gap: 8px;
-  padding: 8px 16px;
-}
-
-.btn-1:disabled {
-  opacity: 0.75;
-  cursor: not-allowed;
-}
-
-.btn-1:hover:not(:disabled){
-  background: palettes.$green-2;
-}

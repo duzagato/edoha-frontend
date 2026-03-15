@@ -2,12 +2,18 @@
 
 <div class="gerenciar-container">
   <p-card>
-    <ng-template pTemplate="title">
-      <div class="header-title">
+    <div class="flex-sb full-width">
+      <h2 class="page-title">
+        <i class="pi pi-users"></i>
         <span>Gerenciar Usuários</span>
-        <p-button label="Adicionar Usuário" icon="pi pi-plus" (onClick)="navigateToAdd()" />
-      </div>
-    </ng-template>
+      </h2>
+
+      <button class="btn btn-1 flex-align-center" (click)="navigateToAdd()">
+          <i class="pi pi-plus"></i>
+          Adicionar
+      </button>
+    </div>
+    
     <ng-template pTemplate="content">
       @if (loading()) {
         <div class="loading-container">

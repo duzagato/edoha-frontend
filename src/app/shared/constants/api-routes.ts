@@ -3,8 +3,8 @@
  * Maps to the ASP.NET Core API endpoints
  */
 export class ApiRoutes {
-  // Auth Controller - /Auth
-  static readonly AUTH_POST = '/Auth';
+  // Auth Controller - /auth
+  static readonly AUTH_POST = '/auth';
 
   // Action Controller - /Action
   static readonly ACTION_GET_ALL = '/Action';
@@ -56,11 +56,13 @@ export class ApiRoutes {
   static readonly TICKET_DELETE = '/Ticket';
 
   // Ticketbook Controller - /Ticketbook
-  static readonly TICKETBOOK_GET_ALL = '/Ticketbook';
-  static readonly TICKETBOOK_GET_BY_ID = '/Ticketbook';
-  static readonly TICKETBOOK_POST = '/Ticketbook';
-  static readonly TICKETBOOK_PUT = '/Ticketbook';
-  static readonly TICKETBOOK_DELETE = '/Ticketbook';
+  static readonly TICKETBOOK_GET_RETURNEDS = '/ticketbook/returneds';
+  static readonly TICKETBOOK_GET_WITHDRAWNS = '/ticketbook/withdrawns';
+  static readonly TICKETBOOK_GET_ALL = '/ticketbook';
+  static readonly TICKETBOOK_GET_BY_ID = '/ticketbook';
+  static readonly TICKETBOOK_POST = '/ticketbook';
+  static readonly TICKETBOOK_PUT = '/ticketbook';
+  static readonly TICKETBOOK_DELETE = '/ticketbook';
 
   // User Controller - /User
   static readonly USER_GET_ALL = '/User';

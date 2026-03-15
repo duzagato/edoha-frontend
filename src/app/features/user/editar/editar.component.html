@@ -32,16 +32,7 @@
             <input pInputText id="phone" formControlName="phone" placeholder="(00) 00000-0000" class="w-full" />
           </div>
 
-          <div class="form-field">
-            <label for="idUserType">ID Tipo de Usuário *</label>
-            <input pInputText id="idUserType" formControlName="idUserType" placeholder="Digite o ID do tipo de usuário" class="w-full" />
-            @if (form.get('idUserType')?.invalid && form.get('idUserType')?.touched) {
-              <small class="error-msg">ID do tipo de usuário é obrigatório</small>
-            }
-          </div>
-
           <div class="form-actions">
-            <p-button type="button" label="Cancelar" icon="pi pi-times" [outlined]="true" (onClick)="onCancel()" />
             <p-button type="submit" label="Salvar Alterações" icon="pi pi-save" [disabled]="!form.valid" />
           </div>
         </form>

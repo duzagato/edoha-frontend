@@ -1,10 +1,10 @@
 <div class="adicionar-container">
   <p-card>
     <ng-template pTemplate="title">
-      <div class="header-title">
-        <i class="pi pi-plus-circle"></i>
+      <h2 class="page-title">
+        <i class="pi pi-user pi-xl"></i>
         <span>Adicionar Novo Usuário</span>
-      </div>
+      </h2>
     </ng-template>
     <ng-template pTemplate="content">
       <form [formGroup]="form" (ngSubmit)="onSubmit()" class="user-form">
@@ -41,16 +41,18 @@
         </div>
 
         <div class="form-field">
-          <label for="idUserType">ID Tipo de Usuário *</label>
-          <input pInputText id="idUserType" formControlName="idUserType" placeholder="Digite o ID do tipo de usuário" class="w-full" />
-          @if (form.get('idUserType')?.invalid && form.get('idUserType')?.touched) {
-            <small class="error-msg">ID do tipo de usuário é obrigatório</small>
+          <label for="unhashedPassword">Confirmar Senha *</label>
+          <p-password id="unhashedPassword" formControlName="unhashedPassword" placeholder="********" [feedback]="false" [toggleMask]="true" styleClass="w-full" />
+          @if (form.get('unhashedPassword')?.invalid && form.get('unhashedPassword')?.touched) {
+            <small class="error-msg">Senha é obrigatória</small>
           }
         </div>
 
         <div class="form-actions">
-          <p-button type="button" label="Cancelar" icon="pi pi-times" [outlined]="true" (onClick)="onCancel()" />
-          <p-button type="submit" label="Salvar Usuário" icon="pi pi-save" [disabled]="!form.valid" />
+          <button type="submit" [disabled]="!form.valid" class="btn btn-1 flex-align-center">
+            <i class="pi pi-save"></i>
+            Salvar Usuário
+          </button>>
         </div>
       </form>
     </ng-template>

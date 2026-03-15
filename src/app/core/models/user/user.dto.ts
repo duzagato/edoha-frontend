@@ -7,7 +7,6 @@ export interface UserDTO {
   name: string;
   phone: string | null;
   nickname: string | null;
-  idUserType: string;
   createdAt: string;
   createdBy: string | null;
 }
@@ -21,7 +20,6 @@ export interface CreateUserDTO {
   phone: string;
   nickname?: string | null;
   unhashedPassword?: string | null;
-  idUserType: string;
 }
 
 /**
@@ -33,7 +31,6 @@ export interface UpdateUserDTO {
   name?: string;
   phone?: string;
   nickname?: string | null;
-  idUserType?: string;
 }
 
 /**

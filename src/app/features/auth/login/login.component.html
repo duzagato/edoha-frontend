@@ -1,38 +1,57 @@
 <p-toast />
-<div class="full-wrapper flex justify-content-center align-items-center min-h-screen">
-  <p-card class="login-card bg-1" styleClass="p-4 shadow-4">
+<div class="full-wrapper flex-center min-h-screen">
+  <p-card class="login-card flex-column gap-4">
     <ng-template pTemplate="header">
-      <div class="flex justify-content-center align-items-center pt-4">
-        <img src="/assets/images/logo.png" class="login-card-logo" alt="Edoha Logo" style="width: 50px; height: auto;" />
-        <span class="text-2xl font-bold ml-2">edoha</span>
+      <div class="flex-center pt-4 full-width gap-5">
+        <img src="/assets/images/logo.png" class="logo" alt="Edoha Logo" style="width: 50px; height: auto;" />
+        <h1 class="text-2xl font-bold ml-2">edoha</h1>
       </div>
     </ng-template>
 
-    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="flex flex-column gap-3">
-      <div class="form-field">
-        <label for="nickname">Apelido</label>
-        <input pInputText id="nickname" formControlName="nickname" placeholder="Apelido" class="w-full" />
-        @if (form.get('nickname')?.invalid && form.get('nickname')?.touched) {
-          <small class="error-msg">Apelido é obrigatório</small>
-        }
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="flex flex-column gap-5">
+      <div class="full-width flex-column">
+        <p-floatlabel>
+          <input pInputText 
+          id="nickname" 
+          formControlName="nickname" 
+          class="full-width input-border-standard p-2" />
+          <label for="nickname">Nome de Usuário ou Telefone</label>
+        </p-floatlabel>
+        <small class="error-msg">
+          @if (form.get('nickname')?.invalid && form.get('nickname')?.touched) {
+            Nome de usuário ou telefone é obrigatório
+          }
+          &nbsp;</small>
       </div>
 
-      <div class="form-field">
-        <label for="password">Senha</label>
-        <p-password id="password" formControlName="password" placeholder="********" [feedback]="false" [toggleMask]="true" styleClass="w-full" />
+      <div class="full-width flex-column">
+        <p-floatlabel>
+          <p-password 
+          formControlName="password" 
+          [toggleMask]="true" 
+          [feedback]="false" 
+          inputId="password" 
+          autocomplete="off" 
+          class="full-width input-border-standard" 
+          [inputStyleClass]="'full-width p-2'" />
+          <label for="password">Senha</label>
+        </p-floatlabel>
+
+        <small class="error-msg">
         @if (form.get('password')?.invalid && form.get('password')?.touched) {
-          <small class="error-msg">Senha é obrigatória</small>
+          Senha é obrigatória
         }
+        &nbsp;</small>
       </div>
 
-      <div class="flex justify-content-center mt-4">
-        <p-button
+      <div class="flex-center full-width">
+        <button
           type="submit"
-          label="Entrar"
-          icon="pi pi-sign-in"
-          [disabled]="!form.valid"
-          styleClass="w-full font-bold btn-1">
-        </p-button>
+          class="flex-center full-width btn btn-1"
+          [disabled]="!form.valid">
+          <i class="pi pi-sign-in"></i>
+          Entrar
+        </button>
       </div>
     </form>
   </p-card>
