@@ -16,19 +16,19 @@ export const lotteryRoutes: Routes = [
     component: AdicionarComponent,
   },
   {
-    path: ':id/resumo',
+    path: ':nameLottery/resumo',
     component: ResumoComponent,
   },
   {
-    path: ':nomeRifa/gerenciar',
+    path: ':nameLottery/gerenciar',
     component: GerenciarDetailComponent,
   },
   {
-    path: ':nomeRifa/talao/retirada',
+    path: ':nameLottery/talao/retirada',
     component: RetiradaComponent,
   },
   {
-    path: ':id/venda',
+    path: ':nameLottery/venda',
     component: VendaComponent,
   },
   {

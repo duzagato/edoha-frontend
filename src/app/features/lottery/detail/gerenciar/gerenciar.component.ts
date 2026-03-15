@@ -5,7 +5,8 @@ import { CardModule } from 'primeng/card';
 import { AccordionModule } from 'primeng/accordion';
 import { TableModule } from 'primeng/table';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { LotteryService, TicketbookService } from '../../../../core/services/requests';
+import { LotteryStorageService } from '../../../../core/services/lottery-storage.service';
+import { TicketbookService } from '../../../../core/services/requests';
 import { LotteryDTO } from '../../../../core/models/lottery';
 import { Ticketbook } from '../../../../core/models';
 
@@ -20,7 +21,7 @@ import { Ticketbook } from '../../../../core/models';
 })
 export class GerenciarDetailComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
-  private readonly lotteryService = inject(LotteryService);
+  private readonly lotteryStorageService = inject(LotteryStorageService);
   private readonly ticketbookService = inject(TicketbookService);
   lottery = signal<LotteryDTO | undefined>(undefined);
   loading = signal<boolean>(false);
@@ -29,7 +30,22 @@ export class GerenciarDetailComponent implements OnInit {
   returnedTicketbooks = signal<Ticketbook[]>([]);
 
   ngOnInit(): void {
+    const nameLottery = this.route.snapshot.paramMap.get('nameLottery');
+    if (nameLottery) {
+      this.loadLottery(nameLottery);
+    }
     this.loadTicketbooks();
+  }
+
+  private loadLottery(nameLottery: string): void {
+    this.lotteryStorageService.getLotteryByName(nameLottery).subscribe({
+      next: (lottery) => {
+        this.lottery.set(lottery);
+      },
+      error: () => {
+        this.loading.set(false);
+      },
+    });
   }
 
   private loadTicketbooks(): void {
@@ -44,3 +60,4 @@ export class GerenciarDetailComponent implements OnInit {
     });
   }
 }
+

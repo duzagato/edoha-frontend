@@ -31,7 +31,17 @@ export class LotteryService {
   }
 
   /**
-   * Creates a new lottery
+   * Retrieves all lotteries for a specific institution
+   * @param idInstitution - The unique identifier of the institution
+   * @returns Observable containing an array of LotteryDTO
+   */
+  getLotteriesByInstitution(idInstitution: string): Observable<LotteryDTO[]> {
+    return this.http.get<LotteryDTO[]>(
+      `${environment.apiUrl}${ApiRoutes.LOTTERY_GET_BY_INSTITUTION}/${idInstitution}/lottery`
+    );
+  }
+
+  /**
    * @param dto - The data for creating the lottery
    * @returns Observable for the creation operation
    */
