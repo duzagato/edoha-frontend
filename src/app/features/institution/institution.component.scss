@@ -1,0 +1,16 @@
+@use '../../../scss/spaces' as spaces;
+
+.institution-card {
+  min-width: 420px;
+  gap: spaces.$space-5;
+}
+
+.institution-btn {
+  padding: spaces.$space-3 spaces.$space-4;
+  gap: spaces.$space-2;
+  color: white !important;
+}
+
+.btn-2 {
+  color: white !important;
+}

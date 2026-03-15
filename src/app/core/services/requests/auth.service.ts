@@ -31,8 +31,11 @@ export class AuthService {
       .post<AuthResponseDTO>(`${environment.apiUrl}${ApiRoutes.AUTH_POST}`, credentials)
       .pipe(
         tap((response) => {
-          if (response?.token) {
-            this.saveToken(response.token);
+          if (response?.accessToken) {
+            this.saveToken(response.accessToken);
+          }
+          if (response?.idUser) {
+            sessionStorage.setItem(CacheKeys.ID_USER, response.idUser);
           }
         })
       );
@@ -114,6 +117,16 @@ export class AuthService {
     this.removeToken();
     sessionStorage.removeItem(CacheKeys.USER_DATA);
     sessionStorage.removeItem(CacheKeys.USER_PERMISSIONS);
+    sessionStorage.removeItem(CacheKeys.ID_USER);
+    localStorage.removeItem(CacheKeys.ID_INSTITUTION);
+  }
+
+  /**
+   * Gets the stored user ID from sessionStorage
+   * @returns The user ID or null if not found
+   */
+  getIdUser(): string | null {
+    return sessionStorage.getItem(CacheKeys.ID_USER);
   }
 
   /**

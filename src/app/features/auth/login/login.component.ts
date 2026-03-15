@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/requests/auth.service';
 import { CredentialsDTO } from '../../../core/models/auth';
 import { CardModule } from 'primeng/card';
@@ -25,7 +25,6 @@ export class LoginComponent {
     private readonly fb: FormBuilder,
     private readonly authService: AuthService,
     private readonly router: Router,
-    private readonly route: ActivatedRoute,
     private readonly messageService: MessageService
   ) {
     this.form = this.fb.group({
@@ -43,15 +42,14 @@ export class LoginComponent {
 
       this.authService.authenticate(model).subscribe({
         next: (response) => {
-          if (response?.token) {
+          if (response?.accessToken) {
             this.messageService.add({
               severity: 'success',
               summary: 'Sucesso',
               detail: 'Login realizado com sucesso!',
               life: 3000,
             });
-            const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-            this.router.navigate([returnUrl]);
+            this.router.navigate(['/institution']);
           }
         },
         error: (error) => {
