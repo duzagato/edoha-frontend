@@ -33,6 +33,17 @@ export class InstitutionService {
   }
 
   /**
+   * Retrieves institutions associated with a specific user
+   * @param idUser - The unique identifier of the user
+   * @returns Observable containing an array of InstitutionDTO
+   */
+  getByUser(idUser: string): Observable<InstitutionDTO[]> {
+    return this.http.get<InstitutionDTO[]>(
+      `${environment.apiUrl}${ApiRoutes.INSTITUTION_GET_BY_USER}/${idUser}`
+    );
+  }
+
+  /**
    * Creates a new institution
    * @param dto - The data for creating the institution
    * @returns Observable for the creation operation

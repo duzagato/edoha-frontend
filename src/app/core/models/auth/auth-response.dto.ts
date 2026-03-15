@@ -1,7 +1,8 @@
 /**
  * DTO for authentication response
- * Contains the JWT token returned by the API
+ * Contains the user ID and JWT access token returned by the API
  */
 export interface AuthResponseDTO {
-  token: string;
+  idUser: string;
+  accessToken: string;
 }

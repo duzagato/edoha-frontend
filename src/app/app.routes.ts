@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './features/auth/login/login.component';
+import { InstitutionComponent } from './features/institution/institution.component';
 import { DefaultLayoutComponent } from './layouts/default/default.component';
 import { HomeComponent } from './features/home/home.component';
 import { authGuard } from './core/guards/auth.guard';
@@ -8,6 +9,11 @@ export const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
+  },
+  {
+    path: 'institution',
+    component: InstitutionComponent,
+    canActivate: [authGuard],
   },
   {
     path: '',

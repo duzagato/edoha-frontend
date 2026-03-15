@@ -6,4 +6,6 @@ export class CacheKeys {
   static readonly USER_DATA = 'edoha_user_data';
   static readonly CURRENT_INSTITUTION = 'edoha_current_institution';
   static readonly USER_PERMISSIONS = 'edoha_user_permissions';
+  static readonly ID_USER = 'idUser';
+  static readonly ID_INSTITUTION = 'idInstitution';
 }
