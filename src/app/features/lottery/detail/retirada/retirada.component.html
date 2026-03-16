@@ -29,30 +29,28 @@
 
           <div class="form-field">
             <label for="ownerPhone">Telefone do Titular *</label>
-            <input pInputText id="ownerPhone" formControlName="ownerPhone" placeholder="(88) 98765-4321" class="w-full" />
+            <input pInputText id="ownerPhone" formControlName="ownerPhone" placeholder="(00) 00000-0000" class="w-full" appPhoneMask />
             @if (retiradaForm.get('ownerPhone')?.hasError('required') && retiradaForm.get('ownerPhone')?.touched) {
               <small class="error-msg">Telefone do titular é obrigatório</small>
             }
           </div>
 
           <div class="form-field">
-            <label for="holderName">Nome do Responsável *</label>
-            <input pInputText id="holderName" formControlName="holderName" placeholder="Digite o nome do responsável" class="w-full" />
-            @if (retiradaForm.get('holderName')?.hasError('required') && retiradaForm.get('holderName')?.touched) {
-              <small class="error-msg">Nome do responsável é obrigatório</small>
-            }
+            <label for="holderName">Nome do Portador</label>
+            <input pInputText id="holderName" formControlName="holderName" placeholder="Digite o nome do portador (opcional)" class="w-full" />
           </div>
 
           <div class="form-field">
-            <label for="holderPhone">Telefone do Responsável *</label>
-            <input pInputText id="holderPhone" formControlName="holderPhone" placeholder="(00) 98765-4321" class="w-full" />
-            @if (retiradaForm.get('holderPhone')?.hasError('required') && retiradaForm.get('holderPhone')?.touched) {
-              <small class="error-msg">Telefone do responsável é obrigatório</small>
+            <label for="holderPhone">Telefone do Portador</label>
+            <input pInputText id="holderPhone" formControlName="holderPhone" placeholder="(00) 00000-0000" class="w-full" appPhoneMask />
+            @if (holderPairError) {
+              <small class="error-msg">Nome e telefone do portador devem ser preenchidos juntos</small>
             }
           </div>
 
           <div class="form-actions">
-            <p-button type="submit" label="Registrar Retirada" [disabled]="!retiradaForm.valid || submitting()">
+            <p-button type="button" label="Cancelar" [outlined]="true" (onClick)="onCancel()" [disabled]="submitting()" />
+            <p-button type="submit" label="Registrar Retirada" [disabled]="retiradaForm.invalid || submitting()">
               @if (submitting()) {
                 <p-progressspinner [style]="{ width: '20px', height: '20px' }" />
               }

@@ -54,3 +54,24 @@ export interface UpdateTicketbookDTO {
   withdrawnDate?: string | null;
   devolutionDate?: string | null;
 }
+
+/**
+ * Person (owner or holder) embedded in a withdrawal request
+ */
+export interface TicketbookPersonDTO {
+  name: string;
+  phone: string;
+}
+
+/**
+ * DTO for registering a ticketbook withdrawal via
+ * POST /institution/{idInstitution}/lottery/{idLottery}/ticketbook
+ */
+export interface WithdrawTicketbookDTO {
+  ticketbookHolder?: TicketbookPersonDTO | null;
+  ticketbookOwner: TicketbookPersonDTO;
+  idStatusTicketbook: number;
+  number: number;
+  withdrawnDate: string | null;
+  devolutionDate: string | null;
+}
