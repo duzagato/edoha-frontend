@@ -63,6 +63,7 @@ export class ApiRoutes {
   static readonly TICKETBOOK_GET_ALL = '/ticketbook';
   static readonly TICKETBOOK_GET_BY_ID = '/ticketbook';
   static readonly TICKETBOOK_POST = '/ticketbook';
+  static readonly TICKETBOOK_POST_BY_LOTTERY = '/institution';
   static readonly TICKETBOOK_PUT = '/ticketbook';
   static readonly TICKETBOOK_DELETE = '/ticketbook';
 

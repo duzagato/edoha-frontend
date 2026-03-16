@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { ApiRoutes } from '../../../shared/constants/api-routes';
-import { TicketbookDTO, Ticketbook, CreateTicketbookDTO, UpdateTicketbookDTO } from '../../models/ticketbook';
+import { TicketbookDTO, Ticketbook, CreateTicketbookDTO, UpdateTicketbookDTO, WithdrawTicketbookDTO } from '../../models/ticketbook';
 
 /**
  * Service for managing Ticketbook entities
@@ -69,5 +69,19 @@ export class TicketbookService {
     return this.http.get<Ticketbook[]>(`${environment.apiUrl}${ApiRoutes.TICKETBOOK_GET_WITHDRAWNS}`, {
       params: { idLottery }
     });
+  }
+
+  /**
+   * Registers a ticketbook withdrawal for a specific lottery within an institution
+   * @param idInstitution - The institution's unique identifier
+   * @param idLottery - The lottery's unique identifier
+   * @param dto - The withdrawal data
+   * @returns Observable for the creation operation
+   */
+  withdraw(idInstitution: string, idLottery: string, dto: WithdrawTicketbookDTO): Observable<void> {
+    return this.http.post<void>(
+      `${environment.apiUrl}${ApiRoutes.TICKETBOOK_POST_BY_LOTTERY}/${idInstitution}/lottery/${idLottery}/ticketbook`,
+      dto
+    );
   }
 }
