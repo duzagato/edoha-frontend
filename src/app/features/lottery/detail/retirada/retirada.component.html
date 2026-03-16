@@ -5,8 +5,10 @@
     </div>
   } @else if (lottery()) {
     <p-card>
-      <ng-template pTemplate="title">Retirada de Talão - {{ lottery()?.name }}</ng-template>
-      <ng-template pTemplate="subtitle">Registre a retirada de um novo talão</ng-template>
+      <h2 class="page-title full-width">
+        <i class="pi pi-eject"></i>
+        Retirada de Talão - {{ lottery()?.name }}
+      </h2>
       <ng-template pTemplate="content">
         <form [formGroup]="retiradaForm" (ngSubmit)="onSubmit()" class="form-container">
           <div class="form-field">
@@ -14,14 +16,6 @@
             <p-inputnumber id="ticketbookNumber" formControlName="ticketbookNumber" placeholder="Digite o número do talão" [min]="1" styleClass="w-full" />
             @if (retiradaForm.get('ticketbookNumber')?.hasError('required') && retiradaForm.get('ticketbookNumber')?.touched) {
               <small class="error-msg">Número do talão é obrigatório</small>
-            }
-          </div>
-
-          <div class="form-field">
-            <label for="holderName">Nome do Responsável *</label>
-            <input pInputText id="holderName" formControlName="holderName" placeholder="Digite o nome do responsável" class="w-full" />
-            @if (retiradaForm.get('holderName')?.hasError('required') && retiradaForm.get('holderName')?.touched) {
-              <small class="error-msg">Nome do responsável é obrigatório</small>
             }
           </div>
 
@@ -34,20 +28,30 @@
           </div>
 
           <div class="form-field">
-            <label for="withdrawnDate">Data de Retirada *</label>
-            <p-datepicker id="withdrawnDate" formControlName="withdrawnDate" dateFormat="dd/mm/yy" styleClass="w-full" />
-            @if (retiradaForm.get('withdrawnDate')?.hasError('required') && retiradaForm.get('withdrawnDate')?.touched) {
-              <small class="error-msg">Data de retirada é obrigatória</small>
+            <label for="ownerPhone">Telefone do Titular *</label>
+            <input pInputText id="ownerPhone" formControlName="ownerPhone" placeholder="(88) 98765-4321" class="w-full" />
+            @if (retiradaForm.get('ownerPhone')?.hasError('required') && retiradaForm.get('ownerPhone')?.touched) {
+              <small class="error-msg">Telefone do titular é obrigatório</small>
             }
           </div>
 
           <div class="form-field">
-            <label for="observations">Observações</label>
-            <textarea pTextarea id="observations" formControlName="observations" rows="3" placeholder="Observações adicionais (opcional)" class="w-full"></textarea>
+            <label for="holderName">Nome do Responsável *</label>
+            <input pInputText id="holderName" formControlName="holderName" placeholder="Digite o nome do responsável" class="w-full" />
+            @if (retiradaForm.get('holderName')?.hasError('required') && retiradaForm.get('holderName')?.touched) {
+              <small class="error-msg">Nome do responsável é obrigatório</small>
+            }
+          </div>
+
+          <div class="form-field">
+            <label for="holderPhone">Telefone do Responsável *</label>
+            <input pInputText id="holderPhone" formControlName="holderPhone" placeholder="(00) 98765-4321" class="w-full" />
+            @if (retiradaForm.get('holderPhone')?.hasError('required') && retiradaForm.get('holderPhone')?.touched) {
+              <small class="error-msg">Telefone do responsável é obrigatório</small>
+            }
           </div>
 
           <div class="form-actions">
-            <p-button type="button" label="Cancelar" [outlined]="true" (onClick)="onCancel()" [disabled]="submitting()" />
             <p-button type="submit" label="Registrar Retirada" [disabled]="!retiradaForm.valid || submitting()">
               @if (submitting()) {
                 <p-progressspinner [style]="{ width: '20px', height: '20px' }" />

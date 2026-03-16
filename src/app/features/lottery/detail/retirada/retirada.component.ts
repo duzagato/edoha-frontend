@@ -47,9 +47,9 @@ export class RetiradaComponent implements OnInit {
     this.retiradaForm = this.fb.group({
       ticketbookNumber: [null, [Validators.required, Validators.min(1)]],
       holderName: ['', Validators.required],
+      holderPhone: ['', Validators.required],
       ownerName: ['', Validators.required],
-      withdrawnDate: [new Date(), Validators.required],
-      observations: [''],
+      ownerPhone: ['', Validators.required],
     });
   }
 
