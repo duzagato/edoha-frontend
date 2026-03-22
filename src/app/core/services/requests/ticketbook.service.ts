@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, catchError, of } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { ApiRoutes } from '../../../shared/constants/api-routes';
 import { TicketbookDTO, Ticketbook, CreateTicketbookDTO, UpdateTicketbookDTO, WithdrawTicketbookDTO } from '../../models/ticketbook';
@@ -69,6 +69,22 @@ export class TicketbookService {
     return this.http.get<Ticketbook[]>(`${environment.apiUrl}${ApiRoutes.TICKETBOOK_GET_WITHDRAWNS}`, {
       params: { idLottery }
     });
+  }
+
+  /**
+   * Retrieves ticketbook information by lottery and ticketbook number,
+   * including existing ticket sales if present.
+   * @param idInstitution - The institution's unique identifier
+   * @param idLottery - The lottery's unique identifier
+   * @param number - The ticketbook number
+   * @returns Observable containing the Ticketbook or null if not found
+   */
+  getTicketbookInformation(idInstitution: string, idLottery: string, number: number): Observable<Ticketbook | null> {
+    return this.http
+      .get<Ticketbook>(
+        `${environment.apiUrl}${ApiRoutes.TICKETBOOK_GET_BY_LOTTERY_AND_NUMBER}/${idInstitution}/lottery/${idLottery}/ticketbook/${number}`
+      )
+      .pipe(catchError(() => of(null)));
   }
 
   /**

@@ -15,6 +15,15 @@ export interface TicketbookDTO {
   createdBy: string | null;
 }
 
+/**
+ * Represents a ticket sale entry within a ticketbook.
+ * Used to record buyer information for each ticket.
+ */
+export interface Ticket {
+  number: number;
+  donaterName: string;
+  donaterPhone: string;
+}
 
 export interface Ticketbook {
   id: string;
@@ -27,6 +36,7 @@ export interface Ticketbook {
   devolutionDate: string | null;
   createdAt: string;
   createdBy: string | null;
+  tickets?: Ticket[];
 }
 
 /**
