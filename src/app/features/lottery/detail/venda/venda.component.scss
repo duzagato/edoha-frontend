@@ -57,6 +57,41 @@
   height: 20px;
 }
 
+.tickets-section {
+  border-top: 1px solid #e0e0e0;
+  padding-top: 16px;
+}
+
+.tickets-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 12px;
+}
+
+.ticket-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid #f0f0f0;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.ticket-number-label {
+  min-width: 90px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  padding-top: 28px;
+  color: #555;
+}
+
+.ticket-field {
+  flex: 1;
+}
+
 @media (max-width: 768px) {
   .venda-container {
     padding: 10px;
@@ -68,5 +103,14 @@
 
   .form-actions {
     flex-direction: column;
+  }
+
+  .ticket-row {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .ticket-number-label {
+    padding-top: 0;
   }
 }
