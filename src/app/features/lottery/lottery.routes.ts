@@ -5,6 +5,7 @@ import { ResumoComponent } from './detail/resumo/resumo.component';
 import { GerenciarDetailComponent } from './detail/gerenciar/gerenciar.component';
 import { RetiradaComponent } from './detail/retirada/retirada.component';
 import { VendaComponent } from './detail/venda/venda.component';
+import { DevolucaoComponent } from './detail/devolucao/devolucao';
 
 export const lotteryRoutes: Routes = [
   {
@@ -28,8 +29,8 @@ export const lotteryRoutes: Routes = [
     component: RetiradaComponent,
   },
   {
-    path: ':nameLottery/venda',
-    component: VendaComponent,
+    path: ':nameLottery/talao/devolucao',
+    component: DevolucaoComponent,
   },
   {
     path: '',

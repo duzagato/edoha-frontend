@@ -60,6 +60,7 @@ export class ApiRoutes {
   // Ticketbook Controller - /Ticketbook
   static readonly TICKETBOOK_GET_RETURNEDS = '/ticketbook/returneds';
   static readonly TICKETBOOK_GET_WITHDRAWNS = '/ticketbook/withdrawns';
+  static readonly TICKETBOOK_GET_BY_NUMBER = '/lottery/{idLottery}/ticketbook/ticketbook_by_number/{numberTicketbook}';
   static readonly TICKETBOOK_GET_ALL = '/ticketbook';
   static readonly TICKETBOOK_GET_BY_ID = '/ticketbook';
   static readonly TICKETBOOK_POST = '/ticketbook';

@@ -50,12 +50,12 @@ export const getMenuItems = (): MenuItem[] => [
             {
                 label: 'Devolução de Talão',
                 icon: 'pi pi-ticket',
-                routerLink: '/onix/devolucao-talão'
+                routerLink: '/rifas/onix/talao/devolucao'
             },
             {
                 label: 'Venda de Número',
                 icon: 'pi pi-tag',
-                routerLink: '/onix/venda-numero'
+                routerLink: '/rifas/onix/talao/devolucao'
             }
         ]
     }

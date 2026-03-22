@@ -1,0 +1,80 @@
+<div class="devolucao-container">
+    @if (loading()) {
+        <div class="loading-container">
+            <p-progressspinner />
+        </div>
+    } @else if (lottery()) {
+        <p-card>
+            <h2 class="page-title full-width">
+                <i class="pi pi-eject"></i>
+                Devolução de Talão - {{ lottery()?.name }}
+            </h2>
+            <ng-template pTemplate="content">
+                <form [formGroup]="devolucaoForm" (ngSubmit)="onSubmit()" class="form-container">
+                    <div class="form-field">
+                        <label for="ticketbookNumber">Número do Talão *</label>
+                        <p-inputnumber id="ticketbookNumber" formControlName="ticketbookNumber" 
+                        placeholder="Digite o número do talão" 
+                        [min]="1" 
+                        (onBlur)="onTicketbookNumberBlur()"
+                        styleClass="w-full" />
+                        @if (devolucaoForm.get('ticketbookNumber')?.hasError('required') && devolucaoForm.get('ticketbookNumber')?.touched) {
+                            <small class="error-msg">Número do talão é obrigatório</small>
+                        }
+                    </div>
+
+                    <div class="form-field">
+                        <label for="ownerName">Nome do Titular *</label>
+                        <input pInputText id="ownerName" formControlName="ownerName" placeholder="Digite o nome do titular" class="w-full" />
+                        @if (devolucaoForm.get('ownerName')?.hasError('required') && devolucaoForm.get('ownerName')?.touched) {
+                            <small class="error-msg">Nome do titular é obrigatório</small>
+                        }
+                    </div>
+
+                    <div class="form-field">
+                        <label for="ownerPhone">Telefone do Titular *</label>
+                        <input pInputText id="ownerPhone" formControlName="ownerPhone" placeholder="(00) 00000-0000" class="w-full" appPhoneMask />
+                        @if (devolucaoForm.get('ownerPhone')?.hasError('required') && devolucaoForm.get('ownerPhone')?.touched) {
+                            <small class="error-msg">Telefone do titular é obrigatório</small>
+                        }
+                    </div>
+
+                    <div class="form-field">
+                        <label for="holderName">Nome do Portador</label>
+                        <input pInputText id="holderName" formControlName="holderName" placeholder="Digite o nome do portador (opcional)" class="w-full" />
+                    </div>
+
+                    <div class="form-field">
+                        <label for="holderPhone">Telefone do Portador</label>
+                        <input pInputText id="holderPhone" formControlName="holderPhone" placeholder="(00) 00000-0000" class="w-full" appPhoneMask />
+                        @if (holderPairError) {
+                            <small class="error-msg">Nome e telefone do portador devem ser preenchidos juntos</small>
+                        }
+                    </div>
+
+                    <h3>Bilhetes</h3>
+
+                    @if (lottery(); as data) {
+                        @for (item of [].constructor(data.numTicketsTicketbook); track $index) {
+                            <div>Bilhete nº: {{ $index + 1 }}</div>
+                        }
+                    }
+
+                    <div class="form-actions">
+                        <p-button type="submit" label="Registrar Devolução" [disabled]="devolucaoForm.invalid || submitting()">
+                            @if (submitting()) {
+                                <p-progressspinner [style]="{ width: '20px', height: '20px' }" />
+                            }
+                        </p-button>
+                    </div>
+                </form>
+            </ng-template>
+        </p-card>
+    } @else {
+        <p-card>
+            <ng-template pTemplate="content">
+                <p>Rifa não encontrada.</p>
+            </ng-template>
+        </p-card>
+    }
+</div>

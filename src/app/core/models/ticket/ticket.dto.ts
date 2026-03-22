@@ -9,6 +9,13 @@ export interface TicketDTO {
   soldDate: string | null;
 }
 
+export interface Ticket {
+  idTicketbook: string;
+  idDonater: string;
+  number: number;
+  soldDate: string | null;
+}
+
 /**
  * DTO for creating a new Ticket
  * Maps to CreateTicketDTO in backend

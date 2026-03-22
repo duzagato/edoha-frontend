@@ -13,7 +13,7 @@ import { MessageService } from 'primeng/api';
 import { LotteryStorageService } from '../../../../core/services/lottery-storage.service';
 import { LotteryDTO } from '../../../../core/models/lottery';
 import { TicketbookService } from '../../../../core/services/requests/ticketbook.service';
-import { WithdrawTicketbookDTO } from '../../../../core/models/ticketbook';
+import { Ticketbook, WithdrawTicketbookDTO } from '../../../../core/models/ticketbook';
 import { StatusTicketbook } from '../../../../shared/constants/statusticketbook-enum';
 import { CacheKeys } from '../../../../shared/constants/cache-keys';
 import { PhoneMaskDirective } from '../../../../shared/directives/phone-mask.directive';
@@ -33,7 +33,7 @@ function holderPairValidator(group: AbstractControl): ValidationErrors | null {
 }
 
 @Component({
-  selector: 'app-retirada',
+  selector: 'app-devolucao',
   standalone: true,
   imports: [
     ReactiveFormsModule,
@@ -46,10 +46,10 @@ function holderPairValidator(group: AbstractControl): ValidationErrors | null {
     ProgressSpinnerModule,
     PhoneMaskDirective,
   ],
-  templateUrl: './retirada.component.html',
-  styleUrl: './retirada.component.scss',
+  templateUrl: './devolucao.html',
+  styleUrl: './devolucao.scss',
 })
-export class RetiradaComponent implements OnInit {
+export class DevolucaoComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly fb = inject(FormBuilder);
@@ -58,14 +58,15 @@ export class RetiradaComponent implements OnInit {
   private readonly messageService = inject(MessageService);
 
   lottery = signal<LotteryDTO | undefined>(undefined);
+  ticketbook = signal<Ticketbook | null>(null);
   loading = signal<boolean>(false);
   submitting = signal<boolean>(false);
 
-  retiradaForm: FormGroup;
+  devolucaoForm: FormGroup;
   nameLottery: string | null = null;
 
   constructor() {
-    this.retiradaForm = this.fb.group(
+    this.devolucaoForm = this.fb.group(
       {
         ticketbookNumber: [null, [Validators.required, Validators.min(1)]],
         ownerName: ['', Validators.required],
@@ -99,15 +100,47 @@ export class RetiradaComponent implements OnInit {
 
   get holderPairError(): boolean {
     return (
-      this.retiradaForm.hasError('holderPairRequired') &&
-      (this.retiradaForm.get('holderName')?.touched === true ||
-        this.retiradaForm.get('holderPhone')?.touched === true)
+      this.devolucaoForm.hasError('holderPairRequired') &&
+      (this.devolucaoForm.get('holderName')?.touched === true ||
+        this.devolucaoForm.get('holderPhone')?.touched === true)
     );
   }
 
+  onTicketbookNumberBlur(): void {
+    const ticketbookNumber = this.devolucaoForm.get('ticketbookNumber')?.value;
+    const currentLottery = this.lottery();
+
+    if (!ticketbookNumber || !currentLottery) {
+      return;
+    }
+
+    this.ticketbookService.getByNumber(currentLottery.id, ticketbookNumber).subscribe({
+      next: (ticketbook) => {
+        this.ticketbook.set(ticketbook);
+
+        if (ticketbook) {
+          this.devolucaoForm.patchValue({
+            ownerName: ticketbook.ticketbookOwner?.name,
+            ownerPhone: ticketbook.ticketbookOwner?.phone,
+            holderName: ticketbook.ticketbookHolder?.name,
+            holderPhone: ticketbook.ticketbookHolder?.phone
+          });
+        }
+      },
+      error: (error) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Erro',
+          detail: 'Talão não encontrado.',
+          life: 5000,
+        });
+      },
+    });
+  }
+
   onSubmit(): void {
-    if (this.retiradaForm.invalid || this.submitting()) {
-      this.retiradaForm.markAllAsTouched();
+    if (this.devolucaoForm.invalid || this.submitting()) {
+      this.devolucaoForm.markAllAsTouched();
       return;
     }
 
@@ -124,7 +157,7 @@ export class RetiradaComponent implements OnInit {
     }
 
     const { ticketbookNumber, ownerName, ownerPhone, holderName, holderPhone } =
-      this.retiradaForm.value;
+      this.devolucaoForm.value;
 
     const dto: WithdrawTicketbookDTO = {
       ticketbookOwner: {
@@ -148,14 +181,14 @@ export class RetiradaComponent implements OnInit {
         this.messageService.add({
           severity: 'success',
           summary: 'Sucesso',
-          detail: 'Retirada de talão registrada com sucesso!',
+          detail: 'Devolução de talão registrada com sucesso!',
           life: 3000,
         });
-        this.retiradaForm.reset();
+        this.devolucaoForm.reset();
       },
       error: (error) => {
         this.submitting.set(false);
-        const errorMessage = error?.error?.message || 'Erro ao registrar retirada de talão.';
+        const errorMessage = error?.error?.message || 'Erro ao registrar devolução de talão.';
         this.messageService.add({
           severity: 'error',
           summary: 'Erro',
@@ -165,9 +198,4 @@ export class RetiradaComponent implements OnInit {
       },
     });
   }
-
-  onCancel(): void {
-    this.router.navigate(['/rifas', this.nameLottery, 'gerenciar']);
-  }
 }
-

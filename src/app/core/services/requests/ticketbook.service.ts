@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 import { ApiRoutes } from '../../../shared/constants/api-routes';
-import { TicketbookDTO, Ticketbook, CreateTicketbookDTO, UpdateTicketbookDTO, WithdrawTicketbookDTO, TicketbookWithTickets } from '../../models/ticketbook';
+import { TicketbookDTO, Ticketbook, CreateTicketbookDTO, UpdateTicketbookDTO, WithdrawTicketbookDTO } from '../../models/ticketbook';
 
 /**
  * Service for managing Ticketbook entities
@@ -31,6 +31,13 @@ export class TicketbookService {
     return this.http.get<TicketbookDTO>(
       `${environment.apiUrl}${ApiRoutes.TICKETBOOK_GET_BY_ID}/${id}`
     );
+  }
+
+  getByNumber(idLottery: string, number: number): Observable<Ticketbook> {
+    const url = `${environment.apiUrl}${ApiRoutes.TICKETBOOK_GET_BY_NUMBER}`
+      .replace('{idLottery}', idLottery)
+      .replace('{numberTicketbook}', number.toString());
+    return this.http.get<Ticketbook>(url);
   }
 
   /**
@@ -79,26 +86,10 @@ export class TicketbookService {
    * @param dto - The withdrawal data
    * @returns Observable for the creation operation
    */
-  withdraw(idInstitution: string, idLottery: string, dto: WithdrawTicketbookDTO): Observable<void> {
+  withdraw(idLottery: string, dto: WithdrawTicketbookDTO): Observable<void> {
     return this.http.post<void>(
-      `${environment.apiUrl}${ApiRoutes.TICKETBOOK_POST_BY_LOTTERY}/${idInstitution}/lottery/${idLottery}/ticketbook`,
+      `${environment.apiUrl}/lottery/${idLottery}/ticketbook`,
       dto
     );
-  }
-
-  /**
-   * Retrieves ticketbook information (including existing ticket buyer data) by number,
-   * for a specific lottery within an institution.
-   * Returns null when the ticketbook is not found.
-   * @param idInstitution - The institution's unique identifier
-   * @param idLottery - The lottery's unique identifier
-   * @param number - The ticketbook number
-   * @returns Observable containing TicketbookWithTickets or null
-   */
-  getTicketbookInformation(idInstitution: string, idLottery: string, number: number): Observable<TicketbookWithTickets | null> {
-    return this.http.get<TicketbookWithTickets>(
-      `${environment.apiUrl}${ApiRoutes.TICKETBOOK_POST_BY_LOTTERY}/${idInstitution}/lottery/${idLottery}/ticketbook/information`,
-      { params: { number: number.toString() } }
-    ).pipe(catchError(() => of(null)));
   }
 }

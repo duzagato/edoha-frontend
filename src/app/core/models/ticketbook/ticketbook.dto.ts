@@ -1,3 +1,5 @@
+import { Ticket } from "../ticket/ticket.dto";
+
 /**
  * Ticket data for the sell (venda) form.
  * Represents a single ticket within a ticketbook, with buyer information.
@@ -6,14 +8,6 @@ export interface TicketSellData {
   number: number;
   donaterName: string;
   donaterPhone: string;
-}
-
-/**
- * Ticketbook returned by the getTicketbookInformation endpoint,
- * including pre-existing ticket buyer data.
- */
-export interface TicketbookWithTickets extends Ticketbook {
-  tickets: TicketSellData[];
 }
 
 /**
@@ -33,14 +27,20 @@ export interface TicketbookDTO {
   createdBy: string | null;
 }
 
+export interface UserContact {
+  id: string;
+  name: string;
+  phone: string;
+}
 
 export interface Ticketbook {
   id: string;
   idLottery: string;
-  idOwner: string | null;
-  idHolder: string | null;
+  ticketbookOwner: UserContact;
+  ticketbookHolder: UserContact | null;
   idStatusTicketbook: string;
   number: number;
+  tickets: Ticket[];
   withdrawnDate: string | null;
   devolutionDate: string | null;
   createdAt: string;
