@@ -9,37 +9,11 @@
       <ng-template pTemplate="subtitle">Registre a venda de um número</ng-template>
       <ng-template pTemplate="content">
         <form [formGroup]="vendaForm" (ngSubmit)="onSubmit()" class="form-container">
-          <div class="form-row">
-            <div class="form-field half-width">
-              <label for="ticketbookNumber">Número do Talão *</label>
-              <p-inputnumber id="ticketbookNumber" formControlName="ticketbookNumber" placeholder="Digite o número do talão" [min]="1" styleClass="w-full" />
-              @if (vendaForm.get('ticketbookNumber')?.hasError('required') && vendaForm.get('ticketbookNumber')?.touched) {
-                <small class="error-msg">Número do talão é obrigatório</small>
-              }
-            </div>
-
-            <div class="form-field half-width">
-              <label for="ticketNumber">Número do Bilhete *</label>
-              <p-inputnumber id="ticketNumber" formControlName="ticketNumber" placeholder="Digite o número do bilhete" [min]="1" styleClass="w-full" />
-              @if (vendaForm.get('ticketNumber')?.hasError('required') && vendaForm.get('ticketNumber')?.touched) {
-                <small class="error-msg">Número do bilhete é obrigatório</small>
-              }
-            </div>
-          </div>
-
           <div class="form-field">
-            <label for="donaterName">Nome do Comprador *</label>
-            <input pInputText id="donaterName" formControlName="donaterName" placeholder="Digite o nome do comprador" class="w-full" />
-            @if (vendaForm.get('donaterName')?.hasError('required') && vendaForm.get('donaterName')?.touched) {
-              <small class="error-msg">Nome do comprador é obrigatório</small>
-            }
-          </div>
-
-          <div class="form-field">
-            <label for="donaterPhone">Telefone do Comprador *</label>
-            <input pInputText id="donaterPhone" formControlName="donaterPhone" placeholder="Digite o telefone do comprador" class="w-full" />
-            @if (vendaForm.get('donaterPhone')?.hasError('required') && vendaForm.get('donaterPhone')?.touched) {
-              <small class="error-msg">Telefone do comprador é obrigatório</small>
+            <label for="ticketbookNumber">Número do Talão *</label>
+            <p-inputnumber id="ticketbookNumber" formControlName="ticketbookNumber" placeholder="Digite o número do talão" [min]="1" styleClass="w-full" (onBlur)="onTicketbookNumberBlur()" />
+            @if (vendaForm.get('ticketbookNumber')?.hasError('required') && vendaForm.get('ticketbookNumber')?.touched) {
+              <small class="error-msg">Número do talão é obrigatório</small>
             }
           </div>
 
@@ -65,6 +39,33 @@
             <label for="observations">Observações</label>
             <textarea pTextarea id="observations" formControlName="observations" rows="3" placeholder="Observações adicionais (opcional)" class="w-full"></textarea>
           </div>
+
+          @if (ticketNumbers().length > 0) {
+            <div class="tickets-section">
+              <h4 class="tickets-title">Informações dos Bilhetes</h4>
+              <div formArrayName="tickets">
+                @for (ticketNumber of ticketNumbers(); track ticketNumber; let i = $index) {
+                  <div [formGroupName]="i" class="ticket-row">
+                    <span class="ticket-number-label">Bilhete #{{ ticketNumber }}</span>
+                    <div class="form-field ticket-field">
+                      <label [for]="'donaterPhone_' + i">Telefone do Comprador *</label>
+                      <input pInputText [id]="'donaterPhone_' + i" formControlName="donaterPhone" placeholder="(00) 00000-0000" class="w-full" appPhoneMask />
+                      @if (getTicketGroup(i).get('donaterPhone')?.hasError('required') && getTicketGroup(i).get('donaterPhone')?.touched) {
+                        <small class="error-msg">Telefone é obrigatório</small>
+                      }
+                    </div>
+                    <div class="form-field ticket-field">
+                      <label [for]="'donaterName_' + i">Nome do Comprador *</label>
+                      <input pInputText [id]="'donaterName_' + i" formControlName="donaterName" placeholder="Digite o nome do comprador" class="w-full" />
+                      @if (getTicketGroup(i).get('donaterName')?.hasError('required') && getTicketGroup(i).get('donaterName')?.touched) {
+                        <small class="error-msg">Nome é obrigatório</small>
+                      }
+                    </div>
+                  </div>
+                }
+              </div>
+            </div>
+          }
 
           <div class="form-actions">
             <p-button type="button" label="Cancelar" [outlined]="true" (onClick)="onCancel()" [disabled]="submitting()" />

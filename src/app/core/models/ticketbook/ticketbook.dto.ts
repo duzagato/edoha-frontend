@@ -1,4 +1,22 @@
 /**
+ * Ticket data for the sell (venda) form.
+ * Represents a single ticket within a ticketbook, with buyer information.
+ */
+export interface TicketSellData {
+  number: number;
+  donaterName: string;
+  donaterPhone: string;
+}
+
+/**
+ * Ticketbook returned by the getTicketbookInformation endpoint,
+ * including pre-existing ticket buyer data.
+ */
+export interface TicketbookWithTickets extends Ticketbook {
+  tickets: TicketSellData[];
+}
+
+/**
  * DTO for Ticketbook entity
  * Maps to Ticketbook entity in backend
  */

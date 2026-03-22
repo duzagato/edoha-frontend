@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 import { ApiRoutes } from '../../../shared/constants/api-routes';
-import { TicketbookDTO, Ticketbook, CreateTicketbookDTO, UpdateTicketbookDTO, WithdrawTicketbookDTO } from '../../models/ticketbook';
+import { TicketbookDTO, Ticketbook, CreateTicketbookDTO, UpdateTicketbookDTO, WithdrawTicketbookDTO, TicketbookWithTickets } from '../../models/ticketbook';
 
 /**
  * Service for managing Ticketbook entities
@@ -83,5 +84,21 @@ export class TicketbookService {
       `${environment.apiUrl}${ApiRoutes.TICKETBOOK_POST_BY_LOTTERY}/${idInstitution}/lottery/${idLottery}/ticketbook`,
       dto
     );
+  }
+
+  /**
+   * Retrieves ticketbook information (including existing ticket buyer data) by number,
+   * for a specific lottery within an institution.
+   * Returns null when the ticketbook is not found.
+   * @param idInstitution - The institution's unique identifier
+   * @param idLottery - The lottery's unique identifier
+   * @param number - The ticketbook number
+   * @returns Observable containing TicketbookWithTickets or null
+   */
+  getTicketbookInformation(idInstitution: string, idLottery: string, number: number): Observable<TicketbookWithTickets | null> {
+    return this.http.get<TicketbookWithTickets>(
+      `${environment.apiUrl}${ApiRoutes.TICKETBOOK_POST_BY_LOTTERY}/${idInstitution}/lottery/${idLottery}/ticketbook/information`,
+      { params: { number: number.toString() } }
+    ).pipe(catchError(() => of(null)));
   }
 }
