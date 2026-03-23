@@ -52,11 +52,13 @@
                         }
                     </div>
 
-                    <h3>Bilhetes</h3>
-
                     @if (lottery(); as data) {
-                        @for (item of [].constructor(data.numTicketsTicketbook); track $index) {
-                            <div>Bilhete nº: {{ $index + 1 }}</div>
+                        @if (numberTicketbook(); as num) {
+                            <h3>Bilhetes</h3>
+
+                            @for (item of [].constructor(data.numTicketsTicketbook); track $index) {
+                                <div>Bilhete nº: {{ (num * data.numTicketsTicketbook - data.numTicketsTicketbook) + ($index + 1) }}</div>
+                            }
                         }
                     }
 

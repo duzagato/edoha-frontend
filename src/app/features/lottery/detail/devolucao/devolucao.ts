@@ -59,6 +59,9 @@ export class DevolucaoComponent implements OnInit {
 
   lottery = signal<LotteryDTO | undefined>(undefined);
   ticketbook = signal<Ticketbook | null>(null);
+  numberTicketbook = signal<number | null>(null);
+  initialNumber = signal<number | null>(null);
+  endNumber = signal<number | null>(null);
   loading = signal<boolean>(false);
   submitting = signal<boolean>(false);
 
@@ -108,6 +111,7 @@ export class DevolucaoComponent implements OnInit {
 
   onTicketbookNumberBlur(): void {
     const ticketbookNumber = this.devolucaoForm.get('ticketbookNumber')?.value;
+    this.numberTicketbook.set(ticketbookNumber);
     const currentLottery = this.lottery();
 
     if (!ticketbookNumber || !currentLottery) {
