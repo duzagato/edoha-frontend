@@ -56,12 +56,26 @@
                         @if (numberTicketbook(); as num) {
                             <h3>Bilhetes</h3>
 
+                            <div formArrayName="ticketList">
                             @for (item of [].constructor(data.numTicketsTicketbook); track $index) {
-                                <div>Bilhete nº: {{ (num * data.numTicketsTicketbook - data.numTicketsTicketbook) + ($index + 1) }}</div>
-                            }
-                        }
-                    }
+                            @let ticketNumber = (num * data.numTicketsTicketbook - data.numTicketsTicketbook) + ($index + 1);
+                            <!-- @let doubleChanceTicketNumber = ticketNumber + (data.numTicketsTicketbook * data.numTicketbooks); -->
 
+                            <div class="flex gap-2 mb-4" [formGroupName]="$index">
+                                <div class="form-field">
+                                    <label [for]="'donatorPhone' + $index">{{ ticketNumber }}</label>
+                                    <input pInputText [id]="'donatorPhone' + $index" formControlName="donatorPhone" placeholder="Telefone Doador" class="w-full" />
+                                </div>
+
+                                <div class="form-field">
+                                    <label>&nbsp;</label>
+                                    <input pInputText formControlName="donatorName" placeholder="Nome Doador" class="w-full" />
+                                </div>
+                            </div>
+                            }
+                            </div>
+                        }
+                        }
                     <div class="form-actions">
                         <p-button type="submit" label="Registrar Devolução" [disabled]="devolucaoForm.invalid || submitting()">
                             @if (submitting()) {

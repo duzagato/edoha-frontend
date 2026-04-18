@@ -1,10 +1,12 @@
+import { CreateTicketbookResponse } from './../../models/ticketbook/responses';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 import { ApiRoutes } from '../../../shared/constants/api-routes';
-import { TicketbookDTO, Ticketbook, CreateTicketbookDTO, UpdateTicketbookDTO, WithdrawTicketbookDTO } from '../../models/ticketbook';
+import { TicketbookDTO, Ticketbook, CreateTicketbookDTO, UpdateTicketbookDTO, WithdrawTicketbookDTO, ReturnedTicketbookRequest } from '../../models/ticketbook';
+
 
 /**
  * Service for managing Ticketbook entities
@@ -45,8 +47,11 @@ export class TicketbookService {
    * @param dto - The data for creating the ticketbook
    * @returns Observable for the creation operation
    */
-  create(dto: CreateTicketbookDTO): Observable<void> {
-    return this.http.post<void>(`${environment.apiUrl}${ApiRoutes.TICKETBOOK_POST}`, dto);
+  create(idLottery: string, dto: CreateTicketbookDTO): Observable<CreateTicketbookResponse> {
+    let url = `${environment.apiUrl}${ApiRoutes.TICKETBOOK_POST}`;
+    url = url.replace('{idLottery}', idLottery);
+    console.log(url);
+    return this.http.post<CreateTicketbookResponse>(url, dto);
   }
 
   /**
@@ -90,6 +95,20 @@ export class TicketbookService {
     return this.http.post<void>(
       `${environment.apiUrl}/lottery/${idLottery}/ticketbook`,
       dto
+    );
+  }
+
+  returned(idLottery: string, dto: ReturnedTicketbookRequest): Observable<void> {
+    return this.http.post<void>(
+      `${environment.apiUrl}/lottery/${idLottery}/ticketbook/returned`,
+      dto
+    );
+  }
+
+  returnedById(idLottery: string, idTicketbook: string): Observable<void> {
+    return this.http.patch<void>(
+      `${environment.apiUrl}/lottery/${idLottery}/ticketbook/${idTicketbook}/status/returned`,
+      {}
     );
   }
 }

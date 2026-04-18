@@ -36,3 +36,14 @@ export interface UpdateTicketDTO {
   idDonater?: string | null;
   soldDate?: string | null;
 }
+
+export interface TicketDonater{
+  donaterPhone: string,
+  donaterName: string
+}
+
+export interface TicketInformation {
+  number: number;
+  donatorName: string;
+  donatorPhone: string;
+}

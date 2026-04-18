@@ -1,4 +1,4 @@
-import { Ticket } from "../ticket/ticket.dto";
+import { Ticket, TicketInformation } from "../ticket/ticket.dto";
 
 /**
  * Ticket data for the sell (venda) form.
@@ -52,13 +52,10 @@ export interface Ticketbook {
  * Maps to CreateTicketbookDTO in backend
  */
 export interface CreateTicketbookDTO {
-  idLottery: string;
-  idOwner?: string | null;
-  idHolder?: string | null;
-  idStatusTicketbook: string;
+  ticketbookHolder?: TicketbookPersonDTO | null;
+  ticketbookOwner: TicketbookPersonDTO;
   number: number;
-  withdrawnDate?: string | null;
-  devolutionDate?: string | null;
+  idStatusTicketbook: number;
 }
 
 /**
@@ -92,4 +89,21 @@ export interface WithdrawTicketbookDTO {
   number: number;
   withdrawnDate: string | null;
   devolutionDate: string | null;
+}
+
+
+export interface WithdrawTicketbookRequest {
+  ticketbookHolder?: TicketbookPersonDTO | null;
+  ticketbookOwner: TicketbookPersonDTO;
+  idStatusTicketbook: number;
+  number: number;
+  withdrawnDate: string | null;
+  devolutionDate: string | null;
+}
+
+export interface ReturnedTicketbookRequest {
+  ticketbookHolder?: TicketbookPersonDTO | null;
+  ticketbookOwner: TicketbookPersonDTO;
+  number: number;
+  tickets: TicketInformation[]
 }

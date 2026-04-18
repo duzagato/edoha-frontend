@@ -42,3 +42,8 @@ export interface UserCredentials {
   nickname: string | null;
   password: string | null;
 }
+
+export interface Donater {
+  phone: string,
+  name: string
+}

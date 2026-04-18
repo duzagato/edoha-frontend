@@ -53,7 +53,7 @@ export class ApiRoutes {
   // Ticket Controller - /Ticket
   static readonly TICKET_GET_ALL = '/Ticket';
   static readonly TICKET_GET_BY_ID = '/Ticket';
-  static readonly TICKET_POST = '/Ticket';
+  static readonly TICKET_POST = '/ticketbook/{idTicketbook}/ticket';
   static readonly TICKET_PUT = '/Ticket';
   static readonly TICKET_DELETE = '/Ticket';
 
@@ -63,7 +63,7 @@ export class ApiRoutes {
   static readonly TICKETBOOK_GET_BY_NUMBER = '/lottery/{idLottery}/ticketbook/ticketbook_by_number/{numberTicketbook}';
   static readonly TICKETBOOK_GET_ALL = '/ticketbook';
   static readonly TICKETBOOK_GET_BY_ID = '/ticketbook';
-  static readonly TICKETBOOK_POST = '/ticketbook';
+  static readonly TICKETBOOK_POST = '/lottery/{idLottery}/ticketbook';
   static readonly TICKETBOOK_POST_BY_LOTTERY = '/institution';
   static readonly TICKETBOOK_PUT = '/ticketbook';
   static readonly TICKETBOOK_DELETE = '/ticketbook';

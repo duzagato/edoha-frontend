@@ -1,7 +1,6 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-
-import { AbstractControl, ReactiveFormsModule, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { AbstractControl, ReactiveFormsModule, FormBuilder, FormGroup, FormArray, ValidationErrors, Validators } from '@angular/forms';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
@@ -13,10 +12,13 @@ import { MessageService } from 'primeng/api';
 import { LotteryStorageService } from '../../../../core/services/lottery-storage.service';
 import { LotteryDTO } from '../../../../core/models/lottery';
 import { TicketbookService } from '../../../../core/services/requests/ticketbook.service';
-import { Ticketbook, WithdrawTicketbookDTO } from '../../../../core/models/ticketbook';
+import { Ticketbook, CreateTicketbookDTO } from '../../../../core/models/ticketbook';
 import { StatusTicketbook } from '../../../../shared/constants/statusticketbook-enum';
 import { CacheKeys } from '../../../../shared/constants/cache-keys';
 import { PhoneMaskDirective } from '../../../../shared/directives/phone-mask.directive';
+import { TicketInformation } from '../../../../core/models';
+import { TicketService } from '../../../../core/services/requests';
+import { concatMap, finalize } from 'rxjs';
 
 /**
  * Cross-field validator: holderName and holderPhone must be provided together.
@@ -54,6 +56,7 @@ export class DevolucaoComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly fb = inject(FormBuilder);
   private readonly lotteryStorageService = inject(LotteryStorageService);
+  private ticketService = inject(TicketService);
   private readonly ticketbookService = inject(TicketbookService);
   private readonly messageService = inject(MessageService);
 
@@ -76,9 +79,29 @@ export class DevolucaoComponent implements OnInit {
         ownerPhone: ['', Validators.required],
         holderName: [''],
         holderPhone: [''],
+        ticketList: this.fb.array([]),
       },
       { validators: holderPairValidator }
     );
+  }
+
+  get ticketList(): FormArray {
+    return this.devolucaoForm.get('ticketList') as FormArray;
+  }
+
+  private buildTicketControls(ticketbookNumber: number, ticketsPerTicketbook: number): void {
+    const initialnumber = (ticketbookNumber - 1) * ticketsPerTicketbook + 1;
+
+    this.ticketList.clear();
+    for (let i = 0; i < ticketsPerTicketbook; i++) {
+      this.ticketList.push(
+        this.fb.group({
+          number: [initialnumber + i],
+          donatorPhone: [''],
+          donatorName: [''],
+        })
+      );
+    }
   }
 
   ngOnInit(): void {
@@ -118,6 +141,8 @@ export class DevolucaoComponent implements OnInit {
       return;
     }
 
+    this.buildTicketControls(ticketbookNumber, currentLottery.numTicketsTicketbook);
+
     this.ticketbookService.getByNumber(currentLottery.id, ticketbookNumber).subscribe({
       next: (ticketbook) => {
         this.ticketbook.set(ticketbook);
@@ -149,7 +174,7 @@ export class DevolucaoComponent implements OnInit {
     }
 
     const currentLottery = this.lottery();
-    
+
     if (!currentLottery) {
       this.messageService.add({
         severity: 'error',
@@ -160,46 +185,88 @@ export class DevolucaoComponent implements OnInit {
       return;
     }
 
-    const { ticketbookNumber, ownerName, ownerPhone, holderName, holderPhone } =
+    const { ticketbookNumber, ownerName, ownerPhone, holderName, holderPhone, ticketList } =
       this.devolucaoForm.value;
 
-    const dto: WithdrawTicketbookDTO = {
-      ticketbookOwner: {
-        name: ownerName?.trim(),
-        phone: ownerPhone,
-      },
-      ticketbookHolder:
-        holderName?.trim()
-          ? { name: holderName.trim(), phone: holderPhone }
-          : null,
-      idStatusTicketbook: StatusTicketbook.Retirado,
-      number: ticketbookNumber,
-      withdrawnDate: null,
-      devolutionDate: null,
-    };
-
-    this.submitting.set(true);
-    this.ticketbookService.withdraw(currentLottery.id, dto).subscribe({
-      next: () => {
-        this.submitting.set(false);
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Sucesso',
-          detail: 'Devolução de talão registrada com sucesso!',
-          life: 3000,
-        });
-        this.devolucaoForm.reset();
-      },
-      error: (error) => {
-        this.submitting.set(false);
-        const errorMessage = error?.error?.message || 'Erro ao registrar devolução de talão.';
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Erro',
-          detail: errorMessage,
-          life: 5000,
-        });
-      },
+    const ticketsFilter = ticketList.filter((ticket: any) => {
+      return ticket.donatorName?.trim() && ticket.donatorPhone?.trim();
     });
+
+    const tickets: TicketInformation[] = (ticketsFilter ?? []).map((ticket: { number: number; donatorName: string; donatorPhone: string }) => ({
+      number: ticket.number,
+      donaterName: ticket.donatorName,
+      donaterPhone: ticket.donatorPhone,
+    }));
+
+    console.log(tickets);
+
+    if (this.ticketbook()?.id != null) {
+      const idTicketbook = this.ticketbook()?.id;
+      
+      this.submitting.set(true);
+
+      this.submitting.set(true);
+
+      this.ticketService.create(idTicketbook!, tickets).pipe(
+        concatMap(() => this.ticketbookService.returnedById(currentLottery.id, idTicketbook!)),
+        finalize(() => this.submitting.set(false))
+      ).subscribe({
+        next: () => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Sucesso',
+            detail: 'Operações concluídas com êxito!',
+          });
+        },
+        error: (err) => {
+          // Este bloco captura erros tanto do 'create' quanto do 'returnedById'
+          console.error('Falha em alguma etapa do processo', err);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Erro',
+            detail: err?.error?.message || 'Erro na operação.',
+          });
+        }
+      });
+    } else {
+      const ticketbook: CreateTicketbookDTO = {
+        ticketbookHolder: holderName && holderPhone ? { name: holderName, phone: holderPhone } : null,
+        ticketbookOwner: { name: ownerName, phone: ownerPhone },
+        number: ticketbookNumber,
+        idStatusTicketbook: StatusTicketbook.Devolvido,
+      };
+
+      this.submitting.set(true);
+
+      this.ticketbookService.create(currentLottery.id, ticketbook)
+        .pipe(
+          concatMap((res) => {
+            return this.ticketService.create(res.idTicketbook, tickets);
+          }),
+          finalize(() => this.submitting.set(false))
+        )
+        .subscribe({
+          next: () => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Sucesso',
+              detail: 'Talão e tickets registrados com êxito!',
+              life: 3000,
+            });
+          },
+          error: (error) => {
+            console.error('Erro na jornada:', error);
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Erro na Operação',
+              detail: error?.error?.message || 'Não foi possível concluir o registro.',
+              life: 5000,
+            });
+          }
+        });
+    }
+
+    this.numberTicketbook.set(null);
+    this.devolucaoForm.reset();
   }
 }

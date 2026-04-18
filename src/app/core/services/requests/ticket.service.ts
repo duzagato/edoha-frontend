@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { ApiRoutes } from '../../../shared/constants/api-routes';
-import { TicketDTO, CreateTicketDTO, UpdateTicketDTO } from '../../models/ticket';
+import { TicketDTO, TicketInformation, UpdateTicketDTO } from '../../models/ticket';
 
 /**
  * Service for managing Ticket entities
@@ -35,8 +35,12 @@ export class TicketService {
    * @param dto - The data for creating the ticket
    * @returns Observable for the creation operation
    */
-  create(dto: CreateTicketDTO): Observable<void> {
-    return this.http.post<void>(`${environment.apiUrl}${ApiRoutes.TICKET_POST}`, dto);
+  create(idTicketbook: string, tickets: TicketInformation[]): Observable<void> {
+    let url = `${environment.apiUrl}${ApiRoutes.TICKET_POST}`;
+    url = url.replace('{idTicketbook}', idTicketbook);
+    return this.http.post<void>(url, JSON.stringify(tickets), {
+      headers: { 'Content-Type': 'application/json' }
+    });
   }
 
   /**
