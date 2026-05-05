@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { CardModule } from 'primeng/card';
 import { AccordionModule } from 'primeng/accordion';
 import { TableModule } from 'primeng/table';
+import { ButtonModule } from 'primeng/button';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { LotteryStorageService } from '../../../../core/services/lottery-storage.service';
 import { TicketbookService } from '../../../../core/services/requests';
@@ -15,7 +16,7 @@ import { StatusTicketbook } from '../../../../shared/constants/statusticketbook-
 @Component({
   selector: 'app-gerenciar-detail',
   standalone: true,
-  imports: [CommonModule, CardModule, AccordionModule, TableModule, ProgressSpinnerModule],
+  imports: [CommonModule, CardModule, AccordionModule, TableModule, ButtonModule, ProgressSpinnerModule],
   templateUrl: './gerenciar.component.html',
   styleUrl: './gerenciar.component.scss',
 })
