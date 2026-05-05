@@ -2,7 +2,6 @@ import { CreateTicketbookResponse } from './../../models/ticketbook/responses';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 import { ApiRoutes } from '../../../shared/constants/api-routes';
 import { TicketbookDTO, Ticketbook, CreateTicketbookDTO, UpdateTicketbookDTO, WithdrawTicketbookDTO, ReturnedTicketbookRequest } from '../../models/ticketbook';
@@ -20,8 +19,9 @@ export class TicketbookService {
    * Retrieves all ticketbooks from the API
    * @returns Observable containing an array of TicketbookDTO
    */
-  getAll(): Observable<TicketbookDTO[]> {
-    return this.http.get<TicketbookDTO[]>(`${environment.apiUrl}${ApiRoutes.TICKETBOOK_GET_ALL}`);
+  getAll(idLottery: string): Observable<Ticketbook[]> {
+    const url = `${environment.apiUrl}/${ApiRoutes.TICKETBOOK_GET_ALL}`.replace('{idLottery}', idLottery);
+    return this.http.get<Ticketbook[]>(url);
   }
 
   /**

@@ -9,7 +9,7 @@ import { LotteryStorageService } from '../../../../core/services/lottery-storage
 import { TicketbookService } from '../../../../core/services/requests';
 import { LotteryDTO } from '../../../../core/models/lottery';
 import { Ticketbook } from '../../../../core/models';
-
+import { StatusTicketbook } from '../../../../shared/constants/statusticketbook-enum';
 
 
 @Component({
@@ -34,6 +34,7 @@ export class GerenciarDetailComponent implements OnInit {
     if (nameLottery) {
       this.loadLottery(nameLottery);
     }
+
     this.loadTicketbooks();
   }
 
@@ -41,6 +42,7 @@ export class GerenciarDetailComponent implements OnInit {
     this.lotteryStorageService.getLotteryByName(nameLottery).subscribe({
       next: (lottery) => {
         this.lottery.set(lottery);
+        console.log(this.lottery());
       },
       error: () => {
         this.loading.set(false);
@@ -49,15 +51,31 @@ export class GerenciarDetailComponent implements OnInit {
   }
 
   private loadTicketbooks(): void {
+    if (!this.lottery()?.id) {
+      return;
+    }
+    
+    const idLottery: string = this.lottery()?.id!;
+    
     this.loading.set(true);
-    this.ticketbookService.getReturneds("b5ddc839-b43b-4e7e-8264-5da133b9f973").subscribe({
+    this.ticketbookService.getAll(idLottery).subscribe({
       next: (ticketbooks) => {
-        this.returnedTicketbooks.set(ticketbooks);
+        this.groupByStatus(ticketbooks);
+        this.loading.set(false);
       },
       error: () => {
         this.loading.set(false);
+        console.log("Erro ao carregar os ticketbooks");
       },
     });
+  }
+
+  private groupByStatus(ticketbooks: Ticketbook[]): void {
+    const returned = ticketbooks.filter(t => t.idStatusTicketbook == StatusTicketbook.Devolvido.toString());
+    const withdrawn = ticketbooks.filter(t => t.idStatusTicketbook == StatusTicketbook.Retirado.toString());
+
+    this.returnedTicketbooks.set(returned);
+    this.withdrawnTicketbooks.set(withdrawn);
   }
 }
 

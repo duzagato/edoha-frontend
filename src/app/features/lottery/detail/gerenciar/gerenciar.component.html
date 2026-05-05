@@ -5,10 +5,10 @@
 
 <p-accordion value="0">
   <p-accordion-panel value="0">
-    <p-accordion-header>Retirados ({{ returnedTicketbooks().length }})</p-accordion-header>
+    <p-accordion-header>Retirados ({{ withdrawnTicketbooks().length }})</p-accordion-header>
     <p-accordion-content>
       <p class="m-0">
-        @for (item of returnedTicketbooks(); track item.id) {
+        @for (item of withdrawnTicketbooks(); track item.id) {
           <h2>{{ item.number }}</h2>
         }
       </p>
@@ -16,7 +16,7 @@
   </p-accordion-panel>
 
    <p-accordion-panel value="1">
-    <p-accordion-header>Devolvidos ({{ withdrawnTicketbooks().length }})</p-accordion-header>
+    <p-accordion-header>Devolvidos ({{ returnedTicketbooks().length }})</p-accordion-header>
     <p-accordion-content>
       <p class="m-0">
         @for (item of returnedTicketbooks(); track item.id) {
