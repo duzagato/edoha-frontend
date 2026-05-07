@@ -16,6 +16,7 @@ export class ApiRoutes {
   // Institution Controller - /Institution
   static readonly INSTITUTION_GET_ALL = '/Institution';
   static readonly INSTITUTION_GET_BY_ID = '/Institution';
+  static readonly INSTITUTION_GET_BY_SLUG = '/institution';
   static readonly INSTITUTION_GET_BY_USER = '/institution/institution_by_user';
   static readonly INSTITUTION_POST = '/Institution';
   static readonly INSTITUTION_PUT = '/Institution';

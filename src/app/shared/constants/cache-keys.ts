@@ -9,4 +9,5 @@ export class CacheKeys {
   static readonly ID_USER = 'idUser';
   static readonly ID_INSTITUTION = 'idInstitution';
   static readonly LOTTERY_STORAGE_PREFIX = 'lottery';
+  static readonly INSTITUTION_STORAGE_PREFIX = 'institution';
 }

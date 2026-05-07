@@ -24,3 +24,14 @@ export interface CreateInstitutionDTO {
 export interface UpdateInstitutionDTO {
   name?: string;
 }
+
+export interface InstitutionPublicDTO {
+  id: string;
+  name: string;
+  slugName: string;
+  shortName: string;
+  description: string | null;
+  logoDirectory: string;
+  createdAt: string;
+  createdBy: string | null;
+}

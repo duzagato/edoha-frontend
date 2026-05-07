@@ -1,0 +1,32 @@
+# Dependências
+node_modules/
+
+# Build e cache
+dist/
+.angular/
+out-tsc/
+tmp/
+
+# Testes e cobertura
+coverage/
+*.spec.ts
+karma.conf.js
+
+# IDE e sistema
+.vs/
+.vscode/
+.git/
+.DS_Store
+Thumbs.db
+
+# Lock files (desnecessário para entendimento)
+package-lock.json
+
+# Assets binários
+src/assets/images/
+src/assets/fonts/
+
+# Documentos de projeto desatualizados
+ACCEPTANCE_CRITERIA.md
+IMPLEMENTATION.md
+README.md

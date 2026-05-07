@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { ApiRoutes } from '../../../shared/constants/api-routes';
-import { InstitutionDTO, CreateInstitutionDTO, UpdateInstitutionDTO } from '../../models/institution';
+import { InstitutionDTO, CreateInstitutionDTO, UpdateInstitutionDTO, InstitutionPublicDTO } from '../../models/institution';
 
 /**
  * Service for managing Institution entities
@@ -29,6 +29,12 @@ export class InstitutionService {
   getById(id: string): Observable<InstitutionDTO> {
     return this.http.get<InstitutionDTO>(
       `${environment.apiUrl}${ApiRoutes.INSTITUTION_GET_BY_ID}/${id}`
+    );
+  }
+
+  getBySlug(slug: string): Observable<InstitutionPublicDTO> {
+    return this.http.get<InstitutionPublicDTO>(
+      `${environment.apiUrl}${ApiRoutes.INSTITUTION_GET_BY_SLUG}/${slug}`
     );
   }
 
