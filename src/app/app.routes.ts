@@ -34,6 +34,8 @@ export const routes: Routes = [
       },
     ],
   },
+  // Fallback client-side: redireciona rotas desconhecidas para a raiz.
+  // O fallback server-side (404 → index.html) deve ser configurado no CloudFront (Etapa 03).
   {
     path: '**',
     redirectTo: '',
