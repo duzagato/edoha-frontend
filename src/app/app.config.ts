@@ -6,7 +6,11 @@ import { authInterceptor } from './core/interceptors/auth.interceptor';
 import { providePrimeNG } from 'primeng/config';
 import { MessageService } from 'primeng/api';
 import Aura from '@primeuix/themes/aura';
+import { environment } from '../environments/environment';
 
+if (!environment.production) {
+  console.info('[env]', environment.name);
+}
 
 export const appConfig: ApplicationConfig = {
   providers: [

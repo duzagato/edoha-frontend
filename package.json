@@ -4,7 +4,13 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start:dev": "ng serve --configuration=development",
+    "start:hom": "ng serve --configuration=homologation",
+    "start:prod": "ng serve --configuration=production",
     "build": "ng build",
+    "build:dev": "ng build --configuration=development",
+    "build:hom": "ng build --configuration=homologation",
+    "build:prod": "ng build --configuration=production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },

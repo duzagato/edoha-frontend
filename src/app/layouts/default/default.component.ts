@@ -1,9 +1,11 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { ToastModule } from 'primeng/toast';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { HeaderComponent } from './components/header/header.component';
+import { InstitutionResolverService } from '../../core/services/institution-resolver.service';
+import { InstitutionPublicDTO } from '../../core/models';
 
 @Component({
   selector: 'app-default-layout',
@@ -13,6 +15,8 @@ import { HeaderComponent } from './components/header/header.component';
   styleUrl: './default.component.scss',
 })
 export class DefaultLayoutComponent {
+  private readonly institutionResolver = inject(InstitutionResolverService);
+
   isHandset = signal(false);
   sidebarOpen = signal(true);
 

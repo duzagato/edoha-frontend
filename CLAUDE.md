@@ -90,10 +90,22 @@ ASP.NET Core API at `https://localhost:7021` (dev). All routes are in `src/app/s
 
 ## Change Logging (MANDATORY)
 
-After **every** response that modifies any file in this repository, you MUST create or update a changelog file inside the `changes/` folder at the project root.
+After **every** response that modifies any file in this repository, you MUST create or update a changelog file inside the `documentation/changes/` folder.
 
 **Rules:**
 - **One file per user prompt** — if a single prompt causes multiple changes, document all of them in the same file (create it at the start or end, editing as you go).
-- **Naming convention:** `{N} - {titulo_alteracao}.md`, where `N` is the total number of existing files in `changes/` plus one (count only `.md` files, ignore `.gitkeep`). Example: if there are already 3 `.md` files, the new file is `4 - {titulo}.md`.
+- **Naming convention:** `{N} - {titulo_alteracao}.md`, where `N` is the total number of existing `.md` files in `documentation/changes/` plus one. Example: if there are already 3 `.md` files, the new file is `4 - {titulo}.md`.
 - **Content:** describe what was changed and why, in enough detail that a future reader understands the scope without reading the diff.
 - This requirement applies even to small, single-file edits. Skipping it is not allowed.
+
+## Backlog (AI-driven tasks)
+
+The `documentation/backlog/` folder contains task files organized into two subfolders:
+
+- `documentation/backlog/AI/` — task files (`.md`) describing work to be done by Claude.
+- `documentation/backlog/Human/` — output files created by Claude to describe actions the user must take manually.
+
+**Workflow when instructed to read a backlog AI task:**
+1. Always read `documentation/backlog/AI/readme.md` first, then read the specified task file.
+2. Execute the task as described.
+3. If any part of the task requires manual intervention by the user, create a `.md` file in `documentation/backlog/Human/` explaining exactly what the user needs to do to complete the task. Only create this file if human action is truly required.

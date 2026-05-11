@@ -1,4 +1,9 @@
-export const environment = {
+import { Environment } from './environment.model';
+
+// TODO (etapa 03): substituir pelo domínio real de prod após configurar o CloudFront
+export const environment: Environment = {
+  name: 'prod',
   production: true,
-  apiUrl: 'https://localhost:7021'
+  apiUrl: 'https://api.edoha.<dominio>',
+  featureFlags: {},
 };

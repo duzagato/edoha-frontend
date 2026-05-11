@@ -10,6 +10,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { InstitutionResolverService } from '../../../core/services/institution-resolver.service';
+import { InstitutionPublicDTO } from '../../../core/models';
 
 @Component({
   selector: 'app-login',
@@ -20,17 +22,20 @@ import { MessageService } from 'primeng/api';
 })
 export class LoginComponent {
   form: FormGroup;
+  institution: InstitutionPublicDTO | null = null;
 
   constructor(
     private readonly fb: FormBuilder,
     private readonly authService: AuthService,
     private readonly router: Router,
-    private readonly messageService: MessageService
+    private readonly messageService: MessageService,
+    private readonly institutionService: InstitutionResolverService
   ) {
     this.form = this.fb.group({
       nickname: ['', Validators.required],
       password: ['', Validators.required],
     });
+    this.institution = this.institutionService.getFromStorage(this.institutionService.extractSlug());
   }
 
   onSubmit(): void {
