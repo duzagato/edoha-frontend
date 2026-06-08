@@ -26,16 +26,16 @@ export class InstitutionService {
    * @param id - The unique identifier of the institution
    * @returns Observable containing the InstitutionDTO
    */
-  getById(id: string): Observable<InstitutionDTO> {
-    return this.http.get<InstitutionDTO>(
-      `${environment.apiUrl}${ApiRoutes.INSTITUTION_GET_BY_ID}/${id}`
-    );
-  }
+  // getById(id: string): Observable<InstitutionDTO> {
+  //   return this.http.get<InstitutionDTO>(
+  //     `${environment.apiUrl}${ApiRoutes.INSTITUTION_GET_BY_ID}/${id}`
+  //   );
+  // }
 
   getBySlug(slug: string): Observable<InstitutionPublicDTO> {
-    return this.http.get<InstitutionPublicDTO>(
-      `${environment.apiUrl}${ApiRoutes.INSTITUTION_GET_BY_SLUG}/${slug}`
-    );
+    const url: string = `${environment.apiUrl}/institution/${slug}`;
+    console.log(url);
+    return this.http.get<InstitutionPublicDTO>(url);
   }
 
   /**

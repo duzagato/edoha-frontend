@@ -10,6 +10,8 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { MessageService } from 'primeng/api';
 import { LotteryService } from '../../../core/services/requests/lottery.service';
 import { CreateLotteryDTO } from '../../../core/models/lottery';
+import {CacheKeys} from "../../../shared/constants/cache-keys";
+import { AuthService, InstitutionService } from '../../../core/services/requests';
 
 @Component({
   selector: 'app-adicionar-lottery',
@@ -19,12 +21,15 @@ import { CreateLotteryDTO } from '../../../core/models/lottery';
   styleUrl: './adicionar.component.scss',
 })
 export class AdicionarComponent {
+  private readonly authService = inject(AuthService);
+  private readonly institutionService = inject(InstitutionService);
   private readonly lotteryService = inject(LotteryService);
   private readonly router = inject(Router);
   private readonly fb = inject(FormBuilder);
   private readonly messageService = inject(MessageService);
 
   form: FormGroup;
+  idInstitution: string | null = null;
 
   constructor() {
     this.form = this.fb.group({
@@ -34,6 +39,10 @@ export class AdicionarComponent {
       priceTicket: [null, [Validators.required, Validators.min(0.01)]],
       doubleChance: [false],
     });
+  }
+
+  ngOnInit(): void {
+    this.idInstitution = localStorage.getItem(CacheKeys.ID_INSTITUTION);
   }
 
   onSubmit(): void {
@@ -46,7 +55,7 @@ export class AdicionarComponent {
         doubleChance: this.form.value.doubleChance ?? false,
       };
 
-      this.lotteryService.create(model).subscribe({
+      this.lotteryService.create(this.idInstitution!, model).subscribe({
         next: () => {
           this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Rifa criada com sucesso!', life: 3000 });
           this.router.navigate(['/rifas/gerenciar']);

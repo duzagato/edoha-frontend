@@ -1,97 +1,97 @@
-/**
- * API Routes constants for all backend controllers
- * Maps to the ASP.NET Core API endpoints
- */
 export class ApiRoutes {
   // Auth Controller - /auth
   static readonly AUTH_POST = '/auth';
 
-  // Action Controller - /Action
-  static readonly ACTION_GET_ALL = '/Action';
-  static readonly ACTION_GET_BY_ID = '/Action';
-  static readonly ACTION_POST = '/Action';
-  static readonly ACTION_PUT = '/Action';
-  static readonly ACTION_DELETE = '/Action';
+  // Action Controller - /action
+  static readonly ACTION_GET_ALL = '/action';
+  static readonly ACTION_GET_BY_ID = '/action/{id}';
+  static readonly ACTION_POST = '/action';
+  static readonly ACTION_PUT = '/action';
+  static readonly ACTION_DELETE = '/action/{id}';
 
-  // Institution Controller - /Institution
-  static readonly INSTITUTION_GET_ALL = '/Institution';
-  static readonly INSTITUTION_GET_BY_ID = '/Institution';
-  static readonly INSTITUTION_GET_BY_SLUG = '/institution';
-  static readonly INSTITUTION_GET_BY_USER = '/institution/institution_by_user';
-  static readonly INSTITUTION_POST = '/Institution';
-  static readonly INSTITUTION_PUT = '/Institution';
-  static readonly INSTITUTION_DELETE = '/Institution';
+  // Institution Controller - /institution
+  static readonly INSTITUTION_GET_ALL = '/institution';
+  static readonly INSTITUTION_GET_BY_SLUG = '/institution/{slug}';
+  static readonly INSTITUTION_GET_BY_USER = '/institution/institution_by_user/{idUser}';
+  static readonly INSTITUTION_POST = '/institution';
+  static readonly INSTITUTION_PUT = '/institution';
+  static readonly INSTITUTION_DELETE = '/institution/{id}';
 
-  // Lottery Controller - /Lottery
-  static readonly LOTTERY_GET_ALL = '/Lottery';
-  static readonly LOTTERY_GET_BY_ID = '/Lottery';
-  static readonly LOTTERY_GET_BY_INSTITUTION = '/institution';
-  static readonly LOTTERY_POST = '/Lottery';
-  static readonly LOTTERY_PUT = '/Lottery';
-  static readonly LOTTERY_DELETE = '/Lottery';
+  // Lottery Controller - /institution/{idInstitution}/lottery
+  static readonly LOTTERY_GET_ALL = '/institution/{idInstitution}/lottery';
+  static readonly LOTTERY_GET_BY_ID = '/institution/{idInstitution}/lottery/{id}';
+  static readonly LOTTERY_POST = '/institution/{idInstitution}/lottery';
+  static readonly LOTTERY_PUT = '/institution/{idInstitution}/lottery';
+  static readonly LOTTERY_DELETE = '/institution/{idInstitution}/lottery/{id}';
 
-  // Page Controller - /api/Page
-  static readonly PAGE_GET_ALL = '/api/Page';
-  static readonly PAGE_GET_BY_ID = '/api/Page';
-  static readonly PAGE_POST = '/api/Page';
-  static readonly PAGE_PUT = '/api/Page';
-  static readonly PAGE_DELETE = '/api/Page';
+  // Page Controller - /api/page
+  static readonly PAGE_GET_ALL = '/api/page';
+  static readonly PAGE_GET_BY_ID = '/api/page/{id}';
+  static readonly PAGE_POST = '/api/page';
+  static readonly PAGE_PUT = '/api/page';
+  static readonly PAGE_DELETE = '/api/page/{id}';
 
-  // Permission Controller - /Permission
-  static readonly PERMISSION_GET_ALL = '/Permission';
-  static readonly PERMISSION_GET_BY_ID = '/Permission';
-  static readonly PERMISSION_POST = '/Permission';
-  static readonly PERMISSION_PUT = '/Permission';
-  static readonly PERMISSION_DELETE = '/Permission';
+  // Permission Controller - /permission
+  static readonly PERMISSION_GET_ALL = '/permission';
+  static readonly PERMISSION_GET_BY_ID = '/permission/{id}';
+  static readonly PERMISSION_POST = '/permission';
+  static readonly PERMISSION_PUT = '/permission';
+  static readonly PERMISSION_DELETE = '/permission/{id}';
 
-  // StatusTicketbook Controller - /StatusTicketbook
-  static readonly STATUS_TICKETBOOK_GET_ALL = '/StatusTicketbook';
-  static readonly STATUS_TICKETBOOK_GET_BY_ID = '/StatusTicketbook';
-  static readonly STATUS_TICKETBOOK_POST = '/StatusTicketbook';
-  static readonly STATUS_TICKETBOOK_PUT = '/StatusTicketbook';
-  static readonly STATUS_TICKETBOOK_DELETE = '/StatusTicketbook';
+  // StatusTicketbook Controller - /statusticketbook
+  static readonly STATUS_TICKETBOOK_GET_ALL = '/statusticketbook';
+  static readonly STATUS_TICKETBOOK_GET_BY_ID = '/statusticketbook/{id}';
+  static readonly STATUS_TICKETBOOK_POST = '/statusticketbook';
+  static readonly STATUS_TICKETBOOK_PUT = '/statusticketbook';
+  static readonly STATUS_TICKETBOOK_DELETE = '/statusticketbook/{id}';
 
-  // Ticket Controller - /Ticket
-  static readonly TICKET_GET_ALL = '/Ticket';
-  static readonly TICKET_GET_BY_ID = '/Ticket';
+  // TableConfiguration Controller - /tableconfiguration
+  static readonly TABLE_CONFIGURATION_GET = '/tableconfiguration/{schema}/{tableName}';
+
+  // Ticket Controller - /ticketbook/{idTicketbook}/ticket
+  static readonly TICKET_GET_ALL = '/ticketbook/{idTicketbook}/ticket';
+  static readonly TICKET_GET_BY_ID = '/ticketbook/{idTicketbook}/ticket/{id}';
   static readonly TICKET_POST = '/ticketbook/{idTicketbook}/ticket';
-  static readonly TICKET_PUT = '/Ticket';
-  static readonly TICKET_DELETE = '/Ticket';
+  static readonly TICKET_PUT = '/ticketbook/{idTicketbook}/ticket';
+  static readonly TICKET_DELETE = '/ticketbook/{idTicketbook}/ticket/{id}';
 
-  // Ticketbook Controller - /Ticketbook
-  static readonly TICKETBOOK_GET_RETURNEDS = '/ticketbook/returneds';
-  static readonly TICKETBOOK_GET_WITHDRAWNS = '/ticketbook/withdrawns';
+  // Ticketbook Controller - /lottery/{idLottery}/ticketbook
+  static readonly TICKETBOOK_GET_ALL = '/lottery/{idLottery}/ticketbook';
+  static readonly TICKETBOOK_GET_BY_ID = '/lottery/{idLottery}/ticketbook/{id}';
   static readonly TICKETBOOK_GET_BY_NUMBER = '/lottery/{idLottery}/ticketbook/ticketbook_by_number/{numberTicketbook}';
-  static readonly TICKETBOOK_GET_ALL = 'lottery/{idLottery}/ticketbook';
-  static readonly TICKETBOOK_GET_BY_ID = '/ticketbook';
+  static readonly TICKETBOOK_GET_RETURNEDS = '/lottery/{idLottery}/ticketbook/returneds';
+  static readonly TICKETBOOK_GET_WITHDRAWNS = '/lottery/{idLottery}/ticketbook/withdrawns';
   static readonly TICKETBOOK_POST = '/lottery/{idLottery}/ticketbook';
-  static readonly TICKETBOOK_POST_BY_LOTTERY = '/institution';
-  static readonly TICKETBOOK_PUT = '/ticketbook';
-  static readonly TICKETBOOK_DELETE = '/ticketbook';
+  static readonly TICKETBOOK_PUT = '/lottery/{idLottery}/ticketbook';
+  static readonly TICKETBOOK_DELETE = '/lottery/{idLottery}/ticketbook/{id}';
+  static readonly TICKETBOOK_PATCH_STATUS = '/lottery/{idLottery}/ticketbook/{idTicketbook}/status/{idStatusTicketbook}';
+  static readonly TICKETBOOK_PATCH_STATUS_RETURNED = '/lottery/{idLottery}/ticketbook/{idTicketbook}/status/returned';
+  static readonly TICKETBOOK_PATCH_STATUS_WITHDRAW = '/lottery/{idLottery}/ticketbook/{idTicketbook}/status/withdraw';
 
-  // User Controller - /User
-  static readonly USER_GET_ALL = '/User';
-  static readonly USER_GET_BY_ID = '/User';
-  static readonly USER_POST = '/User';
-  static readonly USER_PUT = '/User';
-  static readonly USER_DELETE = '/User';
+  // User Controller - /user
+  static readonly USER_GET_ALL = '/user';
+  static readonly USER_GET_BY_ID = '/user/{id}';
+  static readonly USER_GET_INFORMATION = '/user/user_information';
+  static readonly USER_POST = '/user';
+  static readonly USER_PUT = '/user';
+  static readonly USER_DELETE = '/user/{id}';
 
-  // UserInstitution Controller - /UserInstitution
-  static readonly USER_INSTITUTION_GET_ALL = '/UserInstitution';
-  static readonly USER_INSTITUTION_GET_BY_ID = '/UserInstitution';
-  static readonly USER_INSTITUTION_POST = '/UserInstitution';
-  static readonly USER_INSTITUTION_PUT = '/UserInstitution';
-  static readonly USER_INSTITUTION_DELETE = '/UserInstitution';
+  // UserInstitution Controller - /userinstitution
+  static readonly USER_INSTITUTION_GET_ALL = '/userinstitution';
+  static readonly USER_INSTITUTION_GET_BY_ID = '/userinstitution/{id}';
+  static readonly USER_INSTITUTION_POST = '/userinstitution';
+  static readonly USER_INSTITUTION_PUT = '/userinstitution';
+  static readonly USER_INSTITUTION_DELETE = '/userinstitution/{id}';
 
-  // UserPermission Controller - /UserPermission
-  static readonly USER_PERMISSION_GET_BY_ID = '/UserPermission';
-  static readonly USER_PERMISSION_POST = '/UserPermission';
-  static readonly USER_PERMISSION_DELETE = '/UserPermission';
+  // UserPermission Controller - /userpermission
+  static readonly USER_PERMISSION_GET_BY_ID = '/userpermission/{id}';
+  static readonly USER_PERMISSION_POST = '/userpermission';
+  static readonly USER_PERMISSION_DELETE = '/userpermission/{id}';
 
-  // UserType Controller - /UserType
-  static readonly USER_TYPE_GET_ALL = '/UserType';
-  static readonly USER_TYPE_GET_BY_ID = '/UserType';
-  static readonly USER_TYPE_POST = '/UserType';
-  static readonly USER_TYPE_PUT = '/UserType';
-  static readonly USER_TYPE_DELETE = '/UserType';
+  // UserType Controller - /usertype
+  static readonly USER_TYPE_GET_ALL = '/usertype';
+  static readonly USER_TYPE_GET_BY_ID = '/usertype/{id}';
+  static readonly USER_TYPE_POST = '/usertype';
+  static readonly USER_TYPE_PUT = '/usertype';
+  static readonly USER_TYPE_DELETE = '/usertype/{id}';
 }

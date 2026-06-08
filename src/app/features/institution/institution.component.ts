@@ -38,20 +38,25 @@ export class InstitutionComponent implements OnInit {
       return;
     }
 
-    this.institutionService.getByUser(idUser).subscribe({
-      next: (institutions) => {
-        this.institutions = institutions ?? [];
-        this.loading = false;
+    this.institutions = JSON.parse(sessionStorage.getItem(CacheKeys.USER_STORAGE_PREFIX + ':institutions')!);
 
-        if (this.institutions.length === 1) {
-          this.selectInstitution(this.institutions[0]);
-        }
-      },
-      error: () => {
-        this.institutions = [];
-        this.loading = false;
-      },
-    });
+    if(this.institutions == null){
+      console.log("Não possui cache");
+      this.institutionService.getByUser(idUser).subscribe({
+        next: (institutions) => {
+          this.institutions = institutions ?? [];
+        },
+        error: () => {
+          this.institutions = [];
+          this.loading = false;
+        },
+      });
+    }
+
+    this.loading = false;
+    if (this.institutions.length === 1) {
+      this.selectInstitution(this.institutions[0]);
+    }
   }
 
   selectInstitution(institution: InstitutionDTO): void {

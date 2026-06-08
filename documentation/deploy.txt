@@ -1,0 +1,7 @@
+ng build --configuration development
+ng build --configuration homologation
+ng build --configuration production
+
+aws s3 sync dist/edoha-frontend/browser s3://eduardozagato.com-547925827708-sa-east-1-an --delete
+
+aws cloudfront create-invalidation --distribution-id E3AI6E6NP3C6NU --paths "/*"

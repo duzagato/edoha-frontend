@@ -10,4 +10,13 @@ export class CacheKeys {
   static readonly ID_INSTITUTION = 'idInstitution';
   static readonly LOTTERY_STORAGE_PREFIX = 'lottery';
   static readonly INSTITUTION_STORAGE_PREFIX = 'institution';
+  static readonly USER_STORAGE_PREFIX = 'user';
+}
+
+export class SessionKeys {
+  static readonly USER_ID = 'userId';
+  static readonly INSTITUTION_PUBLIC_DATA = 'institution:{slug}';
+  static readonly INSTITUTION_ID = 'institution:id';
+  static readonly INSTITUTION_SLUG = 'institution:slug';
+  static readonly INSTITUTION_SHORT_NAME = 'institution:shortName';
 }

@@ -25,7 +25,11 @@ export class HeaderComponent {
   institution: InstitutionPublicDTO | null = null;
 
   constructor() {
-    this.institution = this.institutionService.getFromStorage(this.institutionService.extractSlug());
+    this.institutionService.getInstitution(this.institutionService.extractSlug()).subscribe({
+      next: (data) => {
+        this.institution = data;
+      },
+    });
   }
 
   get userName(): string {

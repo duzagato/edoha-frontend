@@ -1,15 +1,16 @@
+@use '../../../../../scss/colors' as *;
+
 .header {
   display: flex;
   align-items: center;
   position: sticky;
   top: 0;
   z-index: 1000;
-  background-color: var(--color-primary) !important;
   height: 64px;
   padding: 0 16px;
-  background-color: var(--color-primary-dark, #1976d2);
   color: #ffffff;
   padding: 0px 80px;
+  background-color: #000ACD;
 
   .menu-toggle {
     @media (min-width: 960px) {

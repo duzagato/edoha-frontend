@@ -29,16 +29,7 @@ export class LotteryStorageService {
       return of(cached);
     }
 
-    const idInstitution = localStorage.getItem(CacheKeys.ID_INSTITUTION);
-    if (!idInstitution) {
-      console.log("Sem instituição");
-      console.warn('LotteryStorageService: idInstitution not found in localStorage. User may not have selected an institution.');
-      return of(undefined);
-    }
-
-    console.log(idInstitution);
-
-    return this.lotteryService.getLotteriesByInstitution(idInstitution).pipe(
+    return this.lotteryService.getLotteriesByInstitution().pipe(
       map((lotteries) => {
         const decodedName = decodeURIComponent(nameLottery);
         console.log(lotteries);

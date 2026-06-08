@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { ApiRoutes } from '../../../shared/constants/api-routes';
-import { CacheKeys } from '../../../shared/constants/cache-keys';
+import { CacheKeys, SessionKeys } from '../../../shared/constants/cache-keys';
 import { CredentialsDTO, AuthResponseDTO, DecodedToken } from '../../models/auth';
 
 /**
@@ -66,6 +66,19 @@ export class AuthService {
     this._isLoggedIn.set(false);
   }
 
+  isInstitutionSelected(): boolean {
+    const id = sessionStorage.getItem(SessionKeys.INSTITUTION_ID);
+    const slug = sessionStorage.getItem(SessionKeys.INSTITUTION_SLUG);
+    const shortName = sessionStorage.getItem(SessionKeys.INSTITUTION_SHORT_NAME);
+
+    if (id && slug && shortName) {
+      return true;
+    }
+
+    return false;
+  }
+  
+
   /**
    * Checks if the user is currently authenticated
    * Validates token existence and expiration
@@ -73,7 +86,7 @@ export class AuthService {
    */
   isAuthenticated(): boolean {
     const token = this.getToken();
-    if (!token) {
+    if (!token || !this.isInstitutionSelected()) {
       return false;
     }
 

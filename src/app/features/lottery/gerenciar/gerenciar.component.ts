@@ -30,7 +30,7 @@ export class GerenciarComponent implements OnInit {
 
   loadLotteries(): void {
     this.loading.set(true);
-    this.lotteryService.getAll().subscribe({
+    this.lotteryService.getLotteriesByInstitution().subscribe({
       next: (data) => {
         this.lotteries.set(data);
         this.loading.set(false);

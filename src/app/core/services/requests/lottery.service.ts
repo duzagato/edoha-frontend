@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { ApiRoutes } from '../../../shared/constants/api-routes';
 import { LotteryDTO, CreateLotteryDTO, UpdateLotteryDTO } from '../../models/lottery';
+import { InstitutionSession } from '../../models/session/institution-session';
 
 /**
  * Service for managing Lottery entities
@@ -27,7 +28,10 @@ export class LotteryService {
    * @returns Observable containing the LotteryDTO
    */
   getById(id: string): Observable<LotteryDTO> {
-    return this.http.get<LotteryDTO>(`${environment.apiUrl}${ApiRoutes.LOTTERY_GET_BY_ID}/${id}`);
+    const institutionSession = new InstitutionSession();
+    const institutionId = institutionSession.id;
+    const url = `${environment.apiUrl}${ApiRoutes.LOTTERY_GET_BY_ID.replace('{idInstitution}', institutionId!)}/${id}`;
+    return this.http.get<LotteryDTO>(url);
   }
 
   /**
@@ -35,18 +39,22 @@ export class LotteryService {
    * @param idInstitution - The unique identifier of the institution
    * @returns Observable containing an array of LotteryDTO
    */
-  getLotteriesByInstitution(idInstitution: string): Observable<LotteryDTO[]> {
-    return this.http.get<LotteryDTO[]>(
-      `${environment.apiUrl}${ApiRoutes.LOTTERY_GET_BY_INSTITUTION}/${idInstitution}/lottery`
-    );
+  getLotteriesByInstitution(): Observable<LotteryDTO[]> {
+    const idInstitution = new InstitutionSession().id;
+    const url = `${environment.apiUrl}${ApiRoutes.LOTTERY_GET_ALL.replace('{idInstitution}', idInstitution!)}`;
+    return this.http.get<LotteryDTO[]>(url);
   }
 
   /**
    * @param dto - The data for creating the lottery
    * @returns Observable for the creation operation
    */
-  create(dto: CreateLotteryDTO): Observable<void> {
-    return this.http.post<void>(`${environment.apiUrl}${ApiRoutes.LOTTERY_POST}`, dto);
+  create(idInstitution: string, dto: CreateLotteryDTO): Observable<void> {
+    let url = `${environment.apiUrl}${ApiRoutes.LOTTERY_POST}`;
+    url = url.replace('{idInstitution}', idInstitution);
+    console.log(url);
+
+    return this.http.post<void>(url, dto);
   }
 
   /**
