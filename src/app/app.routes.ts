@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { LoginComponent } from './features/auth/login/login.component';
 import { InstitutionComponent } from './features/institution/institution.component';
 import { DefaultLayoutComponent } from './layouts/default/default.component';
+import { LotteryLayout } from './layouts/lottery-layout/lottery-layout';
 import { HomeComponent } from './features/home/home.component';
 import { authGuard } from './core/guards/auth.guard';
 
@@ -28,6 +29,13 @@ export const routes: Routes = [
         path: 'usuarios',
         loadChildren: () => import('./features/user/user.routes').then(m => m.userRoutes),
       },
+    ],
+  },
+  {
+    path: '',
+    component: LotteryLayout,
+    canActivate: [authGuard],
+    children: [
       {
         path: 'rifas',
         loadChildren: () => import('./features/lottery/lottery.routes').then(m => m.lotteryRoutes),

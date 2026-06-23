@@ -23,6 +23,7 @@ export class HeaderComponent {
 
   menuToggle = output<void>();
   institution: InstitutionPublicDTO | null = null;
+  menuItems: MenuItem[] = [];
 
   constructor() {
     this.institutionService.getInstitution(this.institutionService.extractSlug()).subscribe({
@@ -32,22 +33,32 @@ export class HeaderComponent {
     });
   }
 
-  get userName(): string {
-    return this.authService.getNickname() || 'Usuário';
+  ngOnInit(): void {
+    this.menuItems = this.getMenuItems();
   }
 
-  get userMenuItems(): MenuItem[] {
+  getMenuItems(): MenuItem[] {
     return [
       {
-        label: 'Configurações',
-        icon: 'pi pi-cog',
-        command: () => this.navigateToSettings(),
+        label: 'Início',
+        icon: 'pi pi-home',
+        routerLink: '/'
+      },
+      {
+        label: 'Usuários',
+        icon: 'pi pi-users',
+        routerLink: '/usuarios/gerenciar'
+      },
+      {
+        label: 'Rifas',
+        icon: 'pi pi-ticket',
+        routerLink: '/rifas/gerenciar' 
       },
       {
         label: 'Sair',
         icon: 'pi pi-sign-out',
-        command: () => this.logout(),
-      },
+        command: () => this.logout()
+      }
     ];
   }
 
@@ -64,7 +75,7 @@ export class HeaderComponent {
     this.router.navigate(['/login']);
   }
 
-  navigateToSettings(): void {
-    this.router.navigate(['/settings']);
+  navigateToRoute(routeName: string): void {
+    this.router.navigate([routeName]);
   }
 }

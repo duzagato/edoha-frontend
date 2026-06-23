@@ -12,7 +12,6 @@ import { LotteryService } from '../../../core/services/requests/lottery.service'
 import { CreateLotteryDTO } from '../../../core/models/lottery';
 import {CacheKeys} from "../../../shared/constants/cache-keys";
 import { AuthService, InstitutionService } from '../../../core/services/requests';
-
 @Component({
   selector: 'app-adicionar-lottery',
   standalone: true,

@@ -13,7 +13,7 @@ export class InstitutionResolverService {
   init(): void {
     this.router.events.pipe(filter(e => e instanceof NavigationEnd)).subscribe(() => {
       const slug = this.extractSlug();
-      const institution = this.getInstitution(slug).subscribe({
+      this.getInstitution(slug).subscribe({
         next: (data) => {
           if (data) {
             this.defineSession(data);
@@ -41,7 +41,7 @@ export class InstitutionResolverService {
   extractSlug(): string {
     const hostname = window.location.hostname;
     const match = hostname.match(/^(.+)\.edoha\./i);
-    if (!match) return 'edoha';
+    if (!match) return 'adevirp';
     const subdomain = match[1].replace(/^www\./i, '');
     return subdomain || 'edoha';
   }

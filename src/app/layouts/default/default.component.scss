@@ -1,54 +1,11 @@
+@use '../../../scss/spaces' as *;
+
 .default-layout {
   display: flex;
   flex-direction: column;
   height: 100vh;
-
-  .layout-body {
-    display: flex;
-    flex: 1;
-    height: calc(100vh - 64px);
-    position: relative;
-
-    .sidebar {
-      width: 280px;
-      height: 100%;
-      flex-shrink: 0;
-      border-right: 1px solid rgba(0, 0, 0, 0.12);
-      position: auto;
-      overflow-y: hidden;
-      transform: translateX(-280px);
-      transition: transform 0.3s ease;
-
-      &.sidebar-open {
-        transform: translateX(0);
-      }
-
-      &.sidebar-overlay {
-        position: absolute;
-        left: 0;
-        top: 0;
-        z-index: 100;
-        background: white;
-      }
-    }
-
-    .sidebar-backdrop {
-      position: absolute;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.5);
-      z-index: 99;
-    }
-
-    .main-content {
-      flex: 3;
-      padding: 24px;
-      overflow: auto;
-      display:flex;
-      justify-content: center;
-    }
-  }
 }
 
 main{
-  padding: 24px;
+  padding:$space-5 $space-9;
 }

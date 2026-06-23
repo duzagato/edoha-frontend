@@ -1,20 +1,21 @@
-import { Component, signal, inject } from '@angular/core';
+import { Component, signal, inject, Input } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { ToastModule } from 'primeng/toast';
-import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { HeaderComponent } from './components/header/header.component';
 import { InstitutionResolverService } from '../../core/services/institution-resolver.service';
-import { InstitutionPublicDTO } from '../../core/models';
+import { PanelMenu, PanelMenuModule } from 'primeng/panelmenu';
+import { MenuItem, MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-default-layout',
   standalone: true,
-  imports: [RouterModule, ToastModule, SidebarComponent, HeaderComponent],
+  imports: [RouterModule, ToastModule, HeaderComponent, PanelMenu, PanelMenuModule],
   templateUrl: './default.component.html',
   styleUrl: './default.component.scss',
 })
 export class DefaultLayoutComponent {
+  @Input() menuItems: MenuItem[] | undefined = undefined;
   private readonly institutionResolver = inject(InstitutionResolverService);
 
   isHandset = signal(false);

@@ -7,7 +7,7 @@ import { CardModule } from 'primeng/card';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { MessageService } from 'primeng/api';
 import { LotteryService } from '../../../core/services/requests/lottery.service';
-import { LotteryDTO } from '../../../core/models/lottery';
+import { Lottery } from '../../../core/models/lottery';
 
 @Component({
   selector: 'app-gerenciar-lottery',
@@ -21,7 +21,7 @@ export class GerenciarComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly messageService = inject(MessageService);
 
-  lotteries = signal<LotteryDTO[]>([]);
+  lotteries = signal<Lottery[]>([]);
   loading = signal<boolean>(false);
 
   ngOnInit(): void {
@@ -43,7 +43,7 @@ export class GerenciarComponent implements OnInit {
     });
   }
 
-  deleteLottery(lottery: LotteryDTO): void {
+  deleteLottery(lottery: Lottery): void {
     const confirmed = confirm(`Tem certeza que deseja excluir a rifa "${lottery.name}"?`);
     if (confirmed) {
       this.lotteryService.delete(lottery.id).subscribe({

@@ -10,16 +10,14 @@ import { TextareaModule } from 'primeng/textarea';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { MessageService } from 'primeng/api';
 import { LotteryStorageService } from '../../../../core/services/lottery-storage.service';
-import { LotteryDTO } from '../../../../core/models/lottery';
+import { Lottery } from '../../../../core/models/lottery';
 import { TicketbookService } from '../../../../core/services/requests/ticketbook.service';
 import { Ticketbook, CreateTicketbookDTO } from '../../../../core/models/ticketbook';
 import { StatusTicketbook } from '../../../../shared/constants/statusticketbook-enum';
-import { CacheKeys } from '../../../../shared/constants/cache-keys';
 import { PhoneMaskDirective } from '../../../../shared/directives/phone-mask.directive';
 import { TicketInformation } from '../../../../core/models';
 import { TicketService } from '../../../../core/services/requests';
 import { concatMap, finalize } from 'rxjs';
-
 /**
  * Cross-field validator: holderName and holderPhone must be provided together.
  */
@@ -46,21 +44,20 @@ function holderPairValidator(group: AbstractControl): ValidationErrors | null {
     DatePickerModule,
     TextareaModule,
     ProgressSpinnerModule,
-    PhoneMaskDirective,
+    PhoneMaskDirective
   ],
   templateUrl: './devolucao.html',
   styleUrl: './devolucao.scss',
 })
 export class DevolucaoComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
-  private readonly router = inject(Router);
   private readonly fb = inject(FormBuilder);
   private readonly lotteryStorageService = inject(LotteryStorageService);
   private ticketService = inject(TicketService);
   private readonly ticketbookService = inject(TicketbookService);
   private readonly messageService = inject(MessageService);
 
-  lottery = signal<LotteryDTO | undefined>(undefined);
+  lottery = signal<Lottery | undefined>(undefined);
   ticketbook = signal<Ticketbook | null>(null);
   numberTicketbook = signal<number | null>(null);
   initialNumber = signal<number | null>(null);

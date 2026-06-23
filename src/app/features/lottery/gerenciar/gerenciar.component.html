@@ -1,5 +1,4 @@
-<div class="gerenciar-container">
-  <p-card>
+<p-card>
     <ng-template pTemplate="title">
       <div class="header-title">
         <span>Gerenciar Rifas</span>
@@ -12,7 +11,7 @@
           <p-progressspinner />
           <p>Carregando rifas...</p>
         </div>
-      } @else if (lotteries().length === 0) {
+      } @else if (lotteries() === null || lotteries().length === 0) {
         <div class="empty-state">
           <i class="pi pi-inbox" style="font-size: 4rem; color: rgba(0,0,0,0.3)"></i>
           <p>Nenhuma rifa cadastrada</p>
@@ -61,4 +60,3 @@
       }
     </ng-template>
   </p-card>
-</div>

@@ -2,17 +2,15 @@
 <div class="default-layout">
   <app-header (menuToggle)="toggleDrawer()"></app-header>
 
-  <div class="layout-body">
-    <aside class="sidebar" [class.sidebar-open]="sidebarOpen()" [class.sidebar-overlay]="isHandset()">
-      <app-sidebar></app-sidebar>
-    </aside>
-
-    @if (isHandset() && sidebarOpen()) {
-      <div class="sidebar-backdrop" (click)="toggleDrawer()"></div>
+  <main class="flex-sb full-width">
+    @if (menuItems !== undefined && menuItems.length > 0) {
+      <aside class="sidebar">
+        <p-panelmenu [model]="menuItems" />
+      </aside>
     }
-
-    <main>
+    
+    <section class="content full-width">
       <router-outlet></router-outlet>
-    </main>
-  </div>
+    </section>
+  </main>
 </div>

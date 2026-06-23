@@ -2,7 +2,7 @@
  * DTO for Lottery entity
  * Maps to Lottery entity in backend
  */
-export interface LotteryDTO {
+export interface Lottery {
   id: string;
   name: string;
   numTicketsTicketbook: number;

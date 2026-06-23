@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { CardModule } from 'primeng/card';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { LotteryStorageService } from '../../../../core/services/lottery-storage.service';
-import { LotteryDTO } from '../../../../core/models/lottery';
+import { Lottery } from '../../../../core/models/lottery';
 
 @Component({
   selector: 'app-resumo',
@@ -17,7 +17,7 @@ export class ResumoComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly lotteryStorageService = inject(LotteryStorageService);
 
-  lottery = signal<LotteryDTO | undefined>(undefined);
+  lottery = signal<Lottery | undefined>(undefined);
   loading = signal<boolean>(false);
 
   ngOnInit(): void {

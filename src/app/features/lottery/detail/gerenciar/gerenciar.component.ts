@@ -8,10 +8,9 @@ import { ButtonModule } from 'primeng/button';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { LotteryStorageService } from '../../../../core/services/lottery-storage.service';
 import { TicketbookService } from '../../../../core/services/requests';
-import { LotteryDTO } from '../../../../core/models/lottery';
+import { Lottery } from '../../../../core/models/lottery';
 import { Ticketbook } from '../../../../core/models';
 import { StatusTicketbook } from '../../../../shared/constants/statusticketbook-enum';
-
 
 @Component({
   selector: 'app-gerenciar-detail',
@@ -24,7 +23,7 @@ export class GerenciarDetailComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly lotteryStorageService = inject(LotteryStorageService);
   private readonly ticketbookService = inject(TicketbookService);
-  lottery = signal<LotteryDTO | undefined>(undefined);
+  lottery = signal<Lottery | undefined>(undefined);
   loading = signal<boolean>(false);
 
   withdrawnTicketbooks = signal<Ticketbook[]>([]);
@@ -43,7 +42,6 @@ export class GerenciarDetailComponent implements OnInit {
     this.lotteryStorageService.getLotteryByName(nameLottery).subscribe({
       next: (lottery) => {
         this.lottery.set(lottery);
-        console.log(this.lottery());
       },
       error: () => {
         this.loading.set(false);

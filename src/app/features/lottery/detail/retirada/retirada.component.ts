@@ -11,7 +11,7 @@ import { TextareaModule } from 'primeng/textarea';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { MessageService } from 'primeng/api';
 import { LotteryStorageService } from '../../../../core/services/lottery-storage.service';
-import { LotteryDTO } from '../../../../core/models/lottery';
+import { Lottery } from '../../../../core/models/lottery';
 import { TicketbookService } from '../../../../core/services/requests/ticketbook.service';
 import { WithdrawTicketbookDTO } from '../../../../core/models/ticketbook';
 import { StatusTicketbook } from '../../../../shared/constants/statusticketbook-enum';
@@ -44,7 +44,7 @@ function holderPairValidator(group: AbstractControl): ValidationErrors | null {
     DatePickerModule,
     TextareaModule,
     ProgressSpinnerModule,
-    PhoneMaskDirective,
+    PhoneMaskDirective
   ],
   templateUrl: './retirada.component.html',
   styleUrl: './retirada.component.scss',
@@ -57,7 +57,7 @@ export class RetiradaComponent implements OnInit {
   private readonly ticketbookService = inject(TicketbookService);
   private readonly messageService = inject(MessageService);
 
-  lottery = signal<LotteryDTO | undefined>(undefined);
+  lottery = signal<Lottery | undefined>(undefined);
   loading = signal<boolean>(false);
   submitting = signal<boolean>(false);
 

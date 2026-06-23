@@ -20,7 +20,9 @@ export class TicketbookService {
    * @returns Observable containing an array of TicketbookDTO
    */
   getAll(idLottery: string): Observable<Ticketbook[]> {
-    const url = `${environment.apiUrl}/${ApiRoutes.TICKETBOOK_GET_ALL}`.replace('{idLottery}', idLottery);
+    const url = `${environment.apiUrl}${ApiRoutes.TICKETBOOK_GET_ALL}`.replace('{idLottery}', idLottery);
+    console.log("Recebendo ticketbooks");
+    console.log(url);
     return this.http.get<Ticketbook[]>(url);
   }
 
